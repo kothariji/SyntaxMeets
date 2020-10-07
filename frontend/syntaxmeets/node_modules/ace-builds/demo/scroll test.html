@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>Editor</title>
+  <style type="text/css" media="screen">
+
+	.ace_editor, #native {
+		border: 1px solid lightgray;
+		margin: auto;
+		height: 200px;
+		width: 80%;
+	}
+	.scrollmargin {
+		height: 80px;
+        text-align: center;
+	}
+	#native, #editor2 {
+	    overflow: auto;
+	    height: 20em;
+	    width: 30em;
+	}
+    </style>
+</head>
+<body>
+<div class="scrollmargin"></div>
+<div class="scrollmargin"></div>
+<div class="scrollmargin"></div>
+<div class="scrollmargin"></div>
+<pre id="editor1">autoresizing editor</pre>
+<div class="scrollmargin"></div>
+<pre id="native">
+    native scrollable area
+    some text
+    1                 1                 1                 1                 1                 1 
+    2                 2                 2                 2                 2                 2 
+    3                 3                 3                 3                 3                 3 
+    4                 4                 4                 4                 4                 4 
+    5                 5                 5                 5                 5                 5 
+    6                 6                 6                 6                 6                 6 
+    7                 7                 7                 7                 7                 7 
+    8                 8                 8                 8                 8                 8 
+    9                 9                 9                 9                 9                 9 
+    10                10                10                10                10                10
+    11                11                11                11                11                11
+    12                12                12                12                12                12
+    13                13                13                13                13                13
+    14                14                14                14                14                14
+    15                15                15                15                15                15
+    16                16                16                16                16                16
+    17                17                17                17                17                17
+    18                18                18                18                18                18
+    19                19                19                19                19                19
+    looooooooooooooong line looooooooooooooong linelooooooooooooooong linelooooooooooooooong linelooooooooooooooong linelooooooooooooooong linelooooooooooooooong linelooooooooooooooong linelooooooooooooooong linelooooooooooooooong linelooooooooooooooong linelooooooooooooooong line
+    native scrollable area
+    some text
+    1                 1                 1                 1                 1                 1 
+    2                 2                 2                 2                 2                 2 
+    3                 3                 3                 3                 3                 3 
+    4                 4                 4                 4                 4                 4 
+    5                 5                 5                 5                 5                 5 
+    6                 6                 6                 6                 6                 6 
+    7                 7                 7                 7                 7                 7 
+    8                 8                 8                 8                 8                 8 
+    9                 9                 9                 9                 9                 9 
+    10                10                10                10                10                10
+    11                11                11                11                11                11
+    12                12                12                12                12                12
+    13                13                13                13                13                13
+    14                14                14                14                14                14
+    15                15                15                15                15                15
+    16                16                16                16                16                16
+    17                17                17                17                17                17
+    18                18                18                18                18                18
+    19                19                19                19                19                19
+    looooooooooooooong line looooooooooooooong linelooooooooooooooong linelooooooooooooooong linelooooooooooooooong linelooooooooooooooong linelooooooooooooooong linelooooooooooooooong linelooooooooooooooong linelooooooooooooooong linelooooooooooooooong linelooooooooooooooong line
+</pre>
+<div class="scrollmargin"></div>
+<pre id="editor2">minHeight = 2 lines</pre>
+<div class="scrollmargin"></div>
+<pre id="editor3" style="width: 40%;"></pre>
+<div class="scrollmargin"></div>
+<pre id="editor"></pre>
+<div class="scrollmargin"></div>
+<div class="scrollmargin"></div>
+<div class="scrollmargin"></div>
+<div class="scrollmargin"></div>
+<div class="scrollmargin"></div>
+<!-- load ace -->
+<script src="../src/ace.js"></script>
+<script>
+    var editor1 = ace.edit("editor1", {
+        value: ("editor1 ".repeat(20) + "\n").repeat(3),
+        mode: "ace/mode/html",
+        maxLines: 30,
+        autoScrollEditorIntoView: true
+    });
+
+    var editor2 = ace.edit("editor2", {
+        value: document.getElementById("native").textContent.slice(6),
+        // theme: "ace/theme/tomorrow_night_blue",
+        mode: "ace/mode/html",
+        autoScrollEditorIntoView: true,
+ 
+    });
+
+    var editor = ace.edit("editor3");
+    editor.setOptions({
+        autoScrollEditorIntoView: true,
+        maxLines: 8
+    });
+    editor.renderer.setScrollMargin(10, 10, 10, 10);
+    
+    var editor = ace.edit("editor");
+    editor.setTheme("ace/theme/tomorrow");
+    editor.session.setMode("ace/mode/html");
+    editor.setAutoScrollEditorIntoView(true);
+    editor.setOption("maxLines", 20);
+</script>
+
+<script src="./show_own_source.js"></script>
+
+</body>
+</html>
