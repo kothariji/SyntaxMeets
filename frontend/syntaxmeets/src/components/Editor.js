@@ -4,8 +4,6 @@ import "ace-builds/src-min-noconflict/ext-searchbox";
 import "ace-builds/src-min-noconflict/ext-language_tools";
 import "ace-builds/src-noconflict/mode-jsx";
 
-
-
 const languages = [
     "javascript",
     "java",
@@ -38,19 +36,21 @@ const themes = [
     "terminal"
 ];
 
+//importing languages
 languages.forEach(lang => {
     require(`ace-builds/src-noconflict/mode-${lang}`);
     require(`ace-builds/src-noconflict/snippets/${lang}`);
 });
-
+//importing themes
 themes.forEach(theme => require(`ace-builds/src-noconflict/theme-${theme}`));
-/*eslint-disable no-alert, no-console */
+
 
 
 const defaultValue = `Welcome to Syntax meets
 call your friends
 grab a tea
 and lets begin`;
+
 class Editor extends Component {
 
     onChange(newValue) {
