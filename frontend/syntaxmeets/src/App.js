@@ -1,5 +1,6 @@
 import React, { Component, Fragment } from 'react'
 import Editor from './components/Editor'
+import Button from '@material-ui/core/Button'
 var Sketchpad = require('responsive-sketchpad');
 
 class App extends Component {
@@ -48,6 +49,9 @@ class App extends Component {
   render() {
     return (
       <Fragment>
+        <Button variant="contained" color="primary" size="large">
+          Hello
+        </Button>
         <Editor />
         <div id="sketchpad"></div>
         <button onClick={this.clearcanvas}>clear</button>
