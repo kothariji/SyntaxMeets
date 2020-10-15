@@ -10,7 +10,8 @@
     "react": "^16.13.1",
     "react-ace": "^9.1.4",
     "react-dom": "^16.13.1",
-    "react-scripts": "3.4.3"
+    "react-scripts": "3.4.3",
+    "responsive-sketchpad": "^1.2.0"
   },
   "scripts": {
     "start": "react-scripts start",
