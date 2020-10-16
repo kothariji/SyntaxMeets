@@ -17,8 +17,14 @@ class ThinkPad extends Component {
                             Share</Button>
                     </Toolbar>
                 </AppBar>
-                <CanvasDraw canvasWidth={690}
-                    canvasHeight={548} />
+                <CanvasDraw
+                    canvasWidth={690}
+                    canvasHeight={548}
+                    brushRadius={6}
+                    brushColor={"#393b44"}
+                    catenaryColor={"#99A3CD"}
+                    gridColor={"#f1f3f8"}
+                />
             </Fragment>
         );
     }

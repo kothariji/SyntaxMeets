@@ -187,6 +187,12 @@ class Editor extends Component {
                         tabSize: 2
                     }}
                 />
+                <br />
+                <br />
+                <br />
+                <br />
+                <br />
+                <br />
                 <div className="column">
 
                     <InputLabel id="select-language-label">Language</InputLabel>
