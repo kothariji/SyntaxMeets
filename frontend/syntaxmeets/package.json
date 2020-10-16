@@ -9,8 +9,10 @@
     "@testing-library/react": "^9.5.0",
     "@testing-library/user-event": "^7.2.1",
     "ace-builds": "^1.4.12",
+    "fontsource-poppins": "^3.0.9",
     "react": "^16.13.1",
     "react-ace": "^9.1.4",
+    "react-canvas-draw": "^1.1.1",
     "react-dom": "^16.13.1",
     "react-scripts": "3.4.3",
     "responsive-sketchpad": "^1.2.0"
