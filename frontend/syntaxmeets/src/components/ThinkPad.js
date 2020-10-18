@@ -34,8 +34,8 @@ class ThinkPad extends Component {
                 </AppBar>
                 <CanvasDraw
                     ref={canvasDraw => (this.saveableCanvas = canvasDraw)}
-                    canvasWidth={690}
-                    canvasHeight={548}
+                    canvasWidth={"690px"}
+                    canvasHeight={"548px"}
                     brushRadius={3}
                     brushColor={"#393b44"}
                     catenaryColor={"#99A3CD"}
