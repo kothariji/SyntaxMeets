@@ -1,5 +1,5 @@
 import React, { Component, Fragment } from "react";
-import { InputLabel, MenuItem, Select, AppBar, Toolbar, Typography, Button } from "@material-ui/core"
+import { AppBar, Toolbar, Typography, Button } from "@material-ui/core"
 import CanvasDraw from "react-canvas-draw";
 import UndoIcon from '@material-ui/icons/Undo';
 import DeleteIcon from '@material-ui/icons/Delete';

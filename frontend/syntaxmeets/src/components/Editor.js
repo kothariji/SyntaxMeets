@@ -3,14 +3,12 @@ import AceEditor from "react-ace";
 import "ace-builds/src-min-noconflict/ext-searchbox";
 import "ace-builds/src-min-noconflict/ext-language_tools";
 import "ace-builds/src-noconflict/mode-jsx";
-import { InputLabel, MenuItem, Select, AppBar, Toolbar, Typography, Button } from "@material-ui/core"
+import { FormControlLabel, FormControl, InputLabel, MenuItem, Select, AppBar, Toolbar, Typography, Button } from "@material-ui/core"
 import ShareIcon from '@material-ui/icons/Share';
 import Switch from '@material-ui/core/Switch';
 
 
-const divStyle = {
-    color: 'white'
-};
+
 
 const languages = [
     "c_cpp",
@@ -164,69 +162,68 @@ class Editor extends Component {
                             CodeEditor &nbsp;&nbsp;&nbsp;&nbsp;
                     </Typography>
 
-                    <div className="field">
-                    <label>Language:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
-                        <div className="control">                            
+                        <FormControl variant="outlined" style={{
+                            "width": "120px", "marginTop": "10px"
+                        }}>
+                            <InputLabel id="mode-label" style={{ 'fontFamily': "poppins", "color": "#ffffff" }}>Language</InputLabel>
                             <Select
                                 name="mode"
-                                labelId="controlled-open-select-label"
-                                id="demo-simple-select-filled"
+                                labelId="mode-label"
+                                id="select-mode"
                                 value={this.state.mode}
                                 onChange={this.setMode}
-                                style={divStyle}
+                                style={{ 'fontFamily': "poppins", "color": "#ffffff", "fontSize": "0.8rem", "height": "35px" }}
+
                             >
                                 {languages.map(lang => (
-                                    <MenuItem value={lang} key={lang}>{lang.toUpperCase()}</MenuItem>
+                                    <MenuItem value={lang} key={lang} >{lang.toUpperCase()}</MenuItem>
 
                                 ))}
                             </Select>
-                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                        </div>
-                    </div>
-                    <div className="field">
-                        <label>Theme:&nbsp;&nbsp;&nbsp;&nbsp;</label>
-                        <div className="control">
-                            
-                            <span className="select">
+                        </FormControl>
+                        <FormControl variant="outlined" style={{
+                            "width": "120px", "marginTop": "10px", "marginLeft": "5px"
+                        }}>
+                            <InputLabel id="theme-label" style={{ 'fontFamily': "poppins", "color": "#ffffff" }}>Theme</InputLabel>
                             <Select
                                 name="Theme"
+                                labelId="theme-label"
+                                id="select-theme"
                                 onChange={this.setTheme}
                                 value={this.state.theme}
-                                style={divStyle}
+                                style={{ 'fontFamily': "poppins", "color": "#ffffff", "fontSize": "0.8rem", "height": "35px" }}
+
                             >
                                 {themes.map(lang => (
                                     <MenuItem key={lang} value={lang}>{lang}</MenuItem>
 
                                 ))}
                             </Select>
-                                
-                            </span>
-                            &nbsp;&nbsp;&nbsp;&nbsp;
-                        </div>
-                    </div>
-                    <div className="field">
-                        <label>Font Size:</label>
-                        <div className="control">
-                            <span className="select">
+                        </FormControl>
+
+                        <FormControl variant="outlined" style={{
+                            "width": "120px", "marginTop": "10px", "marginLeft": "5px"
+                        }}>
+                            <InputLabel id="font-label" style={{ 'fontFamily': "poppins", "color": "#ffffff" }}>Font Size</InputLabel>
                             <Select
-                                name="Font Size"
+                                name="Theme"
+                                labelId="font-label"
+                                id="select-font"
                                 onChange={this.setFontSize}
                                 value={this.state.fontSize}
-                                style={divStyle}
+                                style={{ 'fontFamily': "poppins", "color": "#ffffff", "fontSize": "0.8rem", "height": "35px" }}
+
                             >
                                 {[14, 16, 18, 20, 24, 28, 32, 40].map(lang => (
                                     <MenuItem key={lang} value={lang}>{lang}</MenuItem>
 
                                 ))}
                             </Select>
-                                
-                            </span>
-                        </div>
-                    </div>
+                        </FormControl>
                         <Button variant="contained" startIcon={<ShareIcon />} style={{ 'fontFamily': "poppins", 'marginLeft': "auto", 'fontWeight': "600", 'color': "#f1f3f8", 'backgroundColor': "#99A3CD" }}>
                             Share</Button>
                     </Toolbar>
-                </AppBar>
+                </AppBar >
                 <AceEditor
                     placeholder={this.state.placeholder}
                     mode={this.state.mode}
@@ -255,62 +252,54 @@ class Editor extends Component {
                 />
                 <AppBar position="static" style={{ 'backgroundColor': "#393b44" }}>
                     <Toolbar>
-                            <div className="field">
-                                <p className="control">
-                                    <label className="checkbox">                                        
-                                        <Switch 
-                                        checked={this.state.enableBasicAutocompletion} 
-                                        onChange={e =>
-                                            this.setBoolean(
-                                                "enableBasicAutocompletion",
-                                                e.target.checked
-                                            )} 
-                                        color="primary"
-                                        />
-                                        
-                                        Enable Basic Autocomplete &nbsp;&nbsp;
-                                    </label>
-                                </p>
-                            </div>
-                            <div className="field">
-                                <p className="control">
-                                    <label className="checkbox">                                        
-                                        <Switch 
-                                            checked={this.state.showGutter} 
-                                            onChange={e =>
-                                                this.setBoolean("showGutter", e.target.checked)
-                                            }
-                                            color="primary"
-                                        />
-                                        Show Gutter&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                                    </label>
-                                </p>
-                            </div>
-                            <div className="field">
-                                <p className="control">
-                                    <label className="checkbox">
-                                        <Switch 
-                                            checked={this.state.showPrintMargin}
-                                            onChange={e =>
-                                                this.setBoolean("showPrintMargin", e.target.checked)
-                                            }
-                                            color="primary"
-                                        />
-                                        Show Print Margin
-                                    </label>
-                                </p>
-                            </div>
-                            </Toolbar>
-                            <Toolbar>
+
+                        <FormControlLabel
+                            control={<Switch
+                                size="small"
+                                checked={this.state.enableBasicAutocompletion}
+                                onChange={e =>
+                                    this.setBoolean(
+                                        "enableBasicAutocompletion",
+                                        e.target.checked
+                                    )}
+                                color="primary"
+                            />}
+                            label=" Enable Basic Autocomplete"
+                        />
+                        <FormControlLabel
+                            control={<Switch
+                                size="small"
+                                checked={this.state.showGutter}
+                                onChange={e =>
+                                    this.setBoolean("showGutter", e.target.checked)
+                                }
+                                color="primary"
+                            />}
+                            label="Show Gutter"
+                        />
+                        <FormControlLabel
+                            control={<Switch
+                                size="small"
+                                checked={this.state.showPrintMargin}
+                                onChange={e =>
+                                    this.setBoolean("showPrintMargin", e.target.checked)
+                                }
+                                color="primary"
+                            />}
+                            label="Show Print Margin"
+                        />
+                    </Toolbar>
+                    <Toolbar>
                         <div className="field">
                             <p className="control">
                                 <label className="checkbox">
-                                    <Switch 
-                                            checked={this.state.highlightActiveLine}
-                                            onChange={e =>
-                                                this.setBoolean("highlightActiveLine", e.target.checked)
-                                            }
-                                            color="primary"
+                                    <Switch
+                                        size="small"
+                                        checked={this.state.highlightActiveLine}
+                                        onChange={e =>
+                                            this.setBoolean("highlightActiveLine", e.target.checked)
+                                        }
+                                        color="primary"
                                     />
                                     Highlight Active Line&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                                     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
@@ -320,12 +309,13 @@ class Editor extends Component {
                         <div className="field">
                             <p className="control">
                                 <label className="checkbox">
-                                    <Switch 
-                                            checked={this.state.enableSnippets}
-                                            onChange={e =>
-                                                this.setBoolean("enableSnippets", e.target.checked)
-                                            }
-                                            color="primary"
+                                    <Switch
+                                        size="small"
+                                        checked={this.state.enableSnippets}
+                                        onChange={e =>
+                                            this.setBoolean("enableSnippets", e.target.checked)
+                                        }
+                                        color="primary"
                                     />
                                 Enable Snippets&nbsp;&nbsp;
                             </label>
@@ -334,59 +324,24 @@ class Editor extends Component {
                         <div className="field">
                             <p className="control">
                                 <label className="checkbox">
-                                    <Switch 
-                                            checked={this.state.showLineNumbers}
-                                            onChange={e =>
-                                                this.setBoolean("showLineNumbers", e.target.checked)
-                                            }
-                                            color="primary"
+                                    <Switch
+                                        size="small"
+                                        checked={this.state.showLineNumbers}
+                                        onChange={e =>
+                                            this.setBoolean("showLineNumbers", e.target.checked)
+                                        }
+                                        color="primary"
                                     />
                                     Show Line Numbers
                                 </label>
                             </p>
                         </div>
-                    
+
                     </Toolbar>
                 </AppBar>
-                <br />
-                <br />
-                <br />
-                <br />
-                <br />
-                <br />
-
-                <div className="row">                  
-                    <div className="examples column">
-                            <h2>Editor</h2>
-
-                    </div>
-                </div>
-            </div>
+            </div >
         );
     }
 }
 
 export default Editor;
-
-
-/*
-<div className="field">
-    <label>Mode:</label>
-    <p className="control">
-        <span className="select">
-            <select
-                name="mode"
-                onChange={this.setMode}
-                value={this.state.mode}
-            >
-                {languages.map(lang => (
-                    <option key={lang} value={lang}>
-                        {lang}
-                    </option>
-                ))}
-            </select>
-        </span>
-    </p>
-</div>
-
-*/

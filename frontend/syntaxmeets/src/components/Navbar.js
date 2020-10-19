@@ -1,6 +1,6 @@
 import React from 'react'
 import AppBar from '@material-ui/core/AppBar';
-import { Toolbar, Typography, Button, CardMedia } from '@material-ui/core';
+import { Toolbar, Typography, Button } from '@material-ui/core';
 import "fontsource-poppins";
 import logo from '../images/navlogo.png'
 import PersonIcon from '@material-ui/icons/Person';
