@@ -25,3 +25,24 @@ class App extends Component {
 }
 
 export default App
+
+
+// class App extends Component {
+//   render() {
+//     return (
+//       <Fragment>
+//         <Navbar />
+//         <div style={{ 'backgroundColor': "#f1f3f8", 'fontFamily': "poppins", 'padding': '50px' }}>
+//           <Grid container spacing={5}>
+//             <Grid item xs={12} sm={12} md={6}>
+//               <Editor />
+//             </Grid>
+//             <Grid item xs={12} sm={12} md={6}>
+//               <ThinkPad />
+//             </Grid>
+//           </Grid>
+//         </div>
+//       </Fragment>
+//     )
+//   }
+// }
