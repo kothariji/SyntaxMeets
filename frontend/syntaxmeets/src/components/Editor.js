@@ -20,7 +20,6 @@ import Switch from "@material-ui/core/Switch";
 // For resize...
 import ReactResizeDetector from "react-resize-detector";
 
-
 const languages = [
   "c_cpp",
   "java",
@@ -114,35 +113,38 @@ class Editor extends Component {
       placeholder: e.target.value,
     });
   }
+
   setTheme(e) {
     this.setState({
       theme: e.target.value,
     });
   }
+
   setMode(e) {
     this.setState({
       mode: e.target.value,
     });
   }
+
   setBoolean(name, value) {
     this.setState({
       [name]: value,
     });
   }
+
   setFontSize(e) {
     this.setState({
       fontSize: parseInt(e.target.value, 10),
     });
   }
 
-// for resize...------------------------
+  // for resize...------------------------
   onResize(w, h) {
     this.setState({
       editorHeight: h,
       editorWidth: w,
     });
   }
-
 
   constructor(props) {
     super(props);
@@ -165,8 +167,7 @@ class Editor extends Component {
 
     //for resize...
     this.onResize = this.onResize.bind(this);
-    
-    
+
     this.setPlaceholder = this.setPlaceholder.bind(this);
     this.setTheme = this.setTheme.bind(this);
     this.setMode = this.setMode.bind(this);
@@ -304,19 +305,20 @@ class Editor extends Component {
             </Button>
           </Toolbar>
         </AppBar>
-        
-        
-        <ReactResizeDetector handleWidth handleHeight onResize={this.onResize} />
-        
+
+        <ReactResizeDetector
+          handleWidth
+          handleHeight
+          onResize={this.onResize}
+        />
+
         <AceEditor
           placeholder={this.state.placeholder}
           mode={this.state.mode}
           theme={this.state.theme}
           name="blah2"
-          
           height={550}
           width={this.state.editorWidth}
-          
           onLoad={this.onLoad}
           onChange={this.onChange}
           onSelectionChange={this.onSelectionChange}
@@ -336,9 +338,10 @@ class Editor extends Component {
             tabSize: 2,
           }}
         />
+
         <AppBar position="static" style={{ backgroundColor: "#393b44" }}>
           <Toolbar>
-          &nbsp;&nbsp;&nbsp;
+            &nbsp;&nbsp;&nbsp;
             <FormControlLabel
               control={
                 <Switch
@@ -354,7 +357,6 @@ class Editor extends Component {
                 />
               }
               label="Enable Basic Autocomplete&nbsp;&nbsp;&nbsp;"
-              
             />
             <FormControlLabel
               control={
