@@ -3,6 +3,7 @@ import Editor from './components/Editor'
 import Navbar from './components/Navbar';
 import Grid from '@material-ui/core/Grid';
 import ThinkPad from './components/ThinkPad';
+import SyntaxEditor from './components/SyntaxEditor';
 
 class App extends Component {
   render() {
@@ -12,7 +13,7 @@ class App extends Component {
         <div style={{ 'backgroundColor': "#f1f3f8", 'fontFamily': "poppins", 'padding': '50px' }}>
           <Grid container spacing={5}>
             <Grid item xs={12} sm={12} md={6}>
-              <Editor />
+              <SyntaxEditor />
             </Grid>
             <Grid item xs={12} sm={12} md={6}>
               <ThinkPad />

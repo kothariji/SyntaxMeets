@@ -1,0 +1,16 @@
+.Editor__navbar{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  padding: auto 5px;
+}
+
+.Editor__options{
+  display: flex;
+  flex-direction: row;
+}
+
+.Menu__options{
+  font-size: 15px;
+  color: white;
+}

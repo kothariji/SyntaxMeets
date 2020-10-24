@@ -26,10 +26,7 @@ const languages = [
   "python",
   "javascript",
   "html",
-  "xml",
   "ruby",
-  "css",
-  "sass",
   "typescript",
   "kotlin",
   "swift",
@@ -167,7 +164,6 @@ class Editor extends Component {
 
     //for resize...
     this.onResize = this.onResize.bind(this);
-
     this.setPlaceholder = this.setPlaceholder.bind(this);
     this.setTheme = this.setTheme.bind(this);
     this.setMode = this.setMode.bind(this);
@@ -317,7 +313,7 @@ class Editor extends Component {
           mode={this.state.mode}
           theme={this.state.theme}
           name="blah2"
-          height={550}
+          height="550px"
           width={this.state.editorWidth}
           onLoad={this.onLoad}
           onChange={this.onChange}
