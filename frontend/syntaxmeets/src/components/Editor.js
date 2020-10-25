@@ -313,8 +313,8 @@ class Editor extends Component {
           mode={this.state.mode}
           theme={this.state.theme}
           name="blah2"
-          height="550px"
-          width={this.state.editorWidth}
+          height={String(550)}
+          width={String(this.state.editorWidth)}
           onLoad={this.onLoad}
           onChange={this.onChange}
           onSelectionChange={this.onSelectionChange}
