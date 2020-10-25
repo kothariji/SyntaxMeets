@@ -5,12 +5,9 @@
   padding: auto 5px;
 }
 
-.Editor__options{
-  display: flex;
-  flex-direction: row;
-}
 
 .Menu__options{
-  font-size: 15px;
+  font-family: 'poppins';
+  font-size: 13px;
   color: white;
 }

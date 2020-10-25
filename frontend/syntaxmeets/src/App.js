@@ -1,9 +1,9 @@
 import React, { Component, Fragment } from 'react'
-import Editor from './components/Editor'
 import Navbar from './components/Navbar';
 import Grid from '@material-ui/core/Grid';
 import ThinkPad from './components/ThinkPad';
 import SyntaxEditor from './components/SyntaxEditor';
+import "fontsource-poppins";
 
 class App extends Component {
   render() {

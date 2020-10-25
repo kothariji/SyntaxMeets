@@ -5,7 +5,6 @@ import "ace-builds/src-min-noconflict/ext-language_tools";
 import "ace-builds/src-noconflict/mode-jsx";
 import {
   AppBar,
-  Button,
   createMuiTheme,
   FormControl,
   InputLabel,
@@ -15,9 +14,14 @@ import {
   ThemeProvider,
   Toolbar,
   Typography,
+  FormControlLabel,
+  Switch,
+  withStyles,
+  Button,
 } from "@material-ui/core";
 import localClasses from "./SyntaxEditor.module.css"
-
+import { pink } from "@material-ui/core/colors";
+import DeleteIcon from "@material-ui/icons/Delete";
 const languages = [
   "java",
   "python",
@@ -84,7 +88,6 @@ int main()
 
 const mutheme = createMuiTheme({
   overrides: {
-
     MuiMenuItem: {
       root: {
         background: "#393B44",
@@ -112,6 +115,20 @@ const useStyles = makeStyles((mutheme) => ({
 }));
 
 
+const PurpleSwitch = withStyles({
+  switchBase: {
+    color: pink[300],
+    '&$checked': {
+      color: pink[400],
+    },
+    '&$checked + $track': {
+      backgroundColor: pink[400],
+    },
+  },
+  checked: {},
+  track: {},
+})(Switch);
+
 
 const SyntaxEditor = (props) => {
 
@@ -120,6 +137,7 @@ const SyntaxEditor = (props) => {
   const [mode, setMode] = useState("c_cpp");
   const [theme, setTheme] = useState("tomorrow_night");
   const [fontSize, setFontSize] = useState(16);
+  const [autoCompletion, setautoCompletion] = useState(true);
 
   const classes = useStyles();
 
@@ -134,11 +152,11 @@ const SyntaxEditor = (props) => {
           <div className={localClasses.Editor__navbar}>
             <Typography
               variant="h5"
-              style={{ fontFamily: "poppins", color: "#f1f3f8", margin: "auto" }}
+              style={{ fontFamily: "poppins", color: "white", margin: "auto" }}
             >
               SyntaxEditor
           </Typography>
-            <div className={localClasses.Editor__options}>
+            <Toolbar>
               <FormControl size="small" variant="outlined" className={classes.formControl}>
                 <InputLabel id="mode-label" style={{ fontFamily: "poppins", color: "#ffffff" }}>Language</InputLabel>
                 <Select
@@ -148,7 +166,6 @@ const SyntaxEditor = (props) => {
                   value={mode}
                   onChange={(e) => setMode(e.target.value)}
                   label="Language"
-
                 >
                   {languages.map((lang) => (
                     <MenuItem value={lang} key={lang}>
@@ -179,7 +196,6 @@ const SyntaxEditor = (props) => {
                   ))}
                 </Select>
               </FormControl>
-
               <FormControl size="small" variant="outlined" className={classes.formControl}>
                 <InputLabel
                   id="font-label"
@@ -202,10 +218,9 @@ const SyntaxEditor = (props) => {
                   ))}
                 </Select>
               </FormControl>
-            </div>
+            </Toolbar>
           </div>
         </AppBar>
-
         <AceEditor
           mode={mode}
           theme={theme}
@@ -219,12 +234,37 @@ const SyntaxEditor = (props) => {
           highlightActiveLine
           setOptions={{
             useWorker: false,
-            enableLiveAutocompletion: true,
+            enableLiveAutocompletion: autoCompletion,
           }}
         />
+        <AppBar position="static" style={{ backgroundColor: "#393b44" }}>
+          <Toolbar>
+            <FormControlLabel
+              control={<PurpleSwitch checked={autoCompletion} onChange={() => {
+                setautoCompletion(!autoCompletion)
+              }} name="EnableAutoCompletion" />}
+              label={<Typography> <span className={localClasses.Menu__options} >Enable AutoComplete</span> </Typography>}
+            />
+            <Button
+              variant="contained"
+              onClick={() => {
+                this.saveableCanvas.clear();
+              }}
+              startIcon={<DeleteIcon />}
+              style={{
+                fontFamily: "poppins",
+                marginLeft: "auto",
+                fontWeight: "600",
+                color: "white",
+                backgroundColor: "#99A3CD",
+              }}
+            >
+              Compile
+                </Button>
+          </Toolbar>
+        </AppBar>
       </ThemeProvider>
     </Fragment >
-
   );
 };
 

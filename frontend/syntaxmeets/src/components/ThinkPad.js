@@ -30,7 +30,7 @@ class ThinkPad extends Component {
           <Toolbar>
             <Typography
               variant="h5"
-              style={{ fontFamily: "poppins", color: "#f1f3f8" }}
+              style={{ fontFamily: "poppins", color: "white" }}
             >
               ThinkPad
             </Typography>
@@ -44,7 +44,7 @@ class ThinkPad extends Component {
                 fontFamily: "poppins",
                 marginLeft: "auto",
                 fontWeight: "600",
-                color: "#f1f3f8",
+                color: "white",
                 backgroundColor: "#99A3CD",
               }}
             >
@@ -57,7 +57,7 @@ class ThinkPad extends Component {
                 fontFamily: "poppins",
                 marginLeft: "15px",
                 fontWeight: "600",
-                color: "#f1f3f8",
+                color: "white",
                 backgroundColor: "#99A3CD",
               }}
               onClick={() => {
@@ -68,7 +68,7 @@ class ThinkPad extends Component {
             </Button>
           </Toolbar>
         </AppBar>
-        
+
         <ReactResizeDetector
           handleWidth
           handleHeight
