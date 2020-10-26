@@ -1,7 +1,7 @@
 import React, { Component, Fragment } from 'react'
 import Navbar from './components/Navbar';
 import Grid from '@material-ui/core/Grid';
-import ThinkPad from './components/ThinkPad';
+import SyntaxThinkPad from './components/SyntaxThinkPad';
 import SyntaxEditor from './components/SyntaxEditor';
 import "fontsource-poppins";
 
@@ -16,7 +16,7 @@ class App extends Component {
               <SyntaxEditor />
             </Grid>
             <Grid item xs={12} sm={12} md={6}>
-              <ThinkPad />
+              <SyntaxThinkPad />
             </Grid>
           </Grid>
         </div>
