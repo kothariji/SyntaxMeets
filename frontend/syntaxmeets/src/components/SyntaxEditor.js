@@ -1,4 +1,4 @@
-import React, { Fragment, useState } from "react";
+import React, { Fragment, useEffect, useState } from "react";
 import AceEditor from "react-ace";
 import "ace-builds/src-min-noconflict/ext-searchbox";
 import "ace-builds/src-min-noconflict/ext-language_tools";
@@ -22,6 +22,15 @@ import {
 import localClasses from "./SyntaxEditor.module.css"
 import { pink } from "@material-ui/core/colors";
 import DeleteIcon from "@material-ui/icons/Delete";
+import io from 'socket.io-client';
+
+const socket = io.connect('http://localhost:4000');
+
+
+
+
+
+
 const languages = [
   "java",
   "python",
@@ -141,8 +150,15 @@ const SyntaxEditor = (props) => {
 
   const classes = useStyles();
 
+  useEffect(() => {
+    socket.on('message', value => {
+      setValue(value)
+    })
+  })
+
+
   const handleChange = (newValue) => {
-    setValue(newValue);
+    socket.emit('message', newValue)
   };
 
   return (
