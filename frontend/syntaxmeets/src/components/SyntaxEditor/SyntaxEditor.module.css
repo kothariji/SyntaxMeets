@@ -1,0 +1,13 @@
+.Editor__navbar{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  padding: auto 5px;
+}
+
+
+.Menu__options{
+  font-family: 'poppins';
+  font-size: 13px;
+  color: white;
+}

@@ -1,0 +1,14 @@
+.home {
+  font-family: "Poppins";
+  background-color: #000a29;
+  width: 100%;
+  padding: 47px 10px;
+}
+
+.home__svg {
+  width: 85%;
+}
+
+.home__buttons {
+  padding: 250px 300px;
+}

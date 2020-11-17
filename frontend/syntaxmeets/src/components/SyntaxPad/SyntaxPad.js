@@ -5,7 +5,7 @@ import UndoIcon from "@material-ui/icons/Undo";
 import DeleteIcon from "@material-ui/icons/Delete";
 import ReactResizeDetector from "react-resize-detector";
 
-const SyntaxThinkPad = (props) => {
+const SyntaxPad = (props) => {
 
     const saveableCanvas = useRef(CanvasDraw);
 
@@ -69,4 +69,4 @@ const SyntaxThinkPad = (props) => {
   
 }
 
-export default SyntaxThinkPad;
+export default SyntaxPad;
