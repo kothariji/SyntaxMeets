@@ -12,3 +12,7 @@
 .home__buttons {
   padding: 250px 300px;
 }
+
+.home__modal__container {
+  padding: 25px;
+}

@@ -6,12 +6,24 @@ import Button from 'react-bootstrap/Button'
 import Container from 'react-bootstrap/Container'
 import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
+import Form from 'react-bootstrap/Form'
+import { TextField, Button as MUIButton } from '@material-ui/core';
+import { Link } from 'react-router-dom';
 
 
-
+function makeId(length) {
+    var result           = '';
+    var characters       = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+    var charactersLength = characters.length;
+    for ( var i = 0; i < length; i++ ) {
+       result += characters.charAt(Math.floor(Math.random() * charactersLength));
+    }
+    return result;
+ }
 
 const Home = () => {
     
+    const [roomId, setroomId] = useState(makeId(15));
     const [createRoomModal, setCreateRoomModal] = useState(false);
     const [joinRoomModal, setJoinRoomModal] = useState(false);
 
@@ -46,11 +58,13 @@ const Home = () => {
                         <Modal.Header closeButton>
                         <Modal.Title>Create a Room</Modal.Title>
                         </Modal.Header>
-                        <Modal.Body>Woohoo, you're reading this text in a modal!</Modal.Body>
-                        <Modal.Footer>
-                        <Button variant="primary" >
-                            Save Changes
-                        </Button>
+                        <Container className = {localclasses.home__modal__container}>
+                            <TextField fullWidth id="outlined-basic" label="Your Name" variant="outlined" />
+                        </Container>
+                    <Modal.Footer>
+                        <MUIButton component={ Link} to={roomId} >
+                          Create Room
+                        </MUIButton>
                         </Modal.Footer>
                     </Modal>
                     <Modal show={joinRoomModal} onHide={handleJoinModalClose}>

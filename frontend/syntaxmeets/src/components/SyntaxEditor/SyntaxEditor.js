@@ -95,22 +95,27 @@ int main()
 	return 0;
 }`;
 
-const mutheme = createMuiTheme({
-  overrides: {
-    MuiMenuItem: {
-      root: {
-        background: "#393B44",
-        "&$selected": {
-          backgroundColor: "#99A3CD",
-        },
-        "&:hover": {
-          backgroundColor: "#99A3CD",
-        }
+const CssInputLabel = withStyles({
+  root: {
+    '& label.Mui-focused': {
+      color: 'green',
+    },
+    '& .MuiInput-underline:after': {
+      borderBottomColor: 'green',
+    },
+    '& .MuiOutlinedInput-root': {
+      '& fieldset': {
+        borderColor: 'red',
+      },
+      '&:hover fieldset': {
+        borderColor: 'yellow',
+      },
+      '&.Mui-focused fieldset': {
+        borderColor: 'green',
       },
     },
   },
-});
-
+})(InputLabel);
 
 
 const useStyles = makeStyles((mutheme) => ({
@@ -124,19 +129,6 @@ const useStyles = makeStyles((mutheme) => ({
 }));
 
 
-const PurpleSwitch = withStyles({
-  switchBase: {
-    color: pink[300],
-    '&$checked': {
-      color: pink[400],
-    },
-    '&$checked + $track': {
-      backgroundColor: pink[400],
-    },
-  },
-  checked: {},
-  track: {},
-})(Switch);
 
 
 const SyntaxEditor = (props) => {
@@ -144,7 +136,7 @@ const SyntaxEditor = (props) => {
 
   const [value, setValue] = useState(defaultValue);
   const [mode, setMode] = useState("c_cpp");
-  const [theme, setTheme] = useState("tomorrow_night");
+  const [theme, setTheme] = useState("monokai");
   const [fontSize, setFontSize] = useState(16);
   const [autoCompletion, setautoCompletion] = useState(true);
 
@@ -163,18 +155,18 @@ const SyntaxEditor = (props) => {
 
   return (
     <Fragment>
-      <ThemeProvider theme={mutheme}>
-        <AppBar position="static" style={{ backgroundColor: "#393b44" }}>
+        <AppBar position="static" style={{ backgroundColor: "#000A29" }}>
           <div className={localClasses.Editor__navbar}>
             <Typography
               variant="h5"
-              style={{ fontFamily: "poppins", color: "white", margin: "auto" }}
+              style={{ fontFamily: "poppins", color: "white", marginRight: "auto", marginTop: "auto", marginBottom: "auto", marginLeft: "30px", fontWeight: "800" }}
             >
-              SyntaxEditor
+              &nbsp;Syntax<span style={{ "color": "#FFD500"}}>Editor</span>
           </Typography>
+            {console.log(props.roomId)}
             <Toolbar>
               <FormControl size="small" variant="outlined" className={classes.formControl}>
-                <InputLabel id="mode-label" style={{ fontFamily: "poppins", color: "#ffffff" }}>Language</InputLabel>
+                <CssInputLabel id="mode-label" style={{ fontFamily: "poppins", color: "#FFD500" }}>Language</CssInputLabel>
                 <Select
                   name="mode"
                   labelId="mode-label"
@@ -182,6 +174,7 @@ const SyntaxEditor = (props) => {
                   value={mode}
                   onChange={(e) => setMode(e.target.value)}
                   label="Language"
+                  style={{ fontFamily: "poppins", color: "#ffffff" }}
                 >
                   {languages.map((lang) => (
                     <MenuItem value={lang} key={lang}>
@@ -193,7 +186,7 @@ const SyntaxEditor = (props) => {
               <FormControl size="small" variant="outlined" className={classes.formControl}>
                 <InputLabel
                   id="theme-label"
-                  style={{ fontFamily: "poppins", color: "#ffffff" }}
+                  style={{ fontFamily: "poppins", color: "#FFD500" }}
                 >
                   Theme
               </InputLabel>
@@ -204,6 +197,7 @@ const SyntaxEditor = (props) => {
                   onChange={(e) => setTheme(e.target.value)}
                   value={theme}
                   label="Theme"
+                  style={{ fontFamily: "poppins", color: "#ffffff" }}
                 >
                   {themes.map((lang) => (
                     <MenuItem key={lang} value={lang} >
@@ -212,10 +206,10 @@ const SyntaxEditor = (props) => {
                   ))}
                 </Select>
               </FormControl>
-              <FormControl size="small" variant="outlined" className={classes.formControl}>
+              <FormControl  size="small" variant="outlined" className={classes.formControl}>
                 <InputLabel
                   id="font-label"
-                  style={{ fontFamily: "poppins", color: "#ffffff" }}
+                  style={{ fontFamily: "poppins", color: "#FFD500" }}
                 >
                   Font Size
               </InputLabel>
@@ -226,6 +220,7 @@ const SyntaxEditor = (props) => {
                   onChange={(e) => setFontSize(e.target.value)}
                   value={fontSize}
                   label="Font Size"
+                  style={{ fontFamily: "poppins", color: "#ffffff" }}
                 >
                   {[14, 16, 18, 20, 24, 28, 32, 40].map((size) => (
                     <MenuItem key={size} value={size}>
@@ -253,16 +248,17 @@ const SyntaxEditor = (props) => {
             enableLiveAutocompletion: autoCompletion,
           }}
         />
-        <AppBar position="static" style={{ backgroundColor: "#393b44" }}>
+        <AppBar position="static" style={{ backgroundColor: "#000A29" }}>
           <Toolbar>
             <FormControlLabel
-              control={<PurpleSwitch checked={autoCompletion} onChange={() => {
+              control={<Switch color="primary" checked={autoCompletion} onChange={() => {
                 setautoCompletion(!autoCompletion)
               }} name="EnableAutoCompletion" />}
-              label={<Typography> <span className={localClasses.Menu__options} >Enable AutoComplete</span> </Typography>}
+              label={<Typography><span style = {{color: 'white'}}>Enable Auto-complete</span></Typography>}
             />
             <Button
               variant="contained"
+              color = 'primary'
               onClick={() => {
                 this.saveableCanvas.clear();
               }}
@@ -272,14 +268,29 @@ const SyntaxEditor = (props) => {
                 marginLeft: "auto",
                 fontWeight: "600",
                 color: "white",
-                backgroundColor: "#99A3CD",
               }}
             >
               Compile
-                </Button>
+            </Button>
+            <Button
+              variant="contained"
+              color = 'primary'
+              onClick={() => {
+                this.saveableCanvas.clear();
+              }}
+              startIcon={<DeleteIcon />}
+              style={{
+                fontFamily: "poppins",
+                marginLeft: "10px",
+                fontWeight: "600",
+                color: "#fff",
+                backgroundColor: "#FFD500",
+              }}
+            >
+              Run
+            </Button>
           </Toolbar>
         </AppBar>
-      </ThemeProvider>
     </Fragment >
   );
 };

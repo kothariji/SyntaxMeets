@@ -7,15 +7,15 @@ import PersonIcon from '@material-ui/icons/Person';
 
 const Navbar = (props) => (
 
-  <AppBar position="static" style={{ 'backgroundColor': "#393b44" }}>
+  <AppBar position="static" style={{ 'backgroundColor': "#000A29" }}>
     <Toolbar>
       <img src={logo} style={{ 'maxWidth': "50px", 'maxHeight': "50px" }} />
-      <Typography variant="h5" style={{ "color": "white", 'fontFamily': "poppins" }}>
-        SyntaxMeets
+      <Typography variant="h5" style={{ "color": "white", 'fontFamily': "poppins", "fontWeight": "800" }}>
+        &nbsp;Syntax<span style={{ "color": "#FFD500"}}>Meets</span>
             </Typography>
-      <Button variant="contained" startIcon={<PersonIcon />} style={{ 'fontFamily': "poppins", 'marginLeft': "auto", 'fontWeight': "600", 'color': "white", 'backgroundColor': "#99A3CD" }}>
-
-        Login</Button>
+      <Button variant="contained" startIcon={<PersonIcon />} color = "primary" style={{ 'fontFamily': "poppins", 'marginLeft': "auto", 'fontWeight': "600", 'color': "white" }}>
+        RoomId : {props.roomId}
+      </Button>
     </Toolbar>
   </AppBar>
 )
