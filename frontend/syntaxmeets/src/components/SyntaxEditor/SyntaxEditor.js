@@ -5,27 +5,23 @@ import "ace-builds/src-min-noconflict/ext-language_tools";
 import "ace-builds/src-noconflict/mode-jsx";
 import {
   AppBar,
-  createMuiTheme,
   FormControl,
   InputLabel,
   makeStyles,
   MenuItem,
   Select,
-  ThemeProvider,
   Toolbar,
   Typography,
   FormControlLabel,
   Switch,
-  withStyles,
   Button,
 } from "@material-ui/core";
 import localClasses from "./SyntaxEditor.module.css"
-import { pink } from "@material-ui/core/colors";
 import DeleteIcon from "@material-ui/icons/Delete";
 import io from 'socket.io-client';
 
 const socket = io.connect('http://localhost:4000');
-socket.emit('create', '');
+
 
 
 const languages = [
@@ -116,10 +112,13 @@ const SyntaxEditor = (props) => {
   const classes = useStyles();
 
 
+  
   useEffect(() => {
-    // adding event listeners on mount here
+    // this will send server(backend) the roomId in which the socket needs to be joined
     socket.emit('joinroom', props.roomId);
  }, []);
+
+
   useEffect(() => {
     socket.on('message', value => {
       setValue(value)
