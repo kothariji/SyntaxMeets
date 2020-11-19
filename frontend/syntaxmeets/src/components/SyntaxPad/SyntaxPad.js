@@ -1,9 +1,8 @@
-import React, { Component, Fragment ,useRef} from "react";
+import React, {Fragment ,useRef} from "react";
 import { AppBar, Toolbar, Typography, Button } from "@material-ui/core";
 import CanvasDraw from "react-canvas-draw";
 import UndoIcon from "@material-ui/icons/Undo";
 import DeleteIcon from "@material-ui/icons/Delete";
-import ReactResizeDetector from "react-resize-detector";
 import localClasses from "./SyntaxPad.module.css"
 
 const SyntaxPad = (props) => {

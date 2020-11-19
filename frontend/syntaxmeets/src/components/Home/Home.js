@@ -6,7 +6,6 @@ import Button from 'react-bootstrap/Button'
 import Container from 'react-bootstrap/Container'
 import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
-import Form from 'react-bootstrap/Form'
 import { TextField, Button as MUIButton } from '@material-ui/core';
 import { Link } from 'react-router-dom';
 
@@ -38,7 +37,7 @@ const Home = () => {
             <Container fluid>
                 <Row>
                     <Col xs={12} md={8}>
-                        <img className = {localclasses.home__svg} src = {bgimg} />
+                        <img className = {localclasses.home__svg} src = {bgimg} alt = 'SyntaxMeets' />
                     </Col>
                     <Col xs={12} md={3}>
                         <Container className = {localclasses.home__buttons}>

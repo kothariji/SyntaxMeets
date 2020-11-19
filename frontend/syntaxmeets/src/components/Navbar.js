@@ -9,7 +9,7 @@ const Navbar = (props) => (
 
   <AppBar position="static" style={{ 'backgroundColor': "#000A29" }}>
     <Toolbar>
-      <img src={logo} style={{ 'maxWidth': "50px", 'maxHeight': "50px" }} />
+      <img src={logo} style={{ 'maxWidth': "50px", 'maxHeight': "50px" }} alt = 'SyntaxMeets'/>
       <Typography variant="h5" style={{ "color": "white", 'fontFamily': "poppins", "fontWeight": "800" }}>
         &nbsp;Syntax<span style={{ "color": "#FFD500"}}>Meets</span>
             </Typography>

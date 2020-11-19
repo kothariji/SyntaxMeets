@@ -18,9 +18,19 @@ import {
 } from "@material-ui/core";
 import localClasses from "./SyntaxEditor.module.css"
 import DeleteIcon from "@material-ui/icons/Delete";
-import io from 'socket.io-client';
 
+
+import io from 'socket.io-client';
 const socket = io.connect('http://localhost:4000');
+
+
+const axios = require('axios');
+
+
+//hackerearth
+const CLIENT_SECRET = '4e05a818a1627ab7f58a84f30d4ad00d2ff2298c' 
+
+
 
 
 
@@ -103,12 +113,14 @@ const useStyles = makeStyles((mutheme) => ({
 
 const SyntaxEditor = (props) => {
 
+  let ans = 0;
   const [value, setValue] = useState(defaultValue);
   const [mode, setMode] = useState("c_cpp");
   const [theme, setTheme] = useState("monokai");
   const [fontSize, setFontSize] = useState(16);
   const [autoCompletion, setautoCompletion] = useState(true);
 
+  var token = 0;
   const classes = useStyles();
 
 
@@ -120,15 +132,75 @@ const SyntaxEditor = (props) => {
 
 
   useEffect(() => {
-    socket.on('message', value => {
-      setValue(value)
+    socket.on('message', newValue => {
+      setValue(newValue)
     })
   })
 
   const handleChange = (newValue) => {
+    ans = newValue;
     socket.emit('message', newValue)
   };
 
+  const handleCodeRun = () => {
+  var options = {
+    method: 'POST',
+    url: 'https://judge0.p.rapidapi.com/submissions',
+    headers: {
+      'content-type': 'application/json',
+      'x-rapidapi-key': '05fd35b827mshfecd08e79e94514p11d0eejsn781d4a5696da',
+      'x-rapidapi-host': 'judge0.p.rapidapi.com'
+  },
+  data: {
+    language_id: 71,
+    source_code: ans,
+    stdin: '10'
+  }
+};
+axios.request(options).then( function (response) {
+  console.log(ans)
+  token = response.data.token;
+  console.log(token);
+}).catch(function (error) {
+	console.error(error);
+});
+
+
+
+  //   const data = {
+  //     client_secret: CLIENT_SECRET,
+  //     async: 0,
+  //     source: value,
+  //     lang: "CPP11",
+  //     time_limit: 5,
+  //     memory_limit: 262144,
+  // }
+
+  //   axios.post('https://api.hackerearth.com/code/run/', data)
+  //   .then(function (response) {
+  //     console.log(response);
+  //   })
+  //   .catch(function (error) {
+  //     console.log(error);
+  //   });
+  }
+
+  const tempFunc = () => {
+    var options = {
+      method: 'GET',
+      url: 'https://judge0.p.rapidapi.com/submissions/' + token,
+      headers: {
+        'x-rapidapi-key': '05fd35b827mshfecd08e79e94514p11d0eejsn781d4a5696da',
+        'x-rapidapi-host': 'judge0.p.rapidapi.com'
+      }
+    };
+    
+    axios.request(options).then(function (response) {
+      console.log(response.data);
+    }).catch(function (error) {
+      console.error(error);
+    });
+  }
   return (
     <Fragment>
         <AppBar position="static" style={{ backgroundColor: "#000A29" }}>
@@ -235,9 +307,7 @@ const SyntaxEditor = (props) => {
             <Button
               variant="contained"
               color = 'primary'
-              onClick={() => {
-                this.saveableCanvas.clear();
-              }}
+              onClick={tempFunc}
               startIcon={<DeleteIcon />}
               style={{
                 fontFamily: "poppins",
@@ -251,9 +321,7 @@ const SyntaxEditor = (props) => {
             <Button
               variant="contained"
               color = 'primary'
-              onClick={() => {
-                this.saveableCanvas.clear();
-              }}
+              onClick={handleCodeRun}
               startIcon={<DeleteIcon />}
               style={{
                 fontFamily: "poppins",
