@@ -25,10 +25,7 @@ import DeleteIcon from "@material-ui/icons/Delete";
 import io from 'socket.io-client';
 
 const socket = io.connect('http://localhost:4000');
-
-
-
-
+socket.emit('create', '');
 
 
 const languages = [
@@ -95,29 +92,6 @@ int main()
 	return 0;
 }`;
 
-const CssInputLabel = withStyles({
-  root: {
-    '& label.Mui-focused': {
-      color: 'green',
-    },
-    '& .MuiInput-underline:after': {
-      borderBottomColor: 'green',
-    },
-    '& .MuiOutlinedInput-root': {
-      '& fieldset': {
-        borderColor: 'red',
-      },
-      '&:hover fieldset': {
-        borderColor: 'yellow',
-      },
-      '&.Mui-focused fieldset': {
-        borderColor: 'green',
-      },
-    },
-  },
-})(InputLabel);
-
-
 const useStyles = makeStyles((mutheme) => ({
   formControl: {
     margin: mutheme.spacing(1),
@@ -133,7 +107,6 @@ const useStyles = makeStyles((mutheme) => ({
 
 const SyntaxEditor = (props) => {
 
-
   const [value, setValue] = useState(defaultValue);
   const [mode, setMode] = useState("c_cpp");
   const [theme, setTheme] = useState("monokai");
@@ -142,12 +115,16 @@ const SyntaxEditor = (props) => {
 
   const classes = useStyles();
 
+
+  useEffect(() => {
+    // adding event listeners on mount here
+    socket.emit('joinroom', props.roomId);
+ }, []);
   useEffect(() => {
     socket.on('message', value => {
       setValue(value)
     })
   })
-
 
   const handleChange = (newValue) => {
     socket.emit('message', newValue)
@@ -166,7 +143,7 @@ const SyntaxEditor = (props) => {
             {console.log(props.roomId)}
             <Toolbar>
               <FormControl size="small" variant="outlined" className={classes.formControl}>
-                <CssInputLabel id="mode-label" style={{ fontFamily: "poppins", color: "#FFD500" }}>Language</CssInputLabel>
+                <InputLabel id="mode-label" style={{ fontFamily: "poppins", color: "#FFD500" }}>Language</InputLabel>
                 <Select
                   name="mode"
                   labelId="mode-label"
