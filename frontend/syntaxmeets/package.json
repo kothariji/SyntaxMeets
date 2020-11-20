@@ -20,6 +20,7 @@
     "react-resize-detector": "^5.2.0",
     "react-router-dom": "^5.2.0",
     "react-scripts": "^3.4.4",
+    "react-skylight": "^0.5.1",
     "responsive-sketchpad": "^1.2.0",
     "socket.io-client": "^2.3.1"
   },
