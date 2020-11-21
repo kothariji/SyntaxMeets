@@ -4,6 +4,7 @@ import Grid from '@material-ui/core/Grid';
 import SyntaxEditor from "../SyntaxEditor/SyntaxEditor"
 import SyntaxPad from "../SyntaxPad/SyntaxPad"
 
+
 const SyntaxRoom = () => {
   
   const [roomId] = useState(window.location.href.substr(window.location.href.lastIndexOf('/') + 1))

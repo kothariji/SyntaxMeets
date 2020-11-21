@@ -4,6 +4,7 @@ import { Toolbar, Typography, Button, Drawer } from '@material-ui/core';
 import logo from '../images/navlogo.png'
 import PersonIcon from '@material-ui/icons/Person';
 import SyntaxChat from './SyntaxChat/SyntaxChat'
+import Draggable from 'react-draggable';
 
 const Navbar = (props) => (
 
@@ -13,10 +14,14 @@ const Navbar = (props) => (
       <Typography variant="h5" style={{ "color": "white", 'fontFamily': "poppins", "fontWeight": "800" }}>
         &nbsp;Syntax<span style={{ "color": "#FFD500"}}>Meets</span>
             </Typography>
-      <SyntaxChat />
+      <Draggable>
       <Button variant="contained" startIcon={<PersonIcon />} color = "primary" style={{ 'fontFamily': "poppins", 'marginLeft': "auto", 'fontWeight': "600", 'color': "white" }}>
         RoomId : {props.roomId}
       </Button>
+      </Draggable>
+      <Draggable>
+        <SyntaxChat />
+      </Draggable>
     </Toolbar>
   </AppBar>
 )

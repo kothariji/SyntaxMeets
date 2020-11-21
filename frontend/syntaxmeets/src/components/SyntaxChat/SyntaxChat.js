@@ -1,88 +1,147 @@
-import React from 'react';
-import clsx from 'clsx';
-import { makeStyles } from '@material-ui/core/styles';
-import Drawer from '@material-ui/core/Drawer';
-import Button from '@material-ui/core/Button';
-import List from '@material-ui/core/List';
-import Divider from '@material-ui/core/Divider';
-import ListItem from '@material-ui/core/ListItem';
-import {Grid, TextField} from '@material-ui/core';
-import ListItemIcon from '@material-ui/core/ListItemIcon';
-import ListItemText from '@material-ui/core/ListItemText';
-import InboxIcon from '@material-ui/icons/MoveToInbox';
-import MailIcon from '@material-ui/icons/Mail';
-import AccountCircle from '@material-ui/icons/AccountCircle';
+import React, { useState, useEffect, useRef } from "react";
+import { makeStyles } from "@material-ui/core/styles";
+import {
+  Drawer,
+  Button,
+  List,
+  Divider,
+  ListItem,
+  ListItemIcon,
+  ListItemText,
+  TextField,
+  Grid,
+  ListItemAvatar,
+  Avatar,
+} from "@material-ui/core";
+import FolderIcon from "@material-ui/icons/Folder";
+import SendIcon from "@material-ui/icons/Send";
+import ForumIcon from '@material-ui/icons/Forum';
+
 
 const useStyles = makeStyles({
   list: {
-    width: 450,
+    width: 400
   },
   fullList: {
-    width: 'auto',
-  },
+    width: "auto"
+  }
 });
 
+const ShowMessages = (props) => {
+  return props.messages.map((message) => (
+    <ListItem>
+      <ListItemAvatar>
+        <Avatar>
+          <FolderIcon />
+        </Avatar>
+      </ListItemAvatar>
+      <ListItemText primary="Single-line item" secondary={message} />
+    </ListItem>
+  ));
+};
 
-export default function TemporaryDrawer() {
+let messages = [];
+const Chat = () => {
   const classes = useStyles();
-  const [state, setState] = React.useState({
-    top: false,
-    left: false,
-    bottom: false,
-    right: false,
-  });
-
-  const toggleDrawer = (anchor, open) => (event) => {
-    if (event.type === 'keydown' && (event.key === 'Tab' || event.key === 'Shift')) {
-      return;
-    }
-
-    setState({ ...state, [anchor]: open });
+  const [message, setMessage] = useState("");
+  const [random, setRandom] = useState(true);
+  const handleMessageSubmit = (event) => {
+    messages.push(message);
+    setRandom(!random);
+    setMessage("");
   };
 
-  const list = (anchor) => (
+  const messagesEndRef = useRef(null);
+
+  const scrollToBottom = () => {
+    messagesEndRef.current.scrollIntoView({ behavior: "smooth" });
+  };
+
+  useEffect(scrollToBottom, [random]);
+
+  return (
     <div
-      className={clsx(classes.list, {
-        [classes.fullList]: anchor === 'top' || anchor === 'bottom',
-      })}
+      className={classes.list}
+      style={{ display: "flex", flexDirection: "column" }}
       role="presentation"
-    
-      
     >
-      <List>
-        {['Inbox', 'Starred', 'Send email', 'Drafts'].map((text, index) => (
-          <ListItem button key={text}>
-            <ListItemIcon>{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}</ListItemIcon>
-            <ListItemText primary={text} />
-          </ListItem>
-        ))}
-      </List>
-      <Divider />
-      <div style = {{ position: "fixed", bottom: "0" , paddingBottom: "20px"}}>
-        <Grid container spacing={1} alignItems="flex-end">
-          <Grid item>
-            <AccountCircle />
+      <div style={{ paddingBottom: "70px", marginBottom: "70px", height: "90%" }}>
+        {<ShowMessages messages={messages} />}
+        <div ref={messagesEndRef} />
+      </div>
+      
+      <div
+        style={{
+          bottom: "0",
+          position: "fixed",
+          paddingBottom: "20px",
+          paddingTop: "10px",
+          backgroundColor: "#fff"
+        }}
+      >
+        <Grid container justify="center" spacing={3}>
+          <Grid item xs={12}>
+            <Divider/>
           </Grid>
-          <Grid item>
-            <TextField fullWidth variant="outlined" id="input-with-icon-grid" label="With a grid" />
+        </Grid>
+        <br />
+        <Grid container spacing={3}>
+          <Grid item xs={1}></Grid>
+          <Grid item xs={7}>
+            <TextField
+              id="outlined-basic"
+              label="Enter Your Message"
+              variant="outlined"
+              fullWidth
+              size="small"
+              value={message}
+              onChange={(e) => setMessage(e.target.value)}
+            />
+          </Grid>
+          <Grid item xs={3}>
+            <Button
+              variant="contained"
+              color="primary"
+              className={classes.button}
+              endIcon={<SendIcon />}
+              size="large"
+              onClick={handleMessageSubmit}
+              style={{ 'fontFamily': "poppins", 'marginLeft': "auto", 'fontWeight': "600", 'color': "white" }}
+            >
+              Send
+            </Button>
+            
+            <Grid item xs={1}></Grid>
           </Grid>
         </Grid>
       </div>
     </div>
   );
+};
+
+export default function TemporaryDrawer() {
+  const classes = useStyles();
+  const [state, setState] = useState(false);
+
+  const toggleDrawer = (open) => (event) => {
+    if (
+      event.type === "keydown" &&
+      (event.key === "Tab" || event.key === "Shift")
+    ) {
+      return;
+    }
+
+    setState(open);
+  };
 
   return (
     <div>
-      {['left', 'right', 'top', 'bottom'].map((anchor) => (
-        <React.Fragment key={anchor}>
-          <Button onClick={toggleDrawer(anchor, true)}>{anchor}</Button>
-          <Drawer classes={{
-        paper: classes.drawerPaper,
-      }} anchor={anchor} open={state[anchor]} onClose={toggleDrawer(anchor, false)}>
-            {list(anchor)}
-          </Drawer>
-        </React.Fragment>
-      ))}
+      <Button onClick={toggleDrawer(true)} variant="contained" startIcon={<ForumIcon />} color = "primary" style={{ 'fontFamily': "poppins", 'marginLeft': "15px", 'fontWeight': "600", 'color': "white" }}>
+      Chat Box
+      </Button>
+      <Drawer anchor={"right"} open={state} onClose={toggleDrawer(false)}>
+        {<Chat />}
+      </Drawer>
     </div>
   );
 }
