@@ -20,7 +20,7 @@ const Navbar = (props) => (
       </Button>
       </Draggable>
       <Draggable>
-        <SyntaxChat />
+        <SyntaxChat socket = {props.socket} />
       </Draggable>
     </Toolbar>
   </AppBar>

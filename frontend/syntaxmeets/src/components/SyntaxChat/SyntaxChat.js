@@ -31,25 +31,55 @@ const ShowMessages = (props) => {
   return props.messages.map((message) => (
     <ListItem>
       <ListItemAvatar>
-        <Avatar>
-          <FolderIcon />
-        </Avatar>
+        <Avatar>DK</Avatar>
       </ListItemAvatar>
-      <ListItemText primary="Single-line item" secondary={message} />
+      <ListItemText
+        style={{
+          paddingTop: "5px",
+          borderRadius: "15px",
+          paddingLeft: "20px",
+          paddingBottom: "10px",
+          backgroundColor: "#00b4d8",
+          color: "#fff"
+        }}
+        primary={
+          <span style={{ color: "#fff" }}>
+            <em>Dhruv Kothari</em>
+          </span>
+        }
+        secondary={<span style={{ color: "#fff" }}>{message}</span>}
+      />
     </ListItem>
   ));
 };
 
 let messages = [];
-const Chat = () => {
+
+
+const handleMessageSubmit = (socket, message) => {
+  socket.emit("chatmessage", message); 
+};  
+
+const Chat = (props) => {
+
+
   const classes = useStyles();
   const [message, setMessage] = useState("");
   const [random, setRandom] = useState(true);
-  const handleMessageSubmit = (event) => {
+  
+  
+
+useEffect(() => {
+  props.socket.on("chatmessage", (message) => {
+    console.log("ON", message);
     messages.push(message);
-    setRandom(!random);
-    setMessage("");
-  };
+  });
+})
+  
+  
+  
+
+  
 
   const messagesEndRef = useRef(null);
 
@@ -105,7 +135,10 @@ const Chat = () => {
               className={classes.button}
               endIcon={<SendIcon />}
               size="large"
-              onClick={handleMessageSubmit}
+              onClick={() => {
+                handleMessageSubmit(props.socket, message);
+                setMessage("");
+              }}
               style={{ 'fontFamily': "poppins", 'marginLeft': "auto", 'fontWeight': "600", 'color': "white" }}
             >
               Send
@@ -119,7 +152,7 @@ const Chat = () => {
   );
 };
 
-export default function TemporaryDrawer() {
+const TemporaryDrawer = (props) => {
   const classes = useStyles();
   const [state, setState] = useState(false);
 
@@ -140,8 +173,10 @@ export default function TemporaryDrawer() {
       Chat Box
       </Button>
       <Drawer anchor={"right"} open={state} onClose={toggleDrawer(false)}>
-        {<Chat />}
+        {<Chat socket = {props.socket}/>}
       </Drawer>
     </div>
   );
 }
+
+export default TemporaryDrawer

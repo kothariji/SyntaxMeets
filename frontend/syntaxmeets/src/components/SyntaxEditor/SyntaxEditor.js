@@ -19,7 +19,7 @@ import {
 import localClasses from "./SyntaxEditor.module.css";
 import DeleteIcon from "@material-ui/icons/Delete";
 import {languages, defaultValue, langMode, LangOptions, revLangMode, langId, themes} from "./LanguageData"
-import io from "socket.io-client";
+
 
 //extracting all the languages recquired
 languages.forEach((lang) => {
@@ -31,7 +31,6 @@ languages.forEach((lang) => {
 themes.forEach((theme) => require(`ace-builds/src-noconflict/theme-${theme}`));
 
 
-const socket = io.connect("http://localhost:4000");
 
 const axios = require("axios");
 
@@ -60,24 +59,19 @@ const SyntaxEditor = (props) => {
   var codeToken = 0;
   const classes = useStyles();
 
-  useEffect(() => {
-
-    // this will send server(backend) the roomId in which the socket needs to be joined
-    //this code will run only once
-    socket.emit("joinroom", props.roomId);
-  }, []);
+ 
 
   useEffect(() => {
     setMode(langMode[currLang])
   }, [currLang])
 
-  socket.on("message", (newValue) => {
+  props.socket.on("message", (newValue) => {
     setValue(newValue);
   });
 
   const handleChange = (newValue) => {
     codeToRun = newValue;
-    socket.emit("message", newValue);
+    props.socket.emit("message", newValue);
   };
 
   const handleCodeRun = async () => {
