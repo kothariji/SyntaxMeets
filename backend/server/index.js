@@ -19,7 +19,7 @@ io.on('connection', socket => {
   })
 
   socket.on('chatmessage', (message) => {
-    io.in(roomId).emit('chatmessage', message)
+    socket.to(roomId).emit('chatmessage', message)
   })
 
 })

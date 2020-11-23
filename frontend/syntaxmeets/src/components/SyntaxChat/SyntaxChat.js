@@ -3,19 +3,14 @@ import { makeStyles } from "@material-ui/core/styles";
 import {
   Drawer,
   Button,
-  List,
   Divider,
-  ListItem,
-  ListItemIcon,
-  ListItemText,
   TextField,
   Grid,
-  ListItemAvatar,
-  Avatar,
 } from "@material-ui/core";
-import FolderIcon from "@material-ui/icons/Folder";
+
 import SendIcon from "@material-ui/icons/Send";
 import ForumIcon from '@material-ui/icons/Forum';
+import { ChatMessage } from "./ChatMessage";
 
 
 const useStyles = makeStyles({
@@ -27,43 +22,11 @@ const useStyles = makeStyles({
   }
 });
 
-const ShowMessages = (props) => {
-  return props.messages.map((message) => (
-    <ListItem>
-      <ListItemAvatar>
-        <Avatar>DK</Avatar>
-      </ListItemAvatar>
-      <ListItemText
-        style={{
-          paddingTop: "5px",
-          borderRadius: "15px",
-          paddingLeft: "20px",
-          paddingBottom: "10px",
-          backgroundColor: "#00b4d8",
-          color: "#fff"
-        }}
-        primary={
-          <span style={{ color: "#fff" }}>
-            <em>Dhruv Kothari</em>
-          </span>
-        }
-        secondary={<span style={{ color: "#fff" }}>{message}</span>}
-      />
-    </ListItem>
-  ));
-};
-
-let messages = [];
 
 
-const handleMessageSubmit = (socket, message) => {
-  socket.emit("chatmessage", message); 
 
-  socket.on("chatmessage", (message) => {
-    console.log("ON", message);
-    messages.push(message);
-  });
-};  
+
+
 
 const Chat = (props) => {
 
@@ -71,12 +34,30 @@ const Chat = (props) => {
   const classes = useStyles();
   const [message, setMessage] = useState("");
   const [random, setRandom] = useState(true);  
-
+  const [messages, setMessages] = useState([]);
   const messagesEndRef = useRef(null);
 
   const scrollToBottom = () => {
     messagesEndRef.current.scrollIntoView({ behavior: "smooth" });
   };
+
+  const handleMessageSubmit = () => {
+    props.socket.emit("chatmessage", message); 
+    let tempChat = [...messages];
+    tempChat.push(message);
+    setMessages(tempChat);
+  };  
+
+  // useEffect(() => {
+    
+  // }, [messages])
+
+  props.socket.once("chatmessage", (message) => {
+    console.log("ON", message);
+    let tempChat = [...messages];
+    tempChat.push(message);
+    setMessages(tempChat);
+  });
 
   useEffect(scrollToBottom, [random]);
 
@@ -87,7 +68,7 @@ const Chat = (props) => {
       role="presentation"
     >
       <div style={{ paddingBottom: "70px", marginBottom: "70px", height: "90%" }}>
-        {<ShowMessages messages={messages} />}
+        {<ChatMessage messages={messages} />}
         <div ref={messagesEndRef} />
       </div>
       
@@ -126,10 +107,7 @@ const Chat = (props) => {
               className={classes.button}
               endIcon={<SendIcon />}
               size="large"
-              onClick={() => {
-                handleMessageSubmit(props.socket, message);
-                setMessage("");
-              }}
+              onClick={handleMessageSubmit}
               style={{ 'fontFamily': "poppins", 'marginLeft': "auto", 'fontWeight': "600", 'color': "white" }}
             >
               Send
