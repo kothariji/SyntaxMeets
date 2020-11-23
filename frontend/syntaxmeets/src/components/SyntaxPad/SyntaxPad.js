@@ -1,13 +1,35 @@
-import React, {Fragment ,useRef} from "react";
+import React, {Fragment ,useRef,useState} from "react";
 import { AppBar, Toolbar, Typography, Button } from "@material-ui/core";
 import CanvasDraw from "react-canvas-draw";
 import UndoIcon from "@material-ui/icons/Undo";
 import DeleteIcon from "@material-ui/icons/Delete";
-import localClasses from "./SyntaxPad.module.css"
+import localClasses from "./SyntaxPad.module.css";
+import { GithubPicker } from 'react-color';
 
 const SyntaxPad = (props) => {
 
     const saveableCanvas = useRef(CanvasDraw);
+    const [displayColorPicker, setdisplayColorPicker] = useState(false)
+
+    const popover = {
+      position: 'absolute',
+      zIndex: '2',
+    }
+    const cover = {
+      position: 'fixed',
+      top: '0px',
+      right: '0px',
+      bottom: '0px',
+      left: '0px',
+    }
+
+    const handleColorOpen = () =>{
+      setdisplayColorPicker(true);
+    }
+
+    const handleColorClose = () =>{
+      setdisplayColorPicker(false);
+    }
 
     return (
       <Fragment>
@@ -66,7 +88,20 @@ const SyntaxPad = (props) => {
           catenaryColor={"#FFD500"}
           gridColor={"rgba(0, 180, 216, 0.1)"}
         />
+        <AppBar position="static" style={{ backgroundColor: "#000A29" }}>
+        <Toolbar>
+          
+        <div>
+        <button onClick={ handleColorOpen }>Pick Color</button>
+        { displayColorPicker ? <div style={ popover }>
+          <div style={ cover } onClick={ handleColorClose }/>
+          <GithubPicker />
+        </div> : null }
+      </div>
 
+
+        </Toolbar>
+      </AppBar>
       </Fragment>
     );
   

@@ -3,6 +3,7 @@ import { AppBar, Toolbar, Typography, Button } from "@material-ui/core";
 import CanvasDraw from "react-canvas-draw";
 import UndoIcon from "@material-ui/icons/Undo";
 import DeleteIcon from "@material-ui/icons/Delete";
+import CreateIcon from '@material-ui/icons/Create';
 import ReactResizeDetector from "react-resize-detector";
 
 class ThinkPad extends Component {
@@ -30,9 +31,16 @@ class ThinkPad extends Component {
           <Toolbar>
             <Typography
               variant="h5"
-              style={{ fontFamily: "poppins", color: "white" }}
+              style={{ fontFamily: "poppins", color: "white" }}           
             >
-              ThinkPad
+           
+            <div>
+            <CreateIcon />
+            <span style={{
+              fontFamily: "poppins",
+              marginLeft: "auto",
+            }}>ThinkPad</span>  
+            </div>
             </Typography>
             <Button
               variant="contained"
