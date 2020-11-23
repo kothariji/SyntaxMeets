@@ -58,6 +58,11 @@ let messages = [];
 
 const handleMessageSubmit = (socket, message) => {
   socket.emit("chatmessage", message); 
+
+  socket.on("chatmessage", (message) => {
+    console.log("ON", message);
+    messages.push(message);
+  });
 };  
 
 const Chat = (props) => {
@@ -65,21 +70,7 @@ const Chat = (props) => {
 
   const classes = useStyles();
   const [message, setMessage] = useState("");
-  const [random, setRandom] = useState(true);
-  
-  
-
-useEffect(() => {
-  props.socket.on("chatmessage", (message) => {
-    console.log("ON", message);
-    messages.push(message);
-  });
-})
-  
-  
-  
-
-  
+  const [random, setRandom] = useState(true);  
 
   const messagesEndRef = useRef(null);
 

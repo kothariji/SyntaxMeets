@@ -11,10 +11,12 @@
     "ace-builds": "^1.4.12",
     "axios": "^0.21.0",
     "bootstrap": "^4.5.3",
+    "copy-to-clipboard": "^3.3.1",
     "fontsource-poppins": "^3.0.9",
     "react": "^16.13.1",
     "react-ace": "^9.1.4",
     "react-bootstrap": "^1.4.0",
+    "react-bootstrap-sweetalert": "^5.2.0",
     "react-canvas-draw": "^1.1.1",
     "react-dom": "^16.13.1",
     "react-draggable": "^4.4.3",
@@ -23,6 +25,7 @@
     "react-scripts": "^3.4.4",
     "react-skylight": "^0.5.1",
     "responsive-sketchpad": "^1.2.0",
+    "save": "^2.4.0",
     "socket.io-client": "^2.3.1"
   },
   "scripts": {
