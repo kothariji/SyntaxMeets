@@ -4,7 +4,6 @@ import { Toolbar, Typography, Button, Drawer ,TextField} from '@material-ui/core
 import logo from '../images/navlogo.png'
 import PersonIcon from '@material-ui/icons/Person';
 import SyntaxChat from './SyntaxChat/SyntaxChat'
-import Draggable from 'react-draggable';
 import copy from "copy-to-clipboard"; 
 
 
@@ -23,14 +22,10 @@ const Navbar = (props) => {
         &nbsp;Syntax<span style={{ "color": "#FFD500"}}>Meets</span>
             </Typography>
       
-      <Draggable>      
       <Button variant="contained" startIcon={<PersonIcon />} onClick={() => Copytext(props.roomId)} color = "primary" style={{ 'fontFamily': "poppins", 'marginLeft': "auto", 'fontWeight': "600", 'color': "white" }}>
         RoomId : {props.roomId}
       </Button>
-      </Draggable>
-      <Draggable>
-        <SyntaxChat socket = {props.socket} />
-      </Draggable>
+        <SyntaxChat name = {props.name} socket = {props.socket} />
     </Toolbar>
   </AppBar>
 )

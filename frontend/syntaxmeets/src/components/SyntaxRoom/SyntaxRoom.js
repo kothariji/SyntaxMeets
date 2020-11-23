@@ -8,9 +8,12 @@ import io from "socket.io-client";
 
 const socket = io.connect("http://localhost:4000");
 
-const SyntaxRoom = () => {
+const SyntaxRoom = (props) => {
   
   const [roomId] = useState(window.location.href.substr(window.location.href.lastIndexOf('/') + 1))
+  console.log(props.location.name)
+  const [name] = useState(props.location.name)
+
 
   useEffect(() => {
 
@@ -22,7 +25,7 @@ const SyntaxRoom = () => {
 
   return (
     <Fragment>
-        <Navbar roomId = {roomId} socket = {socket}/>
+        <Navbar name = {name} roomId = {roomId} socket = {socket}/>
         <div style={{ backgroundColor: "#F3F7F7", fontFamily: "poppins", padding: '50px' }}>
           <Grid container spacing={5}>
             <Grid item xs={12} sm={12} md={6}>

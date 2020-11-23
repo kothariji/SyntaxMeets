@@ -18,8 +18,8 @@ io.on('connection', socket => {
     socket.to(roomId).emit('message', message)
   })
 
-  socket.on('chatmessage', (message) => {
-    socket.to(roomId).emit('chatmessage', message)
+  socket.on('chatmessage', (data) => {
+    socket.to(roomId).emit('chatmessage', data)
   })
 
 })

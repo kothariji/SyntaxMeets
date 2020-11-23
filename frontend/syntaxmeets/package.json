@@ -21,6 +21,7 @@
     "react-color": "^2.19.3",
     "react-dom": "^16.13.1",
     "react-draggable": "^4.4.3",
+    "react-loader-spinner": "^3.1.14",
     "react-resize-detector": "^5.2.0",
     "react-router-dom": "^5.2.0",
     "react-scripts": "^3.4.4",

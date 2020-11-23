@@ -42,20 +42,21 @@ const Chat = (props) => {
   };
 
   const handleMessageSubmit = () => {
-    props.socket.emit("chatmessage", message); 
+    let data = {
+      name: props.name,
+      message: message
+    }
+    props.socket.emit("chatmessage", data); 
     let tempChat = [...messages];
-    tempChat.push(message);
+    tempChat.push(data);
     setMessages(tempChat);
   };  
 
-  // useEffect(() => {
-    
-  // }, [messages])
 
-  props.socket.once("chatmessage", (message) => {
-    console.log("ON", message);
+  props.socket.once("chatmessage", (data) => {
+    console.log("ON", data);
     let tempChat = [...messages];
-    tempChat.push(message);
+    tempChat.push(data);
     setMessages(tempChat);
   });
 
@@ -142,7 +143,7 @@ const TemporaryDrawer = (props) => {
       Chat Box
       </Button>
       <Drawer anchor={"right"} open={state} onClose={toggleDrawer(false)}>
-        {<Chat socket = {props.socket}/>}
+        {<Chat name = {props.name} socket = {props.socket}/>}
       </Drawer>
     </div>
   );

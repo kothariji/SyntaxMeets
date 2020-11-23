@@ -6,13 +6,14 @@ import {
   Avatar,
 } from "@material-ui/core";
 
+const nameGenerator = (name) => ((name[0][0] + (name.length > 1 ? name[1][0] : "")).toUpperCase()) 
 
 
 export const ChatMessage = (props) => {
-    return props.messages.map((message) => (
+    return props.messages.map((data) => (
       <ListItem>
         <ListItemAvatar>
-          <Avatar>DK</Avatar>
+          <Avatar>{nameGenerator(data.name.split(" "))}</Avatar>
         </ListItemAvatar>
         <ListItemText
           style={{
@@ -25,10 +26,10 @@ export const ChatMessage = (props) => {
           }}
           primary={
             <span style={{ color: "#fff" }}>
-              <em>Dhruv Kothari</em>
+              <em>{data.name}</em>
             </span>
           }
-          secondary={<span style={{ color: "#fff" }}>{message}</span>}
+          secondary={<span style={{ color: "#fff" }}>{data.message}</span>}
         />
       </ListItem>
     ));

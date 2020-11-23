@@ -38,6 +38,7 @@ const Home = (props) => {
   const skyLightCreateModal = useRef(SkyLight);
   const skyLightJoinModal = useRef(SkyLight);
   const [roomId, setroomId] = useState(generateRoomId());
+  const [name, setName] = useState("");
   
 
   const roomModal = {
@@ -139,6 +140,10 @@ const Home = (props) => {
                         id="outlined-basic"
                         label="Your Name"
                         variant="outlined"
+                        value={name}
+                        onChange={(e) => {
+                          setName(e.target.value)
+                        }}
                       />
 
                       <br />
@@ -154,7 +159,10 @@ const Home = (props) => {
                           variant="contained"
                           size="lg"
                           component={Link}
-                          to={roomId}
+                          to={{
+                            pathname: roomId,
+                            name: name,
+                          }}
                         >
                           Create Room
                         </MUIButton>
@@ -184,6 +192,10 @@ const Home = (props) => {
                         id="outlined-basic"
                         label="Your Name"
                         variant="outlined"
+                        value={name}
+                        onChange={(e) => {
+                          setName(e.target.value)
+                        }}
                       />
 
                       <Typography
@@ -218,7 +230,10 @@ const Home = (props) => {
                           variant="contained"
                           size="lg"
                           component={Link}
-                          to={roomId}
+                          to={{
+                            pathname: roomId,
+                            name: name,
+                          }}
                         >
                           Join a Room
                         </MUIButton>
