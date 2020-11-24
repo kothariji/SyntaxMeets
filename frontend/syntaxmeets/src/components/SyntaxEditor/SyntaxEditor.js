@@ -1,5 +1,5 @@
 import React, { Fragment, useEffect, useState, useRef } from "react";
-import AceEditor from "react-ace";
+import AceEditor  from "react-ace";
 import "ace-builds/src-min-noconflict/ext-searchbox";
 import "ace-builds/src-min-noconflict/ext-language_tools";
 import "ace-builds/src-noconflict/mode-jsx";
@@ -16,13 +16,21 @@ import {
   Switch,
   Button,
   Dialog,
-  DialogTitle
+  DialogTitle,
 } from "@material-ui/core";
-import Grid from '@material-ui/core/Grid';
+import Grid from "@material-ui/core/Grid";
 import localClasses from "./SyntaxEditor.module.css";
 import DeleteIcon from "@material-ui/icons/Delete";
-import {languages, defaultValue, langMode, LangOptions, revLangMode, langId, themes} from "./LanguageData"
-import Loader from "react-loader-spinner";
+import {
+  languages,
+  defaultValue,
+  langMode,
+  LangOptions,
+  revLangMode,
+  langId,
+  themes,
+} from "./LanguageData";
+import ShareIcon from "@material-ui/icons/Share";
 
 //extracting all the languages recquired
 languages.forEach((lang) => {
@@ -32,8 +40,6 @@ languages.forEach((lang) => {
 
 //extracting themes
 themes.forEach((theme) => require(`ace-builds/src-noconflict/theme-${theme}`));
-
-
 
 const axios = require("axios");
 
@@ -48,41 +54,64 @@ const useStyles = makeStyles((mutheme) => ({
 }));
 
 
+const ICE = (props) => {
+
+const handleIChange = (newValue) => {
+  props.onInputChange(newValue)
+}
+
+  return (
+    <AceEditor
+      mode="c_cpp"
+      theme="monokai"
+      height="150px"
+      width={"auto"}
+      onChange={handleIChange}
+      value={props.inputValue}
+      fontSize={18}
+    />
+  )
+}
 const SyntaxEditor = (props) => {
 
 
   const [value, setValue] = useState(defaultValue);
-  const [currLang, setCurrLang] = useState("C++")
+  const [currLang, setCurrLang] = useState("C++");
   const [mode, setMode] = useState(langMode["C++"]);
   const [theme, setTheme] = useState("monokai");
   const [fontSize, setFontSize] = useState(16);
   const [autoCompletion, setautoCompletion] = useState(true);
-  const [codeInput, setCodeInput] = useState("")
-  const [codeOutput, setCodeOutput] = useState("")
-  const [isCompiling, setIsCompiling] = useState(false)
+  const [codeInput, setCodeInput] = useState("");
+  const [codeOutput, setCodeOutput] = useState("");
+  const [isCompiling, setIsCompiling] = useState(false);
 
-  let codeToRun = 0;
+
   var codeToken = 0;
   const classes = useStyles();
 
- 
-
   useEffect(() => {
-    setMode(langMode[currLang])
-  }, [currLang])
+    setMode(langMode[currLang]);
+  }, [currLang]);
 
   props.socket.on("message", (newValue) => {
     setValue(newValue);
   });
 
   const handleChange = (newValue) => {
-    codeToRun = newValue;
+    setValue(newValue);
     props.socket.emit("message", newValue);
   };
 
+  
+  
+  const handleInputChange = (newInput) => {
+    setCodeInput(newInput);
+  }
+  
   const handleCodeRun = async () => {
-
+    console.log("1st", value)
     setIsCompiling(true);
+    console.log("2nd", value)
     let options = {
       method: "POST",
       url: "https://judge0.p.rapidapi.com/submissions",
@@ -93,7 +122,7 @@ const SyntaxEditor = (props) => {
       },
       data: {
         language_id: langId[currLang],
-        source_code: codeToRun,
+        source_code: value,
         stdin: codeInput,
       },
     };
@@ -105,13 +134,11 @@ const SyntaxEditor = (props) => {
       .catch(function (error) {
         console.error(error);
       });
-
-
-
+      console.log("3rd", value)
     const delay = (ms) => new Promise((res) => setTimeout(res, ms));
     await delay(7000);
     console.log("Waited 7s");
-
+    console.log("4st", value)
     options = {
       method: "GET",
       url: "https://judge0.p.rapidapi.com/submissions/" + codeToken,
@@ -125,49 +152,50 @@ const SyntaxEditor = (props) => {
       .request(options)
       .then(function (response) {
         console.log(response.data);
-        setCodeOutput(response.data.stdout)
+        setCodeOutput(response.data.stdout);
         setIsCompiling(false);
       })
       .catch(function (error) {
         console.error(error);
       });
+      console.log("5th", value)
   };
 
   const IONavbar = (props) => {
     return (
       <AppBar position="static" style={{ backgroundColor: "#000A29" }}>
         <Typography
-            variant="h6"
-            style={{
-              fontFamily: "poppins",
-              color: "white",
-              marginRight: "auto",
-              marginTop: "auto",
-              marginBottom: "auto",
-              marginLeft: "auto",
-              fontWeight: "400",
-              padding: "3px 2px"
-            }}
-          >
-            {props.type}
-          </Typography>
+          variant="h6"
+          style={{
+            fontFamily: "poppins",
+            color: "white",
+            marginRight: "auto",
+            marginTop: "auto",
+            marginBottom: "auto",
+            marginLeft: "auto",
+            fontWeight: "400",
+            padding: "3px 2px",
+          }}
+        >
+          {props.type}
+        </Typography>
       </AppBar>
-    )
+    );
+  };
 
-  }
-  
-  
   return (
     <Fragment>
-      <Dialog  open={isCompiling}>
-      <DialogTitle id="simple-dialog-title">Compiling ...</DialogTitle>
-      <Loader type="Bars" style = {{marginLeft: "auto", marginRight: "auto"}} color="#00BFFF" height={80} width={80} />
-    </Dialog>
-      {/* {isCompiling ? <SkyLight
-                    hideOnOverlayClicked
-                    ref={compilingModal}
-                    title={<div className={localClasses.loader}>Loading...</div>}
-                  ></SkyLight> : null} */}
+      <Dialog fullWidth={true} maxWidth={"sm"} open={isCompiling}>
+        <DialogTitle>Compiling ...</DialogTitle>
+        <div className={localClasses.loader}>
+          <div style={{ marginLeft: "auto", marginRight: "auto" }}>
+            <span>
+              <ShareIcon style={{ fontSize: 125 }} />
+            </span>
+            <span className={localClasses.arrow}>></span>
+          </div>
+        </div>
+      </Dialog>
       <AppBar position="static" style={{ backgroundColor: "#000A29" }}>
         <div className={localClasses.Editor__navbar}>
           <Typography
@@ -202,7 +230,7 @@ const SyntaxEditor = (props) => {
                 id="select-mode"
                 value={langMode[currLang]}
                 onChange={(e) => {
-                  setCurrLang(revLangMode[ e.target.value]);
+                  setCurrLang(revLangMode[e.target.value]);
                 }}
                 label="Language"
                 style={{ fontFamily: "poppins", color: "#ffffff" }}
@@ -278,18 +306,22 @@ const SyntaxEditor = (props) => {
         theme={theme}
         height="550px"
         width={"auto"}
+        value = {value}
         onChange={handleChange}
-        value={value}
         fontSize={fontSize}
         showPrintMargin
         showGutter
         highlightActiveLine
+        name="CODEEDITOR"
         setOptions={{
           useWorker: false,
           enableLiveAutocompletion: autoCompletion,
         }}
       />
-      <AppBar position="static" style={{ backgroundColor: "#000A29",  marginBottom: "10px" }}>
+      <AppBar
+        position="static"
+        style={{ backgroundColor: "#000A29", marginBottom: "10px" }}
+      >
         <Toolbar>
           <FormControlLabel
             control={
@@ -311,7 +343,6 @@ const SyntaxEditor = (props) => {
           <Button
             variant="contained"
             color="primary"
-           
             startIcon={<DeleteIcon />}
             style={{
               fontFamily: "poppins",
@@ -342,25 +373,11 @@ const SyntaxEditor = (props) => {
 
       <Grid container spacing={0}>
         <Grid item xs={12} sm={12} md={6}>
-        <IONavbar type = {"Input"}/>
-          <AceEditor
-            mode="c_cpp"
-            theme="monokai"
-            height="150px"
-            width={"auto"}
-            onChange={(tempInput) => setCodeInput(tempInput)}
-            value={codeInput}
-            fontSize={fontSize}
-            showPrintMargin
-            showGutter
-            setOptions={{
-              useWorker: false,
-              enableLiveAutocompletion: false,
-            }}
-          />
+          <IONavbar type={"Input"} />
+          <ICE inputValue = {codeInput} onInputChange = {handleInputChange}/>
         </Grid>
         <Grid item xs={12} sm={12} md={6}>
-        <IONavbar type = {"Output"}/>
+          <IONavbar type={"Output"} />
           <AceEditor
             mode="c_cpp"
             theme="monokai"
@@ -371,13 +388,14 @@ const SyntaxEditor = (props) => {
             fontSize={fontSize}
             showPrintMargin
             showGutter
+            name="OUTPUTEDITOR"
             setOptions={{
               useWorker: false,
               enableLiveAutocompletion: false,
             }}
           />
         </Grid>
-      </Grid>
+      </Grid> 
     </Fragment>
   );
 };

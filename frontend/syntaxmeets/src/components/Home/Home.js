@@ -1,7 +1,6 @@
 import React, { useState, useRef} from "react";
 import localclasses from "./Home.module.css";
 import bgimg from "../../images/home_svg.svg";
-import Button from "react-bootstrap/Button";
 import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
@@ -10,8 +9,8 @@ import { Link } from "react-router-dom";
 import SkyLight from "react-skylight";
 import PropTypes from "prop-types";
 import { withStyles } from "@material-ui/core/styles";
-
-
+import MeetingRoomIcon from '@material-ui/icons/MeetingRoom';
+import GroupAddIcon from '@material-ui/icons/GroupAdd';
 
 
 function generateRoomId() {
@@ -37,7 +36,8 @@ const Home = (props) => {
   const { classes } = props;
   const skyLightCreateModal = useRef(SkyLight);
   const skyLightJoinModal = useRef(SkyLight);
-  const [roomId, setroomId] = useState(generateRoomId());
+  const [roomId] = useState(generateRoomId());
+  const [joinRoomId, setjoinRoomId] = useState("123");
   const [name, setName] = useState("");
   
 
@@ -82,13 +82,15 @@ const Home = (props) => {
               <Row>
                 <MUIButton
                   block
+                  variant="contained"
+                  color="secondary"
                   style={{
-                    backgroundColor: "#ffd500",
                     padding: "10px",
-                    fontWeight: "400",
-                    color: "#000",
-                    fontSize: '3vh'
+                    fontSize: '3vh',
+                    fontWeight: '600',
+                    color: '#333'
                   }}
+                  startIcon={<MeetingRoomIcon style={{ fontSize: 30 }} />}
                   size="large"
                   fullWidth
                   onClick={() => skyLightCreateModal.current.show()}
@@ -101,13 +103,15 @@ const Home = (props) => {
               <Row>
                 <MUIButton
                   block
+                  variant="contained"
+                  color="secondary"
                   style={{
-                    backgroundColor: "#ffd500",
                     padding: "10px",
-                    fontWeight: "400",
-                    color: "#000",
-                    fontSize: '3vh'
+                    fontSize: '3vh',
+                    fontWeight: '600',
+                    color: '#333'
                   }}
+                  startIcon={<GroupAddIcon style={{ fontSize: 30 }} />}
                   size="large"
                   fullWidth
                   onClick={() => skyLightJoinModal.current.show()}
@@ -208,7 +212,7 @@ const Home = (props) => {
                         Enter Room Id
                       </Typography>
                       <TextField
-                        onChange={(event) => setroomId(event.target.value)}
+                        onChange={(event) => setjoinRoomId(event.target.value)}
                         fullWidth
                         id="outlined-basic"
                         className={classes.root}
@@ -231,7 +235,7 @@ const Home = (props) => {
                           size="lg"
                           component={Link}
                           to={{
-                            pathname: roomId,
+                            pathname: joinRoomId,
                             name: name,
                           }}
                         >

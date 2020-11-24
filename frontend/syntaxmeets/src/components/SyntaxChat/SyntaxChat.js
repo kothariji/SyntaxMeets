@@ -25,7 +25,7 @@ const useStyles = makeStyles({
 
 
 
-
+let allMessages = [];
 
 
 const Chat = (props) => {
@@ -34,7 +34,7 @@ const Chat = (props) => {
   const classes = useStyles();
   const [message, setMessage] = useState("");
   const [random, setRandom] = useState(true);  
-  const [messages, setMessages] = useState([]);
+  const [messages, setMessages] = useState(allMessages);
   const messagesEndRef = useRef(null);
 
   const scrollToBottom = () => {
@@ -49,6 +49,7 @@ const Chat = (props) => {
     props.socket.emit("chatmessage", data); 
     let tempChat = [...messages];
     tempChat.push(data);
+    allMessages.push(data);
     setMessages(tempChat);
   };  
 
@@ -57,6 +58,7 @@ const Chat = (props) => {
     console.log("ON", data);
     let tempChat = [...messages];
     tempChat.push(data);
+    allMessages.push(data);
     setMessages(tempChat);
   });
 
@@ -99,6 +101,11 @@ const Chat = (props) => {
               size="small"
               value={message}
               onChange={(e) => setMessage(e.target.value)}
+              onKeyDown={(e) => {
+                if (e.key === "Enter") {
+                  handleMessageSubmit();
+                }
+             }}
             />
           </Grid>
           <Grid item xs={3}>
