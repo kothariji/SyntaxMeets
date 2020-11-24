@@ -33,7 +33,6 @@ const Chat = (props) => {
 
   const classes = useStyles();
   const [message, setMessage] = useState("");
-  const [random, setRandom] = useState(true);  
   const [messages, setMessages] = useState(allMessages);
   const messagesEndRef = useRef(null);
 
@@ -42,6 +41,9 @@ const Chat = (props) => {
   };
 
   const handleMessageSubmit = () => {
+
+    if(message === "")
+      return;
     let data = {
       name: props.name,
       message: message
@@ -51,18 +53,18 @@ const Chat = (props) => {
     tempChat.push(data);
     allMessages.push(data);
     setMessages(tempChat);
+    setMessage("");
   };  
 
 
   props.socket.once("chatmessage", (data) => {
-    console.log("ON", data);
     let tempChat = [...messages];
     tempChat.push(data);
     allMessages.push(data);
     setMessages(tempChat);
   });
 
-  useEffect(scrollToBottom, [random]);
+  useEffect(scrollToBottom, [messages]);
 
   return (
     <div

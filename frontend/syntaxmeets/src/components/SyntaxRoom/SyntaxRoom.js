@@ -46,7 +46,7 @@ const SyntaxRoom = (props) => {
               <SyntaxEditor socket = {socket} roomId = {roomId}/>
             </Grid>
             <Grid item xs={12} sm={12} md={6}>
-                <SyntaxPad roomId = {roomId}/>
+                <SyntaxPad socket = {socket} roomId = {roomId}/>
             </Grid>
           </Grid>
         </div>

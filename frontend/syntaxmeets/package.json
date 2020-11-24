@@ -23,6 +23,7 @@
     "react-draggable": "^4.4.3",
     "react-loader-spinner": "^3.1.14",
     "react-resize-detector": "^5.2.0",
+    "react-responsive": "^8.1.1",
     "react-router-dom": "^5.2.0",
     "react-scripts": "^3.4.4",
     "react-skylight": "^0.5.1",

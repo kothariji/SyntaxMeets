@@ -17,6 +17,7 @@ import {
   Button,
   Dialog,
   DialogTitle,
+  DialogActions
 } from "@material-ui/core";
 import Grid from "@material-ui/core/Grid";
 import localClasses from "./SyntaxEditor.module.css";
@@ -84,6 +85,8 @@ const SyntaxEditor = (props) => {
   const [codeInput, setCodeInput] = useState("");
   const [codeOutput, setCodeOutput] = useState("");
   const [isCompiling, setIsCompiling] = useState(false);
+  const [isError, setIsError] = useState(false);
+  const [codeError, setCodeError] = useState("");
 
 
   var codeToken = 0;
@@ -109,9 +112,9 @@ const SyntaxEditor = (props) => {
   }
   
   const handleCodeRun = async () => {
-    console.log("1st", value)
+  
     setIsCompiling(true);
-    console.log("2nd", value)
+    
     let options = {
       method: "POST",
       url: "https://judge0.p.rapidapi.com/submissions",
@@ -126,19 +129,21 @@ const SyntaxEditor = (props) => {
         stdin: codeInput,
       },
     };
+
     await axios
       .request(options)
       .then(function (response) {
+        console.log("compile: ", response)
         codeToken = response.data.token;
       })
       .catch(function (error) {
         console.error(error);
       });
-      console.log("3rd", value)
+
+
     const delay = (ms) => new Promise((res) => setTimeout(res, ms));
     await delay(7000);
-    console.log("Waited 7s");
-    console.log("4st", value)
+    
     options = {
       method: "GET",
       url: "https://judge0.p.rapidapi.com/submissions/" + codeToken,
@@ -147,18 +152,27 @@ const SyntaxEditor = (props) => {
         "x-rapidapi-host": "judge0.p.rapidapi.com",
       },
     };
-
+    console.log("working")
     await axios
       .request(options)
       .then(function (response) {
-        console.log(response.data);
-        setCodeOutput(response.data.stdout);
-        setIsCompiling(false);
+
+        if(response.data.stderr !== null){
+          setIsCompiling(false);
+          setCodeError(response.data.stderr);
+          setIsError(true);
+        }
+        else{
+          setCodeOutput(response.data.stdout);
+          setIsCompiling(false);
+        }
+        
       })
       .catch(function (error) {
-        console.error(error);
+        setIsCompiling(false);
+        setCodeError("Compilation Error: " + error.response.data.error);
+        setIsError(true); 
       });
-      console.log("5th", value)
   };
 
   const IONavbar = (props) => {
@@ -195,6 +209,16 @@ const SyntaxEditor = (props) => {
             <span className={localClasses.arrow}>></span>
           </div>
         </div>
+      </Dialog>
+      <Dialog  maxWidth={"sm"} open={isError}>
+        <DialogTitle>Oops Error Occured</DialogTitle>
+         <span style = {{marginLeft: "15px"}}>{codeError}</span>
+        <DialogActions>
+          <Button onClick={() => setIsError(false)} variant = "contained" size= "large" color="primary">
+            Close
+          </Button>
+         
+        </DialogActions>
       </Dialog>
       <AppBar position="static" style={{ backgroundColor: "#000A29" }}>
         <div className={localClasses.Editor__navbar}>

@@ -28,7 +28,7 @@ function generateRoomId() {
 
 const styles = {
   input: {
-    color: "white",
+    color: "#000",
   },
 };
 
@@ -42,8 +42,7 @@ const Home = (props) => {
   
 
   const roomModal = {
-        backgroundImage:
-        "linear-gradient(to left top, #000a29, #053155, #035982, #0085af, #00b4d8)",
+        backgroundImage: "linear-gradient(to top, #d6d4ee, #e1dff2, #ebe9f6, #f5f4fb, #ffffff)",
         width: "30%",
         marginTop: "-200px",
         marginLeft: "-15%",
@@ -55,13 +54,13 @@ const Home = (props) => {
         style={{
           fontFamily: "poppins",
           fontWeight: "600",
-          color: "#fff",
+          color: "#000",
           fontSize: "4vh",
         }}
       >
         {props.start}
-        <span style={{ color: "#fff" }}>&nbsp;Syntax</span>
-        <span style={{ color: "#ffd500" }}>Room</span>
+        <span style={{ color: "#000", fontWeight: "800", }}>&nbsp;Syntax</span>
+        <span style={{ color: "#ffd500", fontWeight: "800", }}>Room</span>
       </span>
     </Row>
   );
@@ -130,9 +129,9 @@ const Home = (props) => {
                     <Container className={localclasses.home__modal__container}>
                       <Typography
                         style={{
-                          color: "#fff",
-                          marginBottom: "15px",
-                          fontSize: "3vh",
+                          color: "#000",
+                          marginBottom: "10px",
+                          fontSize: "2vh",
                         }}
                       >
                         Enter Your Name
@@ -161,7 +160,7 @@ const Home = (props) => {
                             backgroundColor: "#ffd500",
                           }}
                           variant="contained"
-                          size="lg"
+                          size="large"
                           component={Link}
                           to={{
                             pathname: roomId,
@@ -182,9 +181,9 @@ const Home = (props) => {
                     <Container className={localclasses.home__modal__container}>
                       <Typography
                         style={{
-                          color: "#fff",
-                          marginBottom: "15px",
-                          fontSize: "3vh",
+                          color: "#000",
+                          marginBottom: "10px",
+                          fontSize: "2vh",
                         }}
                       >
                         Enter Your Name
@@ -200,13 +199,15 @@ const Home = (props) => {
                         onChange={(e) => {
                           setName(e.target.value)
                         }}
+                        style = {{color: '#000'}}
                       />
 
                       <Typography
                         style={{
-                          color: "#fff",
-                          marginBottom: "15px",
-                          fontSize: "3vh",
+                          color: "#000",
+                          marginTop: "10px",
+                          marginBottom: "10px",
+                          fontSize: "2vh",
                         }}
                       >
                         Enter Room Id
@@ -219,6 +220,10 @@ const Home = (props) => {
                         InputProps={{ className: classes.input }}
                         label="Enter Room ID"
                         variant="outlined"
+                        InputLabelProps={{
+                          shrink: true,
+                        }}
+                        placeholder="xxxx-yyyy-zzzz"
                       />
 
                       <br />
@@ -232,7 +237,7 @@ const Home = (props) => {
                             backgroundColor: "#ffd500",
                           }}
                           variant="contained"
-                          size="lg"
+                          size="large"
                           component={Link}
                           to={{
                             pathname: joinRoomId,

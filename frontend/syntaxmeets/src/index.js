@@ -6,6 +6,8 @@ import * as serviceWorker from './serviceWorker';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import "react-loader-spinner/dist/loader/css/react-spinner-loader.css";
 import { createMuiTheme, ThemeProvider } from '@material-ui/core/styles';
+import Mobile from "./components/Mobile/Mobile"
+import MediaQuery from 'react-responsive'
 
 const theme = createMuiTheme({
     palette: {
@@ -39,17 +41,17 @@ const theme = createMuiTheme({
           root: {
               position: 'relative',
               '& $notchedOutline': {
-                  borderColor: '#FFD500',
+                  borderColor: '#00B4D8',
               },
               '&:hover:not($disabled):not($focused):not($error) $notchedOutline': {
-                  borderColor: '#FFD500',
+                  borderColor: '#000a29',
                   // Reset on touch devices, it doesn't add specificity
                   '@media (hover: none)': {
-                      borderColor: '#FFD500',
+                      borderColor: '#000a29',
                   },
               },
               '&$focused $notchedOutline': {
-                  borderColor: '#FFD500',
+                  borderColor: '#000a29',
                   borderWidth: 1,
               },
           },
@@ -67,7 +69,12 @@ const theme = createMuiTheme({
 ReactDOM.render(
   <React.StrictMode>
     <ThemeProvider theme={theme}>
-      <App /> 
+      <MediaQuery query="(max-device-width: 768px)">
+        <Mobile /> 
+      </MediaQuery>
+      <MediaQuery query="(min-device-width: 769px)">
+        <App />
+      </MediaQuery>
     </ThemeProvider>
   </React.StrictMode>,
   document.getElementById('root')
