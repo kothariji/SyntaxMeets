@@ -1,17 +1,22 @@
 const app = require('express')()
-const http = require('http').createServer(app)
-const io = require('socket.io')(http)
+const server = require('http').createServer(app)
+const io = require('socket.io')(server)
+const cors = require('cors');
 
+
+app.use(cors());
 
 io.on('connection', socket => {
 
-  var roomId = 0;
-
+  let roomId = 0;
+  let userName = "";
   
   //joining in a room
-  socket.on('joinroom', function(room) {
-    roomId = room;
-    socket.join(room);
+  socket.on('joinroom', function(data) {
+    roomId = data.room;
+    userName = data.name;
+    socket.join(roomId);
+    socket.to(roomId).emit('userjoined', userName)
   });
 
   socket.on('message', (message) => {
@@ -22,8 +27,12 @@ io.on('connection', socket => {
     socket.to(roomId).emit('chatmessage', data)
   })
 
+  socket.on('disconnect', function() {
+    socket.to(roomId).emit('userleft', userName)
+  })
 })
 
-http.listen(4000, function() {
-  console.log('listening on port 4000')
+
+server.listen(process.env.PORT || 4000, function() {
+  console.log('server is working')
 })

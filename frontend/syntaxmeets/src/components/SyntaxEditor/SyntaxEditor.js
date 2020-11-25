@@ -252,15 +252,15 @@ const SyntaxEditor = (props) => {
                 name="mode"
                 labelId="mode-label"
                 id="select-mode"
-                value={langMode[currLang]}
+                value={currLang}
                 onChange={(e) => {
-                  setCurrLang(revLangMode[e.target.value]);
+                  setCurrLang(e.target.value);
                 }}
                 label="Language"
                 style={{ fontFamily: "poppins", color: "#ffffff" }}
               >
                 {LangOptions.map((language) => (
-                  <MenuItem value={langMode[language]} key={language}>
+                  <MenuItem value={language} key={language}>
                     <span className={localClasses.Menu__options}>
                       {language}
                     </span>
@@ -326,7 +326,7 @@ const SyntaxEditor = (props) => {
         </div>
       </AppBar>
       <AceEditor
-        mode={mode}
+        mode={langMode[currLang]}
         theme={theme}
         height="550px"
         width={"auto"}
