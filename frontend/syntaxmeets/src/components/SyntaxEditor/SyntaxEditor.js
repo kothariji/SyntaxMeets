@@ -32,6 +32,9 @@ import {
   themes,
 } from "./LanguageData";
 import ShareIcon from "@material-ui/icons/Share";
+import PlayArrowIcon from '@material-ui/icons/PlayArrow';
+import FileCopyIcon from '@material-ui/icons/FileCopy';
+import copy from "copy-to-clipboard"; 
 
 //extracting all the languages recquired
 languages.forEach((lang) => {
@@ -105,7 +108,10 @@ const SyntaxEditor = (props) => {
     props.socket.emit("message", newValue);
   };
 
-  
+    const copyCode = (value) => {  
+      copy(value);  
+      alert("Code Copied Sucessfully")
+    }
   
   const handleInputChange = (newInput) => {
     setCodeInput(newInput);
@@ -367,7 +373,8 @@ const SyntaxEditor = (props) => {
           <Button
             variant="contained"
             color="primary"
-            startIcon={<DeleteIcon />}
+            onClick={() => copyCode(value)}
+            startIcon={<FileCopyIcon />}
             style={{
               fontFamily: "poppins",
               marginLeft: "auto",
@@ -375,13 +382,13 @@ const SyntaxEditor = (props) => {
               color: "white",
             }}
           >
-            Compile
+            Copy
           </Button>
           <Button
             variant="contained"
             color="primary"
             onClick={handleCodeRun}
-            startIcon={<DeleteIcon />}
+            startIcon={<PlayArrowIcon style={{ fontSize: 24 }}  />}
             style={{
               fontFamily: "poppins",
               marginLeft: "10px",
