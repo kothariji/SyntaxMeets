@@ -199,11 +199,11 @@ const SyntaxEditor = (props) => {
   return (
     <Fragment>
       <Dialog fullWidth={true} maxWidth={"sm"} open={isCompiling}>
-        <DialogTitle>Compiling ...</DialogTitle>
+        <DialogTitle style={{align: "center"}}>Compiling ...</DialogTitle>
         <div className={localClasses.loader}>
-          <div style={{ marginLeft: "auto", marginRight: "auto" }}>
-            <span>
-              <ShareIcon style={{ fontSize: 125 }} />
+          <div>
+            <span style={{ paddingLeft: "190px" }}>
+              <ShareIcon style={{ fontSize: "125px" }} />
             </span>
             <span className={localClasses.arrow}>></span>
           </div>
