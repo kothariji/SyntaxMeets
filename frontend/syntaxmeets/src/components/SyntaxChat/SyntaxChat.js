@@ -132,7 +132,8 @@ const Chat = (props) => {
 };
 
 const TemporaryDrawer = (props) => {
-  const classes = useStyles();
+
+  
   const [state, setState] = useState(false);
 
   const toggleDrawer = (open) => (event) => {

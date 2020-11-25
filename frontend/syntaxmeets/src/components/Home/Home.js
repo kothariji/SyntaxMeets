@@ -1,6 +1,6 @@
 import React, { useState, useRef} from "react";
 import localclasses from "./Home.module.css";
-import bgimg from "../../images/home_svg.svg";
+import bgimg from "../../images/homepage.svg";
 import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
@@ -124,7 +124,7 @@ const Home = (props) => {
                     dialogStyles={roomModal}
                     hideOnOverlayClicked
                     ref={skyLightCreateModal}
-                    title={<ModalTitle start="Create a new" />}
+                    title={<ModalTitle start="Create a" />}
                   >
                     <Container className={localclasses.home__modal__container}>
                       <Typography

@@ -1,11 +1,11 @@
-import React,{useState} from 'react'
+import React from 'react'
 import AppBar from '@material-ui/core/AppBar';
-import { Toolbar, Typography, Button, Drawer ,TextField} from '@material-ui/core';
+import { Toolbar, Typography, Button} from '@material-ui/core';
 import logo from '../../images/navlogo.png'
 import PersonIcon from '@material-ui/icons/Person';
 import SyntaxChat from '../SyntaxChat/SyntaxChat'
 import copy from "copy-to-clipboard"; 
-
+import { Link } from 'react-router-dom';
 
 const Navbar = (props) => {
 
@@ -26,6 +26,9 @@ const Navbar = (props) => {
         RoomId : {props.roomId}
       </Button>
         <SyntaxChat name = {props.name} socket = {props.socket} />
+        <Button variant="contained" startIcon={<PersonIcon />} component={Link} to="/about" color = "secondary" style={{ 'fontFamily': "poppins", 'marginLeft': "15px", 'fontWeight': "600", 'color': "white" }}>
+        About Us
+      </Button>
     </Toolbar>
   </AppBar>
 )

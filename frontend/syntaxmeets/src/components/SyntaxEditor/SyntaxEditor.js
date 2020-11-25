@@ -1,4 +1,4 @@
-import React, { Fragment, useEffect, useState, useRef } from "react";
+import React, { Fragment, useState } from "react";
 import AceEditor  from "react-ace";
 import "ace-builds/src-min-noconflict/ext-searchbox";
 import "ace-builds/src-min-noconflict/ext-language_tools";
@@ -21,13 +21,11 @@ import {
 } from "@material-ui/core";
 import Grid from "@material-ui/core/Grid";
 import localClasses from "./SyntaxEditor.module.css";
-import DeleteIcon from "@material-ui/icons/Delete";
 import {
   languages,
   defaultValue,
   langMode,
   LangOptions,
-  revLangMode,
   langId,
   themes,
 } from "./LanguageData";
@@ -81,7 +79,6 @@ const SyntaxEditor = (props) => {
 
   const [value, setValue] = useState(defaultValue);
   const [currLang, setCurrLang] = useState("C++");
-  const [mode, setMode] = useState(langMode["C++"]);
   const [theme, setTheme] = useState("monokai");
   const [fontSize, setFontSize] = useState(16);
   const [autoCompletion, setautoCompletion] = useState(true);
@@ -94,10 +91,6 @@ const SyntaxEditor = (props) => {
 
   var codeToken = 0;
   const classes = useStyles();
-
-  useEffect(() => {
-    setMode(langMode[currLang]);
-  }, [currLang]);
 
   props.socket.on("message", (newValue) => {
     setValue(newValue);
@@ -321,7 +314,7 @@ const SyntaxEditor = (props) => {
                 label="Font Size"
                 style={{ fontFamily: "poppins", color: "#ffffff" }}
               >
-                {[14, 16, 18, 20, 24, 28, 32, 40].map((size) => (
+                {[10,12,14, 16, 18, 20, 24, 28, 32, 40].map((size) => (
                   <MenuItem key={size} value={size}>
                     <span className={localClasses.Menu__options}> {size} </span>
                   </MenuItem>

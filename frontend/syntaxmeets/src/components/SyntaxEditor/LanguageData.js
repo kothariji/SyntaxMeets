@@ -113,30 +113,6 @@ export const langMode = {
 }
 
 
-export const revLangMode = {
-  
-  "c_cpp": "C" ,
-  "c_cpp": "C++",
-  "clojure": "Clojure",
-  "csharp": "C#",
-  "cobol": "COBOL",
-  "erlang": "Erlang",
-  "fortran": "FortRan",
-  "golang": "Go",
-  "groovy": "Groovy",
-  "java": "JAVA",
-  "javascript": "JavaScript",
-  "kotlin": "Kotlin",
-  "php": "PHP",
-  "python": "Python",
-  "r": "R",
-  "ruby": "Ruby",
-  "sql": "SQL",
-  "swift": "Swift",
-  "typescript": "TypeScript",
-
-}
-
 export const themes = [
     "monokai",
     "github",
