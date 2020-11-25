@@ -25,6 +25,7 @@ const useStyles = makeStyles({
 const MediaCard = (props) => {
   const classes = useStyles();
 
+
   return (
     <Card className={classes.root}>
       <CardActionArea>
@@ -37,19 +38,18 @@ const MediaCard = (props) => {
           <Typography gutterBottom variant="h5" component="h2">
             {props.name}
           </Typography>
-          <Typography variant="body2" color="textSecondary" component="p">
-            Lizards are a widespread group of squamate reptiles, with over 6,000 species, ranging
-            across all continents except Antarctica
+          <Typography variant="body2" component="p">
+            {props.desc}
           </Typography>
         </CardContent>
       </CardActionArea>
       <CardActions>
         <div>&nbsp;&nbsp;&nbsp;&nbsp;
-          <GitHubIcon onClick = {() => console.log("pressed")} /> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-          <TwitterIcon /> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-          <LinkedInIcon /> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-          <EmailIcon /> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-          <InstagramIcon />
+          <GitHubIcon onClick = {() => {window.open(props.github)}} /> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+          <TwitterIcon onClick = {() => {window.open(props.twitter)}}/> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+          <LinkedInIcon onClick = {() => {window.open(props.linkedin)}}/> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+          <EmailIcon onClick = {() => {window.open(props.gmail)}}/> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+          <InstagramIcon onClick = {() => {window.open(props.insta)}}/>
         </div>
       </CardActions>
     </Card>
