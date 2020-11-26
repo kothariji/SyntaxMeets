@@ -32,6 +32,9 @@ io.on('connection', socket => {
   })
 })
 
+app.get("/", (req, res) => {
+  res.send({ response: "Server is up and running." }).status(200);
+});
 
 server.listen(process.env.PORT || 4000, function() {
   console.log('server is working')

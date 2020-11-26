@@ -33,8 +33,10 @@ const Chat = (props) => {
 
   const classes = useStyles();
   const [message, setMessage] = useState("");
-  const [messages, setMessages] = useState(allMessages);
+  const [messages, setMessages] = useState([]);
   const messagesEndRef = useRef(null);
+  const [userRoomId] = useState(window.location.href.substr(window.location.href.lastIndexOf('/') + 1))
+  const [mCount, setMCount] = useState(0);
 
   const scrollToBottom = () => {
     messagesEndRef.current.scrollIntoView({ behavior: "smooth" });
@@ -46,23 +48,23 @@ const Chat = (props) => {
       return;
     let data = {
       name: props.name,
+      roomId: userRoomId,
       message: message
     }
     props.socket.emit("chatmessage", data); 
-    let tempChat = [...messages];
-    tempChat.push(data);
-    allMessages.push(data);
-    setMessages(tempChat);
+    setMCount(mCount+1);
     setMessage("");
   };  
 
-
-  props.socket.once("chatmessage", (data) => {
-    let tempChat = [...messages];
-    tempChat.push(data);
-    allMessages.push(data);
-    setMessages(tempChat);
-  });
+  useEffect(() => {
+    props.socket.once("chatmessage", (data) => {
+      let tempChat = [...messages];
+      tempChat.push(data);
+      // allMessages.push(data);
+      console.log("pushed ", data)
+      setMessages(tempChat);
+    });
+  }, [mCount])
 
   useEffect(scrollToBottom, [messages]);
 
@@ -153,7 +155,7 @@ const TemporaryDrawer = (props) => {
       Chat Box
       </Button>
       <Drawer anchor={"right"} open={state} onClose={toggleDrawer(false)}>
-        {<Chat name = {props.name} socket = {props.socket}/>}
+        {<Chat name = {props.name} roomId = {props.roomId} socket = {props.socket}/>}
       </Drawer>
     </div>
   );

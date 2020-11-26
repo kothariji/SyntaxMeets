@@ -3,11 +3,17 @@ import AppBar from '@material-ui/core/AppBar';
 import { Toolbar, Typography, Button,Dialog,DialogContent,DialogTitle,IconButton} from '@material-ui/core';
 import logo from '../../images/navlogo.png'
 import PersonIcon from '@material-ui/icons/Person';
-import SyntaxChat from '../SyntaxChat/SyntaxChat'
+import SyntaxChat from '../SyntaxChat/SyntaxChat2'
 import copy from "copy-to-clipboard"; 
 import { Link } from 'react-router-dom';
 import About from '../About/About.js';
 import CloseIcon from '@material-ui/icons/Close';
+import Slide from '@material-ui/core/Slide';
+
+const Transition = React.forwardRef(function Transition(props, ref) {
+  return <Slide direction="up" ref={ref} {...props} />;
+});
+
 
 const Navbar = (props) => {
 
@@ -28,7 +34,7 @@ const Navbar = (props) => {
   return (
     <Fragment>
       
-      <Dialog fullScreen onClose={handleClose} aria-labelledby="customized-dialog-title" open={open} >
+      <Dialog fullScreen onClose={handleClose} TransitionComponent={Transition} aria-labelledby="customized-dialog-title" open={open} >
           <Toolbar style={{ flex: 1, flexDirection: 'row', justifyContent: 'flex-end' }}>
             <IconButton edge="start" color="inherit" onClick={handleClose} aria-label="close" >
               <CloseIcon/>
@@ -48,9 +54,8 @@ const Navbar = (props) => {
         <Button variant="contained" startIcon={<PersonIcon />} onClick={() => Copytext(props.roomId)} color = "primary" style={{ 'fontFamily': "poppins", 'marginLeft': "auto", 'fontWeight': "600", 'color': "white" }}>
           RoomId : {props.roomId}
         </Button>
-          <SyntaxChat name = {props.name} socket = {props.socket} />
-          {/*<Button variant="contained"  startIcon={<PersonIcon />} component={Link} to="/about" color = "secondary" style={{ 'fontFamily': "poppins", 'marginLeft': "15px", 'fontWeight': "600", 'color': "white" }}>
-          */}<Button variant="contained" onClick={handleClickOpen} color = "secondary" style={{ 'fontFamily': "poppins", 'marginLeft': "15px", 'fontWeight': "600", 'color': "white" }}>
+          <SyntaxChat name = {props.name} roomId = {props.roomId} socket = {props.socket} />
+          <Button variant="contained" onClick={handleClickOpen} color = "secondary" style={{ 'fontFamily': "poppins", 'marginLeft': "15px", 'fontWeight': "600", 'color': "white" }}>
           About Us
         </Button>
       </Toolbar>
