@@ -15,7 +15,7 @@ Syntaxmeets. Create rooms 🏠 Call your friends 👬🏼 Sip Chai, ☕ Chat, Cr
 - [SyntaxChat](#Code-&-Compile-)
 
 
-### :rocket:Glimpse :dizzy::dizzy:![createaroom](https://i.imgur.com/SubUykp.gif)
+### :rocket:Glimpse :dizzy::dizzy:<br><br>![createaroom](https://i.imgur.com/SubUykp.gif)
 
 
 
@@ -36,15 +36,15 @@ Syntaxmeets. Create rooms 🏠 Call your friends 👬🏼 Sip Chai, ☕ Chat, Cr
 git clone https://github.com/kothariji/SyntaxMeets.git
 ``` 
 
-#### To run server, go to the server folder in backend directory and Run 
+### To run server, go to the server folder in backend directory and Run 
 ```
 npm install
 npm start
 ```
-this will run your express server in localhost:4000
+#### this will run your express server in localhost:4000
 
 ---
-To run application, go to the syntaxmeets folder in frontend directory and Run 
+### To run application, go to the syntaxmeets folder in frontend directory and Run 
 ```
 npm install		//install all react dependencies
 npm start		//runserver
