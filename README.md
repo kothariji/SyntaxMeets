@@ -12,14 +12,6 @@ Syntaxmeets. Create rooms 🏠 Call your friends 👬🏼 Sip Chai, ☕ Chat, Cr
 ### :rocket:Create a room![createaroom](https://i.imgur.com/SubUykp.gif)
 
 
-### :rocket:Join a room![join a room](https://i.imgur.com/YPynYLp.gif)
-
-
-
-### :rocket:SyntaxPad![SyntaxPad](https://i.imgur.com/o6Kwjr9.gif)
-
-
-### :rocket:Code & Compile![c&c](https://i.imgur.com/iUAL6vG.gif)
 ### Creators :zap::dizzy:
 <table>
 		<tr>
