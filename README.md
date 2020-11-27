@@ -1,7 +1,15 @@
 
+
 # SyntaxMeets
 ![SM](https://i.imgur.com/Gw9deLu.png)
-Syntaxmeets. Create rooms 🏠 Call your friends 👬🏼 Sip Chai, ☕ Chat, Create, and Code👨‍💻. A coding platform to code simultaneously 🚀 with your friends and design your algorithms on SyntaxPad. And you know what's awesome? It's Free.💫✨
+
+
+### Syntaxmeets. Create rooms 🏠 Call your friends 👬🏼 Sip Chai, ☕ Chat, Create, and Code👨‍💻. A coding platform to code simultaneously 🚀 with your friends and design your algorithms on SyntaxPad. And you know what's awesome? It's Free.💫✨
+
+![Netlify Status](https://api.netlify.com/api/v1/badges/1aa2cf02-d8d5-4b5b-9881-3bde514118bd/deploy-status)[
+![contributions welcome](https://img.shields.io/badge/contributions-welcome-brightgreen.svg?style=flat)](https://github.com/dwyl/esta/issues) [![Open Source? Yes!](https://badgen.net/badge/Open%20Source%20%3F/Yes%21/blue?icon=github)](https://github.com/Naereen/badges/) 
+[![forthebadge](https://forthebadge.com/images/badges/made-with-javascript.svg)](https://forthebadge.com) [![forthebadge](https://forthebadge.com/images/badges/built-with-love.svg)](https://forthebadge.com)
+
 
 ---
 # Website - <em>[SyntaxMeets](syntaxmeets.netlify.app)</em>
@@ -32,6 +40,7 @@ Syntaxmeets. Create rooms 🏠 Call your friends 👬🏼 Sip Chai, ☕ Chat, Cr
 </table>
 
 ### How to Run Locally
+Run the below commang to clone repo locally/
 ```
 git clone https://github.com/kothariji/SyntaxMeets.git
 ``` 
