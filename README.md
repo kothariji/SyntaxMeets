@@ -1,9 +1,11 @@
+
 # SyntaxMeets
 ![SM](https://i.imgur.com/Gw9deLu.png)
 Syntaxmeets. Create rooms 🏠 Call your friends 👬🏼 Sip Chai, ☕ Chat, Create, and Code👨‍💻. A coding platform to code simultaneously 🚀 with your friends and design your algorithms on SyntaxPad. And you know what's awesome? It's Free.💫✨
 
-
+---
 # Website - <em>[SyntaxMeets](syntaxmeets.netlify.app)</em>
+
 # Features
 - [Create a Room](#Create-a-room-)
 - [Join a Room](#Create-a-room-)
@@ -28,3 +30,23 @@ Syntaxmeets. Create rooms 🏠 Call your friends 👬🏼 Sip Chai, ☕ Chat, Cr
 		</tr>
 		
 </table>
+
+### How to Run Locally
+```
+git clone https://github.com/kothariji/SyntaxMeets.git
+``` 
+
+#### To run server, go to the server folder in backend directory and Run 
+```
+npm install
+npm start
+```
+this will run your express server in localhost:4000
+
+---
+To run application, go to the syntaxmeets folder in frontend directory and Run 
+```
+npm install		//install all react dependencies
+npm start		//runserver
+```
+#### this will run your application in localhost:3000
