@@ -1,11 +1,10 @@
-import React, { Fragment, useState } from "react";
+import React, { Fragment } from "react";
 import AppBar from '@material-ui/core/AppBar';
-import { Toolbar, Typography, Button,Dialog,DialogContent,DialogTitle,IconButton} from '@material-ui/core';
+import { Toolbar, Typography, Button,Dialog,IconButton} from '@material-ui/core';
 import logo from '../../images/navlogo.png'
 import PersonIcon from '@material-ui/icons/Person';
-import SyntaxChat from '../SyntaxChat/SyntaxChat2'
+import SyntaxChat from '../SyntaxChat/SyntaxChat'
 import copy from "copy-to-clipboard"; 
-import { Link } from 'react-router-dom';
 import About from '../About/About.js';
 import CloseIcon from '@material-ui/icons/Close';
 import Slide from '@material-ui/core/Slide';

@@ -29,7 +29,7 @@ const About = () => {
         <MediaCard
           name="Dhruv Kothari"
           image={DhruvIMG}
-          desc="A 3rd Year CSE Undergrad👨‍🎓| Competitive Programmer 🏆 | Web Developer👨‍💻 | Technical Writer ✍️"
+          desc="A 3rd Year CSE Undergrad👨‍🎓🚀| Competitive Programmer 🏆 | Web Developer👨‍💻 | Technical Writer ✍️"
           github="https://github.com/kothariji"
           linkedin="https://www.linkedin.com/in/kotharidhruv/"
           twitter="https://twitter.com/_kothariji"
@@ -49,7 +49,7 @@ const About = () => {
         <MediaCard
           name="Nishant Handge"
           image={NishantIMG}
-          desc="I am full stack enthusiast and competitive programmer."
+          desc="An aspiring React and Django developer🚀💻. Endeavouring competitve programming👨‍💻. Always open for the opportunities.🙌"
           github="https://github.com/Nishant127"
           linkedin="https://www.linkedin.com/in/nishant-handge-618673190/"
           twitter="https://twitter.com/Nishant40079455"
