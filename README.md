@@ -9,7 +9,7 @@ Syntaxmeets. Create rooms 🏠 Call your friends 👬🏼 Sip Chai, ☕ Chat, Cr
 - [Code & Compile](#Code-&-Compile-)
 
 
-### :rocket:Create a room![createaroom](https://i.imgur.com/SubUykp.gif)
+### :rocket:Glimpse :dizzy::dizzy:![createaroom](https://i.imgur.com/SubUykp.gif)
 
 
 ### Creators :zap::dizzy:
