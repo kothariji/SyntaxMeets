@@ -2,14 +2,21 @@
 ![SM](https://i.imgur.com/Gw9deLu.png)
 Syntaxmeets. Create rooms 🏠 Call your friends 👬🏼 Sip Chai, ☕ Chat, Create, and Code👨‍💻. A coding platform to code simultaneously 🚀 with your friends and design your algorithms on SyntaxPad. And you know what's awesome? It's Free.💫✨
 
-# Contents
+
+# Website - <em>[SyntaxMeets](syntaxmeets.netlify.app)</em>
+# Features
 - [Create a Room](#Create-a-room-)
-- [Join a Room](#Join-a-room-)
+- [Join a Room](#Create-a-room-)
+- [Syntax Room](#Join-a-room-)
+- [SyntaxEditor](#Code-&-Compile-)
 - [SyntaxPad](#Syntaxpad-)
-- [Code & Compile](#Code-&-Compile-)
+- [SyntaxChat](#Code-&-Compile-)
 
 
 ### :rocket:Glimpse :dizzy::dizzy:![createaroom](https://i.imgur.com/SubUykp.gif)
+
+
+
 
 
 ### Creators :zap::dizzy:
