@@ -14,7 +14,7 @@
 
 
 ---
-# Website - <em>[SyntaxMeets](syntaxmeets.netlify.app)</em>
+# Website - <em>[SyntaxMeets](http://syntaxmeets.netlify.app/)</em>
 
 # Features
 - [Create a Room](#Create-a-room-)
