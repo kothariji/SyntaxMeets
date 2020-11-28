@@ -36,7 +36,7 @@
 		<tr>
 			<td align="center"><img src="https://i.imgur.com/7VEddgM.jpg"  width=100px;"><br /><sub><b>Dhruv Kothari</b></sub><br/><a href="https://github.com/kothariji">🧠👨‍💻🚀❤️</a></td>
 		   <td align="center"><img src="https://i.imgur.com/rD43RJV.jpg"  width=100px;"><br /><sub><b>Akash Salvi</b></sub><br/><a href="https://github.com/Akash-Salvi">🧘🔭👨‍🎓👽</a></td>
-			<td align="center"><img src="https://i.imgur.com/D1ogusY.jpg"  width=100px;"><br /><sub><b>Nishant Handge</b></sub><br/><a href="https://github.com/Nishant127">🔧🔧🔧</a></td>			
+			<td align="center"><img src="https://i.imgur.com/D1ogusY.jpg"  width=100px;"><br /><sub><b>Nishant Handge</b></sub><br/><a href="https://github.com/Nishant127">💻📱👨‍💻💥</a></td>			
 		</tr>
 		
 </table>
