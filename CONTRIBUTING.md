@@ -6,7 +6,7 @@
 ### **Did you find a bug/Issue or an new Feature?**
 #### Feel free to submit issues and enhancement requests.
 
-Please refer to each project's style and contribution guidelines for submitting patches and additions. In general, we follow the "fork-and-pull" Git workflow.
+In general, we follow the "fork-and-pull" Git workflow.
 
 1.  **Fork**  the repo on GitHub
 2.  **Clone**  the project to your own machine
