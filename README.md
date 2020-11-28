@@ -8,9 +8,9 @@
 
 ![Netlify Status](https://api.netlify.com/api/v1/badges/1aa2cf02-d8d5-4b5b-9881-3bde514118bd/deploy-status)
 [
-![contributions welcome](https://img.shields.io/badge/contributions-welcome-brightgreen.svg?style=flat)](https://github.com/dwyl/esta/issues) [![Open Source? Yes!](https://badgen.net/badge/Open%20Source%20%3F/Yes%21/blue?icon=github)](https://github.com/Naereen/badges/) 
+![contributions welcome](https://img.shields.io/badge/contributions-welcome-brightgreen.svg?style=flat)](https://github.com/dwyl/esta/issues) [![Open Source? Yes!](https://badgen.net/badge/Open%20Source%20%3F/Yes%21/blue?icon=github)](https://github.com/kothariji/SyntaxMeets) 
 
-[![forthebadge](https://forthebadge.com/images/badges/made-with-javascript.svg)](https://forthebadge.com) [![forthebadge](https://forthebadge.com/images/badges/built-with-love.svg)](https://forthebadge.com)
+[![forthebadge](https://forthebadge.com/images/badges/made-with-javascript.svg)](https://github.com/kothariji/SyntaxMeets) [![forthebadge](https://forthebadge.com/images/badges/built-with-love.svg)](https://github.com/kothariji/SyntaxMeets)
 
 
 ---
