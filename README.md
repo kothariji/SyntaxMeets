@@ -42,12 +42,12 @@
 </table>
 
 ### How to Run Locally
-Run the below commang to clone repo locally/
+Run the below command to clone the repo locally
 ```
 git clone https://github.com/kothariji/SyntaxMeets.git
 ``` 
 
-### To run server, go to the server folder in backend directory and Run 
+### To run the server, go to the server folder in the backend directory and Run 
 ```
 npm install
 npm start
@@ -55,7 +55,7 @@ npm start
 #### this will run your express server in localhost:4000
 
 ---
-### To run application, go to the syntaxmeets folder in frontend directory and Run 
+### To run the application, go to the SyntaxMeets folder in the frontend directory and Run 
 ```
 npm install		//install all react dependencies
 npm start		//runserver
@@ -63,4 +63,4 @@ npm start		//runserver
 #### this will run your application in localhost:3000
 
 
-### If you liked our work do give us a star :star::star::star:. It Encourages us to do more :wink: :dizzy:
+### If you liked our work do give us a star :star::star::star: It Encourages us to do more :wink: :dizzy:
