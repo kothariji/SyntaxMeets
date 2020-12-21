@@ -1,5 +1,5 @@
 import React, { Fragment, useState } from "react";
-import AceEditor  from "react-ace";
+import AceEditor from "react-ace";
 import "ace-builds/src-min-noconflict/ext-searchbox";
 import "ace-builds/src-min-noconflict/ext-language_tools";
 import "ace-builds/src-noconflict/mode-jsx";
@@ -17,7 +17,7 @@ import {
   Button,
   Dialog,
   DialogTitle,
-  DialogActions
+  DialogActions,
 } from "@material-ui/core";
 import Grid from "@material-ui/core/Grid";
 import localClasses from "./SyntaxEditor.module.css";
@@ -30,9 +30,9 @@ import {
   themes,
 } from "./LanguageData";
 import ShareIcon from "@material-ui/icons/Share";
-import PlayArrowIcon from '@material-ui/icons/PlayArrow';
-import FileCopyIcon from '@material-ui/icons/FileCopy';
-import copy from "copy-to-clipboard"; 
+import PlayArrowIcon from "@material-ui/icons/PlayArrow";
+import FileCopyIcon from "@material-ui/icons/FileCopy";
+import copy from "copy-to-clipboard";
 
 //extracting all the languages recquired
 languages.forEach((lang) => {
@@ -55,12 +55,10 @@ const useStyles = makeStyles((mutheme) => ({
   },
 }));
 
-
 const ICE = (props) => {
-
-const handleIChange = (newValue) => {
-  props.onInputChange(newValue)
-}
+  const handleIChange = (newValue) => {
+    props.onInputChange(newValue);
+  };
 
   return (
     <AceEditor
@@ -72,11 +70,9 @@ const handleIChange = (newValue) => {
       value={props.inputValue}
       fontSize={18}
     />
-  )
-}
+  );
+};
 const SyntaxEditor = (props) => {
-
-
   const [value, setValue] = useState(defaultValue);
   const [currLang, setCurrLang] = useState("C++");
   const [theme, setTheme] = useState("monokai");
@@ -87,7 +83,6 @@ const SyntaxEditor = (props) => {
   const [isCompiling, setIsCompiling] = useState(false);
   const [isError, setIsError] = useState(false);
   const [codeError, setCodeError] = useState("");
-
 
   var codeToken = 0;
   const classes = useStyles();
@@ -101,19 +96,18 @@ const SyntaxEditor = (props) => {
     props.socket.emit("message", newValue);
   };
 
-    const copyCode = (value) => {  
-      copy(value);  
-      alert("Code Copied Sucessfully")
-    }
-  
+  const copyCode = (value) => {
+    copy(value);
+    alert("Code Copied Sucessfully");
+  };
+
   const handleInputChange = (newInput) => {
     setCodeInput(newInput);
-  }
-  
+  };
+
   const handleCodeRun = async () => {
-  
     setIsCompiling(true);
-    
+
     let options = {
       method: "POST",
       url: "https://judge0.p.rapidapi.com/submissions",
@@ -132,17 +126,16 @@ const SyntaxEditor = (props) => {
     await axios
       .request(options)
       .then(function (response) {
-        console.log("compile: ", response)
+        console.log("compile: ", response);
         codeToken = response.data.token;
       })
       .catch(function (error) {
         console.error(error);
       });
 
-
     const delay = (ms) => new Promise((res) => setTimeout(res, ms));
     await delay(7000);
-    
+
     options = {
       method: "GET",
       url: "https://judge0.p.rapidapi.com/submissions/" + codeToken,
@@ -151,26 +144,23 @@ const SyntaxEditor = (props) => {
         "x-rapidapi-host": "judge0.p.rapidapi.com",
       },
     };
-    console.log("working")
+    console.log("working");
     await axios
       .request(options)
       .then(function (response) {
-
-        if(response.data.stderr !== null){
+        if (response.data.stderr !== null) {
           setIsCompiling(false);
           setCodeError(response.data.stderr);
           setIsError(true);
-        }
-        else{
+        } else {
           setCodeOutput(response.data.stdout);
           setIsCompiling(false);
         }
-        
       })
       .catch(function (error) {
         setIsCompiling(false);
         setCodeError("Compilation Error: " + error.response.data.error);
-        setIsError(true); 
+        setIsError(true);
       });
   };
 
@@ -199,7 +189,7 @@ const SyntaxEditor = (props) => {
   return (
     <Fragment>
       <Dialog fullWidth={true} maxWidth={"sm"} open={isCompiling}>
-        <DialogTitle style={{align: "center"}}>Compiling ...</DialogTitle>
+        <DialogTitle style={{ align: "center" }}>Compiling ...</DialogTitle>
         <div className={localClasses.loader}>
           <div>
             <span style={{ paddingLeft: "190px" }}>
@@ -209,18 +199,22 @@ const SyntaxEditor = (props) => {
           </div>
         </div>
       </Dialog>
-      <Dialog  maxWidth={"sm"} open={isError}>
+      <Dialog maxWidth={"sm"} open={isError}>
         <DialogTitle>Oops Error Occured</DialogTitle>
-         <span style = {{marginLeft: "15px"}}>{codeError}</span>
+        <span style={{ marginLeft: "15px" }}>{codeError}</span>
         <DialogActions>
-          <Button onClick={() => setIsError(false)} variant = "contained" size= "large" color="primary">
+          <Button
+            onClick={() => setIsError(false)}
+            variant="contained"
+            size="large"
+            color="primary"
+          >
             Close
           </Button>
-         
         </DialogActions>
       </Dialog>
       <AppBar position="static" style={{ backgroundColor: "#000A29" }}>
-        <div className={localClasses.Editor__navbar}>
+        <div className={`${localClasses.Editor__navbar} row`}>
           <Typography
             variant="h5"
             style={{
@@ -314,7 +308,7 @@ const SyntaxEditor = (props) => {
                 label="Font Size"
                 style={{ fontFamily: "poppins", color: "#ffffff" }}
               >
-                {[10,12,14, 16, 18, 20, 24, 28, 32, 40].map((size) => (
+                {[10, 12, 14, 16, 18, 20, 24, 28, 32, 40].map((size) => (
                   <MenuItem key={size} value={size}>
                     <span className={localClasses.Menu__options}> {size} </span>
                   </MenuItem>
@@ -329,7 +323,7 @@ const SyntaxEditor = (props) => {
         theme={theme}
         height="550px"
         width={"auto"}
-        value = {value}
+        value={value}
         onChange={handleChange}
         fontSize={fontSize}
         showPrintMargin
@@ -381,7 +375,7 @@ const SyntaxEditor = (props) => {
             variant="contained"
             color="primary"
             onClick={handleCodeRun}
-            startIcon={<PlayArrowIcon style={{ fontSize: 24 }}  />}
+            startIcon={<PlayArrowIcon style={{ fontSize: 24 }} />}
             style={{
               fontFamily: "poppins",
               marginLeft: "10px",
@@ -398,7 +392,7 @@ const SyntaxEditor = (props) => {
       <Grid container spacing={0}>
         <Grid item xs={12} sm={12} md={6}>
           <IONavbar type={"Input"} />
-          <ICE inputValue = {codeInput} onInputChange = {handleInputChange}/>
+          <ICE inputValue={codeInput} onInputChange={handleInputChange} />
         </Grid>
         <Grid item xs={12} sm={12} md={6}>
           <IONavbar type={"Output"} />
@@ -419,7 +413,7 @@ const SyntaxEditor = (props) => {
             }}
           />
         </Grid>
-      </Grid> 
+      </Grid>
     </Fragment>
   );
 };
