@@ -62,5 +62,8 @@ npm start		//runserver
 ```
 #### this will run your application in localhost:3000
 
+### Thank you for Contributing :pray: :dizzy:
+![4](https://contributors-img.web.app/image?repo=kothariji/syntaxmeets)
+
 
 ### If you liked our work do give us a star :star::star::star: It Encourages us to do more :wink: :dizzy:
