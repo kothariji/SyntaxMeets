@@ -110,11 +110,11 @@ const SyntaxEditor = (props) => {
 
     let options = {
       method: "POST",
-      url: "https://judge0.p.rapidapi.com/submissions",
+      url: "https://judge0-ce.p.rapidapi.com/submissions",
       headers: {
         "content-type": "application/json",
         "x-rapidapi-key": "YOUR API KEY",
-        "x-rapidapi-host": "judge0.p.rapidapi.com",
+        "x-rapidapi-host": "judge0-ce.p.rapidapi.com",
       },
       data: {
         language_id: langId[currLang],
@@ -138,13 +138,12 @@ const SyntaxEditor = (props) => {
 
     options = {
       method: "GET",
-      url: "https://judge0.p.rapidapi.com/submissions/" + codeToken,
+      url: "https://judge0-ce.p.rapidapi.com/submissions/" + codeToken,
       headers: {
         "x-rapidapi-key": "YOUR API KEY",
-        "x-rapidapi-host": "judge0.p.rapidapi.com",
+        "x-rapidapi-host": "judge0-ce.p.rapidapi.com",
       },
     };
-    console.log("working");
     await axios
       .request(options)
       .then(function (response) {

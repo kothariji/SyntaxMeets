@@ -117,7 +117,7 @@ const Home = (props) => {
                   
                   onClick={() => skyLightJoinModal.current.show()}
                 >
-                  Join a room
+                  Join a Room
                 </MUIButton>
               </Row>
               
