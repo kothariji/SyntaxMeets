@@ -55,7 +55,15 @@ npm start
 #### this will run your express server in localhost:4000
 
 ---
-### To run the application, go to the SyntaxMeets folder in the frontend directory and Run 
+### To run the application, go to the SyntaxMeets folder in the frontend directory 
+
+create a new .env file and add following variables
+```
+REACT_APP_SYNTAXMEETS_BACKEND_API = 'http://localhost:4000/'
+REACT_APP_ONLINE_JUDGE_API = YOUR API KEY
+```
+
+and Run the application using below commands
 ```
 npm install		//install all react dependencies
 npm start		//runserver
