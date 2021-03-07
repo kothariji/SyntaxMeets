@@ -7,7 +7,7 @@ import io from "socket.io-client";
 import { Redirect} from "react-router-dom";
 import MuiAlert from '@material-ui/lab/Alert';
 
-const socket = io.connect("http://localhost:4000/");
+const socket = io.connect(process.env.REACT_APP_SYNTAXMEETS_BACKEND_API);
 
 
 const Alert = (props) => {
@@ -75,29 +75,29 @@ const SyntaxRoom = (props) => {
   return (
     <Fragment>
       {goToHome ? <Redirect to="/" /> : 
-    <Fragment>
-        <Navbar name = {name} roomId = {roomId} socket = {socket}/>
-        <Snackbar open={open} autoHideDuration={3000} onClose={handleClose}>
-          <Alert onClose={handleClose} severity="success">
-           {userJoinedName} Welcome to Syntax Meets!
-          </Alert>
-        </Snackbar>
-        <Snackbar open={userDisconnect} autoHideDuration={3000} onClose={handleDisconnectClose}>
-          <Alert onClose={handleDisconnectClose} severity="error">
-           {userLeftName} Left the Room.
-          </Alert>
-        </Snackbar>
-        <div style={{ backgroundColor: "#F3F7F7", fontFamily: "poppins", padding: '50px' }}>
-          <Grid container spacing={5}>
-            <Grid item xs={12} sm={12} md={6}>
-              <SyntaxEditor socket = {socket} roomId = {roomId}/>
+        <Fragment>
+          <Navbar name = {name} roomId = {roomId} socket = {socket}/>
+          <Snackbar open={open} autoHideDuration={3000} onClose={handleClose}>
+            <Alert onClose={handleClose} severity="success">
+            {userJoinedName} Welcome to Syntax Meets!
+            </Alert>
+          </Snackbar>
+          <Snackbar open={userDisconnect} autoHideDuration={3000} onClose={handleDisconnectClose}>
+            <Alert onClose={handleDisconnectClose} severity="error">
+            {userLeftName} Left the Room.
+            </Alert>
+          </Snackbar>
+          <div style={{ backgroundColor: "#F3F7F7", fontFamily: "poppins", padding: '50px' }}>
+            <Grid container spacing={5}>
+              <Grid item xs={12} sm={12} md={6}>
+                <SyntaxEditor socket = {socket} roomId = {roomId}/>
+              </Grid>
+              <Grid item xs={12} sm={12} md={6}>
+                  <SyntaxPad socket = {socket} roomId = {roomId}/>
+              </Grid>
             </Grid>
-            <Grid item xs={12} sm={12} md={6}>
-                <SyntaxPad socket = {socket} roomId = {roomId}/>
-            </Grid>
-          </Grid>
-        </div>
-      </Fragment>
+          </div>
+        </Fragment>
     }
     </Fragment>
     

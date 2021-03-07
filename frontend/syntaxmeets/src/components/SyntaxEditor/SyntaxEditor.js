@@ -113,7 +113,7 @@ const SyntaxEditor = (props) => {
       url: "https://judge0-ce.p.rapidapi.com/submissions",
       headers: {
         "content-type": "application/json",
-        "x-rapidapi-key": "YOUR API KEY",
+        "x-rapidapi-key": process.env.REACT_APP_ONLINE_JUDGE_API,
         "x-rapidapi-host": "judge0-ce.p.rapidapi.com",
       },
       data: {
@@ -140,7 +140,7 @@ const SyntaxEditor = (props) => {
       method: "GET",
       url: "https://judge0-ce.p.rapidapi.com/submissions/" + codeToken,
       headers: {
-        "x-rapidapi-key": "YOUR API KEY",
+        "x-rapidapi-key": process.env.REACT_APP_ONLINE_JUDGE_API,
         "x-rapidapi-host": "judge0-ce.p.rapidapi.com",
       },
     };
