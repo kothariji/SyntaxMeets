@@ -4,6 +4,13 @@
 
 ---
 
+## Contributing Guidelines 📌📌
+- Issues will be assigned on a **first come, first serve basis**. You just have to comment on the issue, asking to be assigned, and we'll assign it to you if it's not assigned to anyone else.
+
+- If you find any **bug** or **feature**, create an issue accordingly, and please wait for it to be **assigned to you**.
+- It would be even better if you can visually show a **prototype/animation/design** for any UI improvements you are going to do so that the probability of major changes after writing the code decreases.
+---
+
 ### ⁉️ Did you find a bug/Issue or an new Feature?, Feel free to submit issues and enhancement requests.
 
 In general, we follow the "fork-and-pull" Git workflow.
