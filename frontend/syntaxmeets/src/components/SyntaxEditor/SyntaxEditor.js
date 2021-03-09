@@ -1,4 +1,4 @@
-import React, { Fragment, useState } from "react";
+import React, { Fragment, useEffect, useState } from "react";
 import AceEditor from "react-ace";
 import "ace-builds/src-min-noconflict/ext-searchbox";
 import "ace-builds/src-min-noconflict/ext-language_tools";
@@ -83,6 +83,11 @@ const SyntaxEditor = (props) => {
   const [isCompiling, setIsCompiling] = useState(false);
   const [isError, setIsError] = useState(false);
   const [codeError, setCodeError] = useState("");
+
+  useEffect(()=>{
+    if(props.id===2 && props.event==="userjoined")
+    props.socket.emit("message", value);
+  },[props.id])
 
   var codeToken = 0;
   const classes = useStyles();

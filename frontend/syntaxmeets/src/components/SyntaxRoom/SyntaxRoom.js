@@ -25,15 +25,21 @@ const SyntaxRoom = (props) => {
   const [userDisconnect, setUserDisconnect] = useState(false);
   const [userJoinedName, setUserJoinedName] = useState()
   const [userLeftName, setUserLeftName] = useState()
+  const [id,setId] = useState(1);
+  const [event,setEvent] = useState("")
 
   socket.on("userjoined", (userName) => {
     setUserJoinedName(userName);
     setOpen(true);
+    setEvent("userjoined");
+    setId(id+1);
   });
 
-  socket.on("userleft", (userName) => {
+  socket.on("userleft", ({userId,userName}) => {
     setUserLeftName(userName);
     setUserDisconnect(true);
+    setEvent("userleft");
+    if(userId<id) setId(id-1);
   });
 
   useEffect(() => {
@@ -90,7 +96,7 @@ const SyntaxRoom = (props) => {
           <div style={{ backgroundColor: "#F3F7F7", fontFamily: "poppins", padding: '50px' }}>
             <Grid container spacing={5}>
               <Grid item xs={12} sm={12} md={6}>
-                <SyntaxEditor socket = {socket} roomId = {roomId}/>
+                <SyntaxEditor socket = {socket} roomId = {roomId} id={id} event={event}/>
               </Grid>
               <Grid item xs={12} sm={12} md={6}>
                   <SyntaxPad socket = {socket} roomId = {roomId}/>
