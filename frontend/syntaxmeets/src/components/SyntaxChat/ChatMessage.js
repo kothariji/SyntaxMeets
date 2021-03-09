@@ -29,7 +29,7 @@ export const ChatMessage = (props) => {
               <em>{data.name}</em>
             </span>
           }
-          secondary={<span style={{ color: "#fff" }}>{data.message}</span>}
+          secondary={<span className="sx-chat-message">{data.message}</span>}
         />
       </ListItem>
     ));
