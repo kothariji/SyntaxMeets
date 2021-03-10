@@ -23,7 +23,7 @@ const SyntaxChat = (props) => {
   const [messages, setMessages] = useState([]);
 
   const messagesEndRef = useRef(null);
-  
+
   const [mCount, setMCount] = useState(0);
   const [state, setState] = useState(false);
 
@@ -34,6 +34,7 @@ const SyntaxChat = (props) => {
       roomId: props.roomId,
       message: message,
     };
+    console.log(data);
     props.socket.emit("chatmessage", data);
     setMessages(messages => [ ...messages, data ]);
     setMCount(mCount + 1);
@@ -42,6 +43,7 @@ const SyntaxChat = (props) => {
 
   useEffect(() => {
     props.socket.on("chatmessage", (data) => {
+      console.log("The new is message are:",data);
       setMessages(messages => [ ...messages, data ]);
     });
   }, []);

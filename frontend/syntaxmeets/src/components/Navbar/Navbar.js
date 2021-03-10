@@ -8,6 +8,7 @@ import copy from "copy-to-clipboard";
 import About from '../About/About.js';
 import CloseIcon from '@material-ui/icons/Close';
 import Slide from '@material-ui/core/Slide';
+import ParticpantsList from "../SyntaxChat/ParticipantsList";
 
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
@@ -19,7 +20,7 @@ const Navbar = (props) => {
   const Copytext = (value) => {  
     copy(value);  
     alert("Copied Room ID : " + value)
-  }  
+  };
 
   const [open, setOpen] = React.useState(false);
 
@@ -54,6 +55,7 @@ const Navbar = (props) => {
           RoomId : {props.roomId}
         </Button>
           <SyntaxChat name = {props.name} roomId = {props.roomId} socket = {props.socket} />
+          <ParticpantsList socket = {props.socket} users={props.users} />
           <Button variant="contained" onClick={handleClickOpen} color = "secondary" style={{ 'fontFamily': "poppins", 'marginLeft': "15px", 'fontWeight': "600", 'color': "white" }}>
           About Us
         </Button>
