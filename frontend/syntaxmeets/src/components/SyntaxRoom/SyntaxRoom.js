@@ -25,21 +25,21 @@ const SyntaxRoom = (props) => {
   const [userDisconnect, setUserDisconnect] = useState(false);
   const [userJoinedName, setUserJoinedName] = useState()
   const [userLeftName, setUserLeftName] = useState()
-  const [id,setId] = useState(1);
+  const [id,setId] = useState(1); // Stores the userid default 1 and then increases and decreases according to the users.
   const [event,setEvent] = useState("")
 
   socket.on("userjoined", (userName) => {
     setUserJoinedName(userName);
     setOpen(true);
     setEvent("userjoined");
-    setId(id+1);
+    setId(id+1); // when new user come every existing userid increases by 1
   });
 
   socket.on("userleft", ({userId,userName}) => {
     setUserLeftName(userName);
     setUserDisconnect(true);
     setEvent("userleft");
-    if(userId<id) setId(id-1);
+    if(userId<id) setId(id-1);  // when a user leaves every userid above it decreases by 1
   });
 
   useEffect(() => {

@@ -83,7 +83,7 @@ const SyntaxEditor = (props) => {
   const [isCompiling, setIsCompiling] = useState(false);
   const [isError, setIsError] = useState(false);
   const [codeError, setCodeError] = useState("");
-
+  // This will resend a message to update the code of the newly joined user
   useEffect(()=>{
     if(props.id===2 && props.event==="userjoined")
     props.socket.emit("message", value);
