@@ -1,4 +1,5 @@
 import React, { Fragment } from "react";
+import Home from "../Home/Home"
 import AppBar from '@material-ui/core/AppBar';
 import { Toolbar, Typography, Button,Dialog,IconButton} from '@material-ui/core';
 import logo from '../../images/navlogo.png'
@@ -9,6 +10,7 @@ import About from '../About/About.js';
 import CloseIcon from '@material-ui/icons/Close';
 import Slide from '@material-ui/core/Slide';
 import { CallEnd } from "@material-ui/icons";
+import { Link, Route, Router } from "react-router-dom";
 
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
@@ -58,7 +60,9 @@ const Navbar = (props) => {
             <Button variant="contained" onClick={handleClickOpen} color = "secondary" style={{ 'fontFamily': "poppins", 'marginLeft': "15px", 'fontWeight': "600", 'color': "white" }}>
             About Us
           </Button>
-          <Button variant="contained" startIcon={<CallEnd />} style={{ 'fontFamily': "poppins", 'marginLeft': "15px", 'fontWeight': "600", 'color': "white","backgroundColor":"#fa1e0e" }}>Leave</Button>
+          <Link to="/" style={{'textDecoration':'none'}}>
+            <Button variant="contained" startIcon={<CallEnd />} style={{ 'fontFamily': "poppins", 'marginLeft': "15px", 'fontWeight': "600", 'color': "white","backgroundColor":"#fa1e0e" }}>Leave</Button>
+          </Link>
         </Toolbar>
       </AppBar>
     </Fragment>
