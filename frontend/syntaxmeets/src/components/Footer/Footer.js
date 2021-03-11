@@ -72,7 +72,7 @@ export default function Footer() {
                   variant="contained"
                   color="secondary"
                   style={{
-                    width:"150px",
+                    width: "150px",
                     fontWeight: "600",
                     color: "#000A29",
                   }}
@@ -93,7 +93,6 @@ export default function Footer() {
                   style={{ width: "65px", height: "37px", color: "white" }}
                 />
               </a>
-
             </div>
           </Col>
         </Row>
@@ -103,15 +102,19 @@ export default function Footer() {
         <p className="text-center">
           Made with
           <FavoriteIcon style={{ color: "#FFD500" }} /> by &nbsp;
-          <a href="https://github.com/kothariji/SyntaxMeets" target="_blank" style={{textDecoration:"none"}}>
+          <a
+            href="https://github.com/kothariji/SyntaxMeets"
+            target="_blank"
+            style={{ textDecoration: "none" }}
+          >
             <span className={localclasses.bgblock}>
-            <span style={{ color: "white", fontWeight: "600" }}>
-              &nbsp; Syntax
+              <span style={{ color: "white", fontWeight: "600" }}>
+                &nbsp; Syntax
+              </span>
+              <span style={{ color: "#FFD500", fontWeight: "600" }}>
+                Meets &nbsp;
+              </span>
             </span>
-            <span style={{ color: "#FFD500", fontWeight: "600" }}>
-              Meets &nbsp;
-            </span>
-          </span>
           </a>
         </p>
       </div>

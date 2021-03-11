@@ -1,43 +1,43 @@
 /*
  #000A29, #0077B6,#00B4D8,#FFD500,#F3F7F7,#FFFFFF;
 */
-.bgblock{
-    border-radius: 7px;
-    background-color: #000A29;
-    font-family: "Poppins";
-    padding: 4px;
+.bgblock {
+  border-radius: 7px;
+  background-color: #000a29;
+  font-family: "Poppins";
+  padding: 4px;
 }
-.bgblock:hover{
-    background-color: #001c6d;
+.bgblock:hover {
+  background-color: #001c6d;
 }
-.footer{
-    background-color: #000A29;
-    font-family: "Poppins";
+.footer {
+  background-color: #000a29;
+  font-family: "Poppins";
 }
-.footer_content{
-    padding: 40px;
-    color: #dfdddd;
-    font-size: .9em;
+.footer_content {
+  padding: 40px;
+  color: #dfdddd;
+  font-size: 0.9em;
 }
-.footer_content_logo{
-    padding: 40px;
-    font-size: 1.3em;
+.footer_content_logo {
+  padding: 40px;
+  font-size: 1.3em;
 }
-.base{
-    background-color: #F3F7F7 ;
-    font-family: "Poppins";
-    font-size: .9em;
-    padding-top: 11px;
+.base {
+  background-color: #f3f7f7;
+  font-family: "Poppins";
+  font-size: 0.9em;
+  padding-top: 11px;
 }
-.iconGit{
-    text-decoration: none;
+.iconGit {
+  text-decoration: none;
 }
-.iconGit:hover{
-    transition: 0.50s;
-  -webkit-transition: 0.50s;
-  -moz-transition: 0.50s;
-  -ms-transition: 0.50s;
-  -o-transition: 0.50s;
+.iconGit:hover {
+  transition: 0.5s;
+  -webkit-transition: 0.5s;
+  -moz-transition: 0.5s;
+  -ms-transition: 0.5s;
+  -o-transition: 0.5s;
   -webkit-transform: rotate(360deg);
   -moz-transform: rotate(360deg);
   -o-transform: rotate(360deg);
