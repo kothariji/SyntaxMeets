@@ -5,14 +5,17 @@ const cors = require("cors");
 const Rooms = require("./Utils/Rooms");
 const rooms = new Rooms();
 
-// set up domain for local development
-io.origins(["http://localhost:3000"]);
-
-app.use(cors());
+var corsOptions = {
+    origin: '*',
+    optionsSuccessStatus: 200,
+  }
+app.use(cors(corsOptions));
 
 io.on("connection", (socket) => {
   let roomId = 0;
   let userName = "";
+  let userId=1;
+  
   //joining in a room
   socket.on("joinroom", function ({ name, room }) {
     if (!name) return;
@@ -55,9 +58,9 @@ io.on("connection", (socket) => {
 });
 
 app.get("/", (req, res) => {
-  res.send({ response: "Server is up and running." }).status(200);
+  res.send({ response: "Server is up and Running." }).status(200);
 });
 
-server.listen(process.env.PORT || 4000, function () {
-  console.log("server is working");
-});
+server.listen(process.env.PORT || 4000, function() {
+  console.log('server is working')
+})

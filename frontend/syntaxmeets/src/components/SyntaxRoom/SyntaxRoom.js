@@ -4,8 +4,11 @@ import { Grid, Snackbar } from "@material-ui/core";
 import SyntaxEditor from "../SyntaxEditor/SyntaxEditor";
 import SyntaxPad from "../SyntaxPad/SyntaxPad";
 import io from "socket.io-client";
-import { Redirect } from "react-router-dom";
-import MuiAlert from "@material-ui/lab/Alert";
+import { Redirect} from "react-router-dom";
+import MuiAlert from '@material-ui/lab/Alert';
+import Footer from '../Footer/Footer';
+
+const socket = io.connect(process.env.REACT_APP_SYNTAXMEETS_BACKEND_API);
 
 var connectionOptions = {
   transport: ["websocket"],
@@ -28,8 +31,25 @@ const SyntaxRoom = (props) => {
   const [open, setOpen] = useState(true);
   const [users, setUsers] = useState({});
   const [userDisconnect, setUserDisconnect] = useState(false);
-  const [userJoinedName, setUserJoinedName] = useState();
-  const [userLeftName, setUserLeftName] = useState();
+
+  const [userJoinedName, setUserJoinedName] = useState()
+  const [userLeftName, setUserLeftName] = useState()
+  const [id,setId] = useState(1); // Stores the userid default 1 and then increases and decreases according to the users.
+  const [event,setEvent] = useState("")
+
+  socket.on("userjoined", (userName) => {
+    setUserJoinedName(userName);
+    setOpen(true);
+    setEvent("userjoined");
+    setId(id+1); // when new user come every existing userid increases by 1
+  });
+
+  socket.on("userleft", ({userId,userName}) => {
+    setUserLeftName(userName);
+    setUserDisconnect(true);
+    setEvent("userleft");
+    if(userId<id) setId(id-1);  // when a user leaves every userid above it decreases by 1
+  });
 
   useEffect(() => {
     if (props.location.name === undefined || props.location.name === "") {
@@ -129,7 +149,7 @@ const SyntaxRoom = (props) => {
           >
             <Grid container spacing={5}>
               <Grid item xs={12} sm={12} md={6}>
-                <SyntaxEditor socket={socket} roomId={roomId} />
+                <SyntaxEditor socket = {socket} roomId = {roomId} id={id} event={event}/>
               </Grid>
               <Grid item xs={12} sm={12} md={6}>
                 <SyntaxPad socket={socket} roomId={roomId} />
@@ -138,6 +158,7 @@ const SyntaxRoom = (props) => {
           </div>
         </Fragment>
       )}
+    <Footer />
     </Fragment>
   );
 };

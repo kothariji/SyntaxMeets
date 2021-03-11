@@ -1,0 +1,6 @@
+.sx-chat-message{
+    color: #fff;
+    overflow-wrap: break-word;
+    word-wrap: break-word;
+    hyphens: auto;
+}
