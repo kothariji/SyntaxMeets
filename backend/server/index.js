@@ -10,6 +10,7 @@ io.on('connection', socket => {
 
   let roomId = 0;
   let userName = "";
+  let userId=1;
   
   //joining in a room
   socket.on('joinroom', function(data) {
@@ -17,6 +18,14 @@ io.on('connection', socket => {
     userName = data.name;
     socket.join(roomId);
     socket.to(roomId).emit('userjoined', userName)
+  });
+
+  socket.on('userjoined', function() {
+    userId+=1;
+  });
+
+  socket.on('userleft', function(data) {
+    if(data.userId<userId) userId-=1;
   });
 
   socket.on('message', (message) => {
@@ -27,8 +36,8 @@ io.on('connection', socket => {
     socket.to(roomId).emit('chatmessage', data)
   })
 
-  socket.on('disconnect', function() {
-    socket.to(roomId).emit('userleft', userName)
+  socket.on('disconnect', ()=> {
+    socket.to(roomId).emit('userleft', { userId, userName })
   })
 })
 
