@@ -19,7 +19,7 @@ In general, we follow the "fork-and-pull" Git workflow.
 
 ### ✅<mark>Following are the steps for Creating Issue -</mark>
 
-### For creating new issue, select any one of the ISSUE*TEMPLATE and describe along with its fields given (\_rather than opening a blank issue*) :
+### For creating new issue, select any one of the ISSUE TEMPLATE and describe along with its fields given (\_rather than opening a blank issue*) :
 
 - Bug Report 🐛
 - Feature Request 🌟
