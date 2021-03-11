@@ -3,8 +3,11 @@ const server = require('http').createServer(app)
 const io = require('socket.io')(server)
 const cors = require('cors');
 
-
-app.use(cors());
+var corsOptions = {
+    origin: '*',
+    optionsSuccessStatus: 200,
+  }
+app.use(cors(corsOptions));
 
 io.on('connection', socket => {
 
@@ -42,7 +45,7 @@ io.on('connection', socket => {
 })
 
 app.get("/", (req, res) => {
-  res.send({ response: "Server is up and running." }).status(200);
+  res.send({ response: "Server is up and Running." }).status(200);
 });
 
 server.listen(process.env.PORT || 4000, function() {
