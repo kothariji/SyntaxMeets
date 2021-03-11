@@ -2,6 +2,8 @@ const app = require("express")();
 const server = require("http").createServer(app);
 const io = require("socket.io")(server);
 const cors = require("cors");
+const Rooms = require("./Utils/Rooms");
+const rooms = new Rooms();
 
 // set up domain for local development
 io.origins(["http://localhost:3000"]);
@@ -12,28 +14,22 @@ io.on("connection", (socket) => {
   let roomId = 0;
   let userName = "";
   //joining in a room
-  socket.on("joinroom", function (data) {
-    const { name, room } = data;
+  socket.on("joinroom", function ({ name, room }) {
+    if (!name) return;
+
     roomId = room;
     userName = name;
 
-    socket.userName = name;
-    socket.join(roomId);
+    socket.join(room);
 
-    console.log(socket.id, data);
-    // add user
-    var clients = io.sockets.adapter.rooms[roomId].sockets;
-    console.log(clients);
-    let users = {};
-    for (clientId in clients) {
-      //this is the socket of each client in the room.
-      const clientSocket = io.sockets.connected[clientId];
-      if (clientSocket.userName) users[clientId] = clientSocket.userName;
-    };
-    
-    console.log(users);
-    socket.emit("Users Data", users);
-    socket.to(roomId).emit("userjoined", userName);
+    rooms.addUserToRoom(socket.id, name, room);
+    const users = rooms.getAllUsers(room);
+    // console.log("The current user is :", userName, room, users);
+
+    // send all the users to only the current user
+    socket.emit("addusers", { id: socket.id, users });
+    // inform everyone the user is here
+    socket.broadcast.to(roomId).emit("userjoined", { [socket.id]: name });
   });
 
   socket.on("message", (message) => {
@@ -47,7 +43,14 @@ io.on("connection", (socket) => {
   });
 
   socket.on("disconnect", function () {
-    socket.to(roomId).emit("userleft", userName);
+    if (!userName) return;
+    console.log("The User has been disconnected:", userName);
+    const returnId = rooms.deleteUser(roomId, socket.id);
+    console.log(returnId);
+    if (returnId)
+      socket.broadcast
+        .to(roomId)
+        .emit("userleft", { id: returnId, name: userName });
   });
 });
 

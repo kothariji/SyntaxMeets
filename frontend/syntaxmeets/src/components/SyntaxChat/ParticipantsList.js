@@ -9,10 +9,24 @@ import {
   Drawer,
   Typography,
   Divider,
-  List
+  List,
 } from "@material-ui/core";
+import { makeStyles } from "@material-ui/core/styles";
+
+const useStyles = makeStyles({
+  list: {
+    width: 400,
+  },
+  fullList: {
+    width: "auto",
+  },
+});
+const nameGenerator = (name) =>
+  (name[0][0] + (name.length > 1 ? name[1][0] : "")).toUpperCase();
 
 function ParticipantsList(props) {
+  const classes = useStyles();
+
   const { users } = props;
   const [openList, setOpenList] = useState(false);
   //   console.log(users);
@@ -20,18 +34,28 @@ function ParticipantsList(props) {
     console.log(users);
     return Object.keys(users).map((elem) => {
       const name = users[elem];
-      console.log(name);
       return (
         <>
-          <ListItem alignItems="flex-start">
+          <ListItem>
             <ListItemAvatar>
-              <Avatar alt="Travis Howard" src="/static/images/avatar/2.jpg" />
+              <Avatar
+                style={{ backgroundColor: "#FFD500", fontWeight: "bold" }}
+              >
+                {nameGenerator(name.split(" "))}
+              </Avatar>
             </ListItemAvatar>
             <ListItemText
+              style={{
+                borderRadius: "10px",
+                padding: "10px",
+                backgroundColor: "#00b4d8",
+                color: "#fff",
+                textAlign: "center",
+                fontWeight: "bold",
+              }}
               primary={name}
             />
           </ListItem>
-          <Divider variant="inset" component="li" />
         </>
       );
     });
@@ -58,10 +82,16 @@ function ParticipantsList(props) {
         onClose={() => setOpenList(false)}
       >
         <div
-          style={{ display: "flex", flexDirection: "column" }}
+          className={classes.list}
+          style={{
+            display: "flex",
+            flexDirection: "column",
+            minHeight: "100%",
+            overflowY: "scroll",
+            backgroundColor: "#000A29",
+          }}
           role="presentation"
         >
-          Participants
           <List>{renderParticipants()}</List>
         </div>
       </Drawer>

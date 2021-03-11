@@ -31,23 +31,6 @@ const SyntaxRoom = (props) => {
   const [userJoinedName, setUserJoinedName] = useState();
   const [userLeftName, setUserLeftName] = useState();
 
-  socket.on("Users Data", (users) => {
-    console.log("The list of all users are :", users);
-    setUsers(users);
-  });
-
-  socket.on("userjoined", (userName) => {
-    console.log(userName, "Has joined.");
-    setUserJoinedName(userName);
-    setOpen(true);
-  });
-
-  socket.on("userleft", (userName) => {
-    console.log(userName, "Has left.");
-    setUserLeftName(userName);
-    setUserDisconnect(true);
-  });
-
   useEffect(() => {
     if (props.location.name === undefined || props.location.name === "") {
       alert("Please Enter your name");
@@ -62,13 +45,44 @@ const SyntaxRoom = (props) => {
     }
     // this will send server(backend) the roomId in which the props.socket needs to be joined
     //this code will run only once
-
     let data = {
       room: roomId,
       name: name,
     };
     console.log("The new user is being added:", data);
     socket.emit("joinroom", data);
+
+    socket.on("addusers", (data) => {
+      // console.log("Passing new users.",data);
+      setUsers(data.users);
+      setUserJoinedName(data.users[data.id]);
+      setOpen(true);
+    });
+
+    socket.on("userjoined", (newUser) => {
+      // console.log(newUser, "Has joined.");
+
+      const id = Object.keys(newUser)[0];
+
+      setUsers((prevUsers) => {
+        console.log(prevUsers);
+        return { ...prevUsers, ...newUser };
+      });
+
+      setUserJoinedName(newUser[id]);
+      setOpen(true);
+    });
+
+    socket.on("userleft", (userObject) => {
+      // console.log(users, userObject, "Has left.");
+      setUsers((prevUsers) => {
+        const { [userObject.id]: val, ...newUsers } = prevUsers;
+        console.log(prevUsers, newUsers);
+        return newUsers;
+      });
+      setUserLeftName(userObject.name);
+      setUserDisconnect(true);
+    });
   }, []);
 
   const handleClose = (event, reason) => {
@@ -84,7 +98,7 @@ const SyntaxRoom = (props) => {
     }
     setUserDisconnect(false);
   };
-
+  console.log(open, userJoinedName);
   return (
     <Fragment>
       {goToHome ? (
@@ -94,7 +108,7 @@ const SyntaxRoom = (props) => {
           <Navbar name={name} roomId={roomId} socket={socket} users={users} />
           <Snackbar open={open} autoHideDuration={3000} onClose={handleClose}>
             <Alert onClose={handleClose} severity="success">
-              {userJoinedName} Welcome to Syntax Meets!
+              {userJoinedName} , Welcome to Syntax Meets!
             </Alert>
           </Snackbar>
           <Snackbar
