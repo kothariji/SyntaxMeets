@@ -6,6 +6,7 @@ import SyntaxPad from "../SyntaxPad/SyntaxPad"
 import io from "socket.io-client";
 import { Redirect} from "react-router-dom";
 import MuiAlert from '@material-ui/lab/Alert';
+import Footer from '../Footer/Footer';
 
 const socket = io.connect(process.env.REACT_APP_SYNTAXMEETS_BACKEND_API);
 
@@ -25,7 +26,7 @@ const SyntaxRoom = (props) => {
   const [userDisconnect, setUserDisconnect] = useState(false);
   const [userJoinedName, setUserJoinedName] = useState()
   const [userLeftName, setUserLeftName] = useState()
-
+  
   socket.on("userjoined", (userName) => {
     setUserJoinedName(userName);
     setOpen(true);
@@ -98,7 +99,9 @@ const SyntaxRoom = (props) => {
             </Grid>
           </div>
         </Fragment>
+        
     }
+    <Footer />
     </Fragment>
     
     )
