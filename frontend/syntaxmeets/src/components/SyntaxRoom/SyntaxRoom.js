@@ -6,6 +6,7 @@ import SyntaxPad from "../SyntaxPad/SyntaxPad"
 import io from "socket.io-client";
 import { Redirect} from "react-router-dom";
 import MuiAlert from '@material-ui/lab/Alert';
+import Footer from '../Footer/Footer';
 
 const socket = io.connect(process.env.REACT_APP_SYNTAXMEETS_BACKEND_API);
 
@@ -104,7 +105,9 @@ const SyntaxRoom = (props) => {
             </Grid>
           </div>
         </Fragment>
+        
     }
+    <Footer />
     </Fragment>
     
     )
