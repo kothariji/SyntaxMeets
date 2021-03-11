@@ -1,6 +1,6 @@
 import React from "react";
 import localclasses from "./Footer.module.css";
-import { Row, Col } from "reactstrap";
+import { Row, Col } from "react-bootstrap";
 import Button from "@material-ui/core/Button";
 import GithubIcon from "@material-ui/icons/GitHub";
 import FavoriteIcon from "@material-ui/icons/Favorite";
