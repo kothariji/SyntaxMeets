@@ -1,7 +1,7 @@
-const app = require('express')()
-const server = require('http').createServer(app)
-const io = require('socket.io')(server)
+const app = require('express')();
+const server = require('http').createServer(app);
 const cors = require('cors');
+const io = require('socket.io')(server, { origins: '*:*'});
 
 var corsOptions = {
     origin: '*',
