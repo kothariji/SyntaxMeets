@@ -3,51 +3,65 @@ const server = require('http').createServer(app);
 const cors = require('cors');
 const io = require('socket.io')(server, { origins: '*:*'});
 
-var corsOptions = {
-    origin: '*',
-    optionsSuccessStatus: 200,
-  }
-app.use(cors(corsOptions));
+// instantiate a new rooms object to store all clients in the room
+const rooms = new Rooms();
 
-io.on('connection', socket => {
+io.origins(["http://localhost:3000"]);
+app.use(cors());
 
+io.on("connection", (socket) => {
   let roomId = 0;
   let userName = "";
-  let userId=1;
-  
+  let userId = 1;
+
   //joining in a room
-  socket.on('joinroom', function(data) {
-    roomId = data.room;
-    userName = data.name;
-    socket.join(roomId);
-    socket.to(roomId).emit('userjoined', userName)
+  socket.on("joinroom", function ({ name, room }) {
+    if (!name) return;
+
+    roomId = room;
+    userName = name;
+    userId = socket.id;
+
+    socket.join(room);
+    const oldUser = rooms.getUser(roomId);
+    rooms.addUserToRoom(socket.id, name, room);
+    const users = rooms.getAllUsers(room);
+
+    // send all the users to only the new User who joined and id of the current user
+    socket.emit("addusers", { id: socket.id, users });
+    // inform everyone (excluding the new User) , that a user has been added
+    // also send the id of an already existing user to the client so only that one
+    // will emit the code to update for the new user
+    socket.broadcast
+      .to(roomId)
+      .emit("userjoined", { newUser: { [socket.id]: name }, oldUser });
   });
 
-  socket.on('userjoined', function() {
-    userId+=1;
+  socket.on("message", (message) => {
+    // Send the code in text editor to all the sockets
+    socket.to(roomId).emit("message", message);
   });
 
-  socket.on('userleft', function(data) {
-    if(data.userId<userId) userId-=1;
+  socket.on("chatmessage", (data) => {
+    // send the chat message to all the users
+    socket.to(roomId).emit("chatmessage", data);
   });
 
-  socket.on('message', (message) => {
-    socket.to(roomId).emit('message', message)
-  })
+  socket.on("disconnect", function () {
+    if (!userName) return;
 
-  socket.on('chatmessage', (data) => {
-    socket.to(roomId).emit('chatmessage', data)
-  })
-
-  socket.on('disconnect', ()=> {
-    socket.to(roomId).emit('userleft', { userId, userName })
-  })
-})
+    const returnId = rooms.deleteUser(roomId, socket.id);
+    if (returnId)
+      socket.broadcast
+        .to(roomId)
+        .emit("userleft", { id: returnId, name: userName });
+  });
+});
 
 app.get("/", (req, res) => {
   res.send({ response: "Server is up and Running." }).status(200);
 });
 
-server.listen(process.env.PORT || 4000, function() {
-  console.log('server is working')
-})
+server.listen(process.env.PORT || 4000, function () {
+  console.log("server is working");
+});
