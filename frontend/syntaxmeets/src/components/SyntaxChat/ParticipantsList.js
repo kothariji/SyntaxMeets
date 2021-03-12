@@ -29,18 +29,15 @@ function ParticipantsList(props) {
 
   const { users } = props;
   const [openList, setOpenList] = useState(false);
-  //   console.log(users);
+
   const renderParticipants = () => {
-    console.log(users);
     return Object.keys(users).map((elem) => {
       const name = users[elem];
       return (
         <>
           <ListItem>
             <ListItemAvatar>
-              <Avatar
-                style={{ backgroundColor: "#FFD500", fontWeight: "bold" }}
-              >
+              <Avatar style={{ fontWeight: "bold" }}>
                 {nameGenerator(name.split(" "))}
               </Avatar>
             </ListItemAvatar>
@@ -48,10 +45,10 @@ function ParticipantsList(props) {
               style={{
                 borderRadius: "10px",
                 padding: "10px",
-                backgroundColor: "#00b4d8",
-                color: "#fff",
+                color: "rgb(62 53 53)",
+                border: "solid rgb(62 53 53) 1px",
                 textAlign: "center",
-                fontWeight: "bold",
+                fontWeight: "bolder",
               }}
               primary={name}
             />
@@ -88,7 +85,6 @@ function ParticipantsList(props) {
             flexDirection: "column",
             minHeight: "100%",
             overflowY: "scroll",
-            backgroundColor: "#000A29",
           }}
           role="presentation"
         >

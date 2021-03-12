@@ -1,13 +1,19 @@
 import React, { Fragment } from "react";
-import AppBar from '@material-ui/core/AppBar';
-import { Toolbar, Typography, Button,Dialog,IconButton} from '@material-ui/core';
-import logo from '../../images/navlogo.png'
-import PersonIcon from '@material-ui/icons/Person';
-import SyntaxChat from '../SyntaxChat/SyntaxChat'
-import copy from "copy-to-clipboard"; 
-import About from '../About/About.js';
-import CloseIcon from '@material-ui/icons/Close';
-import Slide from '@material-ui/core/Slide';
+import AppBar from "@material-ui/core/AppBar";
+import {
+  Toolbar,
+  Typography,
+  Button,
+  Dialog,
+  IconButton,
+} from "@material-ui/core";
+import logo from "../../images/navlogo.png";
+import PersonIcon from "@material-ui/icons/Person";
+import SyntaxChat from "../SyntaxChat/SyntaxChat";
+import copy from "copy-to-clipboard";
+import About from "../About/About.js";
+import CloseIcon from "@material-ui/icons/Close";
+import Slide from "@material-ui/core/Slide";
 import ParticpantsList from "../SyntaxChat/ParticipantsList";
 import { CallEnd } from "@material-ui/icons";
 import { Link } from "react-router-dom";
@@ -16,12 +22,10 @@ const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
 });
 
-
 const Navbar = (props) => {
-
-  const Copytext = (value) => {  
-    copy(value);  
-    alert("Copied Room ID : " + value)
+  const Copytext = (value) => {
+    copy(value);
+    alert("Copied Room ID : " + value);
   };
 
   const [open, setOpen] = React.useState(false);
@@ -115,6 +119,9 @@ const Navbar = (props) => {
                 color: "white",
                 backgroundColor: "#fa1e0e",
               }}
+              onClick={() => {
+                props.socket.disconnect();
+              }}
             >
               Leave
             </Button>
@@ -123,6 +130,6 @@ const Navbar = (props) => {
       </AppBar>
     </Fragment>
   );
-}
+};
 
 export default Navbar;

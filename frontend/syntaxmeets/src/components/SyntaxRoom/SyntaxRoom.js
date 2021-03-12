@@ -4,11 +4,10 @@ import { Grid, Snackbar } from "@material-ui/core";
 import SyntaxEditor from "../SyntaxEditor/SyntaxEditor";
 import SyntaxPad from "../SyntaxPad/SyntaxPad";
 import io from "socket.io-client";
-import { Redirect} from "react-router-dom";
-import MuiAlert from '@material-ui/lab/Alert';
-import Footer from '../Footer/Footer';
-
-const socket = io.connect(process.env.REACT_APP_SYNTAXMEETS_BACKEND_API);
+import { Redirect } from "react-router-dom";
+import MuiAlert from "@material-ui/lab/Alert";
+import Footer from "../Footer/Footer";
+import { useParams } from "react-router-dom";
 
 var connectionOptions = {
   transport: ["websocket"],
@@ -23,35 +22,27 @@ const Alert = (props) => {
 };
 
 const SyntaxRoom = (props) => {
-  const [roomId] = useState(
-    window.location.href.substr(window.location.href.lastIndexOf("/") + 1)
-  );
+
+  let paramsRoom = useParams().roomId;
+  const [roomId] = useState(paramsRoom);
   const [name] = useState(props.location.name);
   const [goToHome, setGoToHome] = useState(false);
   const [open, setOpen] = useState(true);
   const [users, setUsers] = useState({});
   const [userDisconnect, setUserDisconnect] = useState(false);
-
-  const [userJoinedName, setUserJoinedName] = useState()
-  const [userLeftName, setUserLeftName] = useState()
-  const [id,setId] = useState(1); // Stores the userid default 1 and then increases and decreases according to the users.
-  const [event,setEvent] = useState("")
-
-  socket.on("userjoined", (userName) => {
-    setUserJoinedName(userName);
-    setOpen(true);
-    setEvent("userjoined");
-    setId(id+1); // when new user come every existing userid increases by 1
-  });
-
-  socket.on("userleft", ({userId,userName}) => {
-    setUserLeftName(userName);
-    setUserDisconnect(true);
-    setEvent("userleft");
-    if(userId<id) setId(id-1);  // when a user leaves every userid above it decreases by 1
-  });
+  const [userJoinedName, setUserJoinedName] = useState();
+  const [userLeftName, setUserLeftName] = useState();
+  const [id, setId] = useState(); // Stores the userid default 1 and then increases and decreases according to the users.
+  const [previousUser, setPreviousUser] = useState({}); //Store the id of an already existing user , so this user will emit the code when a new user joins
 
   useEffect(() => {
+    // If disconnected then connect again to server
+    // Trigerred when user leaves a room 
+
+    socket.on("disconnect", (reason) => {
+      socket.connect();
+    });
+
     if (props.location.name === undefined || props.location.name === "") {
       alert("Please Enter your name");
       setGoToHome(true);
@@ -69,35 +60,38 @@ const SyntaxRoom = (props) => {
       room: roomId,
       name: name,
     };
-    console.log("The new user is being added:", data);
     socket.emit("joinroom", data);
 
     socket.on("addusers", (data) => {
-      // console.log("Passing new users.",data);
+      // When a new User joins in the room
+      // Get all the users from the backend , when the current user joins in the room
+      // so fetch all users from backend and store in the frontend
+      // Also pass id of current user from backend
       setUsers(data.users);
       setUserJoinedName(data.users[data.id]);
       setOpen(true);
+      setId(data.id);
     });
 
-    socket.on("userjoined", (newUser) => {
-      // console.log(newUser, "Has joined.");
+    socket.on("userjoined", (users) => {
+      // For all other users (excluding the new user) , just get the new user data who entered the room
+      // and a old user who will emit the code to be updated for new user
+      // so update in the state
 
+      const { newUser, oldUser } = users;
       const id = Object.keys(newUser)[0];
-
       setUsers((prevUsers) => {
-        console.log(prevUsers);
         return { ...prevUsers, ...newUser };
       });
-
       setUserJoinedName(newUser[id]);
       setOpen(true);
+
+      setPreviousUser({ id: Object.keys(oldUser)[0] });
     });
 
     socket.on("userleft", (userObject) => {
-      // console.log(users, userObject, "Has left.");
       setUsers((prevUsers) => {
         const { [userObject.id]: val, ...newUsers } = prevUsers;
-        console.log(prevUsers, newUsers);
         return newUsers;
       });
       setUserLeftName(userObject.name);
@@ -118,7 +112,7 @@ const SyntaxRoom = (props) => {
     }
     setUserDisconnect(false);
   };
-  console.log(open, userJoinedName);
+
   return (
     <Fragment>
       {goToHome ? (
@@ -149,7 +143,12 @@ const SyntaxRoom = (props) => {
           >
             <Grid container spacing={5}>
               <Grid item xs={12} sm={12} md={6}>
-                <SyntaxEditor socket = {socket} roomId = {roomId} id={id} event={event}/>
+                <SyntaxEditor
+                  socket={socket}
+                  roomId={roomId}
+                  id={id}
+                  previousUser={previousUser}
+                />
               </Grid>
               <Grid item xs={12} sm={12} md={6}>
                 <SyntaxPad socket={socket} roomId={roomId} />
@@ -158,7 +157,7 @@ const SyntaxRoom = (props) => {
           </div>
         </Fragment>
       )}
-    <Footer />
+      <Footer />
     </Fragment>
   );
 };
