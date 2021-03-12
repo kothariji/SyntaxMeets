@@ -9,6 +9,9 @@
 
 - If you find any **bug** or **feature**, create an issue accordingly, and please wait for it to be **assigned to you**.
 - It would be even better if you can visually show a **prototype/animation/design** for any UI improvements you are going to do so that the probability of major changes after writing the code decreases.
+- Before creating a Pull Request, please make sure you have **pull the code from origin**, so that **merge conflicts can be prevented.**
+- Please remove any **`console logs or errors`** if present in the code(for the sake of debugging), before creating a Pull Request.
+- Please write some **comments in the modified section of the code**, so that others can understand you logic and code more easily. 
 ---
 
 ### ⁉️ Did you find a bug/Issue or an new Feature?, Feel free to submit issues and enhancement requests.
