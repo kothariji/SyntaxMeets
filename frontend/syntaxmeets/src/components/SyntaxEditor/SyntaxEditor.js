@@ -25,7 +25,7 @@ import Alert from "@material-ui/lab/Alert";
 import localClasses from "./SyntaxEditor.module.css";
 import {
   languages,
-  defaultValue,
+  defaultLanguageCode,
   langMode,
   LangOptions,
   langId,
@@ -75,6 +75,7 @@ const ICE = (props) => {
   );
 };
 const SyntaxEditor = (props) => {
+  const defaultValue = defaultLanguageCode[0].code;
   const [value, setValue] = useState(defaultValue);
   const [currLang, setCurrLang] = useState("C++");
   const [theme, setTheme] = useState("monokai");
@@ -274,6 +275,8 @@ const SyntaxEditor = (props) => {
                 value={currLang}
                 onChange={(e) => {
                   setCurrLang(e.target.value);
+                  const newCode = defaultLanguageCode.filter(x => x.id == langId[e.target.value]);
+                  setValue(newCode[0].code);
                 }}
                 label="Language"
                 style={{ fontFamily: "poppins", color: "#ffffff" }}
