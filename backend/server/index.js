@@ -7,7 +7,7 @@ const io = require('socket.io')(server, { origins: '*:*'});
 // instantiate a new rooms object to store all clients in the room
 const rooms = new Rooms();
 
-io.origins(["http://localhost:3000"]);
+// io.origins(["http://localhost:3000"]);
 app.use(cors());
 
 io.on("connection", (socket) => {
