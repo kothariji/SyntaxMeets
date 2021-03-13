@@ -1,4 +1,4 @@
-import React, { Fragment, useState } from "react";
+import React, { Fragment, useEffect, useState } from "react";
 import AceEditor from "react-ace";
 import "ace-builds/src-min-noconflict/ext-searchbox";
 import "ace-builds/src-min-noconflict/ext-language_tools";
@@ -84,13 +84,22 @@ const SyntaxEditor = (props) => {
   const [isCompiling, setIsCompiling] = useState(false);
   const [isError, setIsError] = useState(false);
   const [codeError, setCodeError] = useState("");
+  // This will resend a message to update the code of the newly joined user
+  useEffect(() => {
+
+    if (props.previousUser.id === props.id) {
+
+      props.socket.emit("message", value);
+    }
+  }, [props.previousUser]);
 
   var codeToken = 0;
   const classes = useStyles();
-
-  props.socket.on("message", (newValue) => {
-    setValue(newValue);
-  });
+  useEffect(() => {
+    props.socket.on("message", (newValue) => {
+      setValue(newValue);
+    });
+  },[]);
 
   const handleChange = (newValue) => {
     setValue(newValue);
@@ -114,7 +123,7 @@ const SyntaxEditor = (props) => {
       url: "https://judge0-ce.p.rapidapi.com/submissions",
       headers: {
         "content-type": "application/json",
-        "x-rapidapi-key": "YOUR API KEY",
+        "x-rapidapi-key": process.env.REACT_APP_ONLINE_JUDGE_API,
         "x-rapidapi-host": "judge0-ce.p.rapidapi.com",
       },
       data: {
@@ -141,7 +150,7 @@ const SyntaxEditor = (props) => {
       method: "GET",
       url: "https://judge0-ce.p.rapidapi.com/submissions/" + codeToken,
       headers: {
-        "x-rapidapi-key": "YOUR API KEY",
+        "x-rapidapi-key": process.env.REACT_APP_ONLINE_JUDGE_API,
         "x-rapidapi-host": "judge0-ce.p.rapidapi.com",
       },
     };

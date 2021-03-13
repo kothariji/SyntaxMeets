@@ -23,10 +23,10 @@ const SyntaxChat = (props) => {
   const [messages, setMessages] = useState([]);
 
   const messagesEndRef = useRef(null);
-  
+
   const [mCount, setMCount] = useState(0);
   const [state, setState] = useState(false);
-
+  
   const handleMessageSubmit = () => {
     if (message === "") return;
     let data = {

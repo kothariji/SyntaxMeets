@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "nodemon node index.js"
+    "start": "nodemon index.js"
   },
   "author": "kothariji, akash, nishant",
   "license": "ISC",
@@ -13,6 +13,6 @@
     "cors": "^2.8.5",
     "express": "^4.17.1",
     "nodemon": "^2.0.6",
-    "socket.io": "^2.4.0"
+    "socket.io": "^2.4.1"
   }
 }
