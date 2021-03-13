@@ -11,7 +11,12 @@
 - It would be even better if you can visually show a **prototype/animation/design** for any UI improvements you are going to do so that the probability of major changes after writing the code decreases.
 - Before creating a Pull Request, please make sure you have **pull the code from origin**, so that **merge conflicts can be prevented.**
 - Please remove any **`console logs or errors`** if present in the code(for the sake of debugging), before creating a Pull Request.
-- Please write some **comments in the modified section of the code**, so that others can understand you logic and code more easily. 
+- Please write some **comments in the modified section of the code**, so that others can understand you logic and code more easily.
+- **Deadlines**: When the issue has been assigned to the user, he/she have to complete the issue within the following assigned time as per the issue level.
+  - Level 0: 1 Day
+  - Level 1: 3 Days
+  - Level 2: 1 Week
+  - Level 3: 15 Days 
 ---
 
 ### ⁉️ Did you find a bug/Issue or an new Feature?, Feel free to submit issues and enhancement requests.
