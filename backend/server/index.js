@@ -1,8 +1,8 @@
-const app = require("express")();
-const server = require("http").createServer(app);
-const io = require("socket.io")(server);
-const cors = require("cors");
+const app = require('express')();
+const server = require('http').createServer(app);
+const cors = require('cors');
 const Rooms = require("./Utils/Rooms");
+const io = require('socket.io')(server, { origins: '*:*'});
 
 // instantiate a new rooms object to store all clients in the room
 const rooms = new Rooms();
