@@ -1,5 +1,4 @@
 export const languages = [
-
     "c_cpp",
     "clojure",
     "csharp",
@@ -18,8 +17,7 @@ export const languages = [
     "sql",
     "swift",
     "typescript",
-  ];
-
+];
 
 export const defaultValue = `#include <bits/stdc++.h>
 #define lli long long int
@@ -42,14 +40,97 @@ int main()
 	return 0;
 }`;
 
+export const defaultLanguageCode = [
+	{
+		id: 54,
+		code: '#include <bits\/stdc++.h>\nusing namespace std;\n\nint main() {\n\t\/\/ your code goes here\n\treturn 0;\n}\n',
+	},
+	{
+		id: 50,
+		code: '#include <stdio.h>\n\nint main(void) {\n\t\/\/ your code goes here\n\treturn 0;\n}\n',
+	},
+	{
+		id: 86,
+		code: '; your code goes here\n',
+	},
+	{
+		id: 62,
+		code: 'import java.util.*;\nimport java.lang.*;\nimport java.io.*;\n\n\/* Name of the class has to be \"Main\" only if the class is public. *\/\nclass Solution\n{\n\tpublic static void main (String[] args) throws java.lang.Exception\n\t{\n\t\t\/\/ your code goes here\n\t}\n}\n',
+	},
+	{
+		id: 51,
+		code: 'using System;\n\npublic class Test\n{\n\tpublic static void Main()\n\t{\n\t\t\/\/ your code goes here\n\t}\n}\n',
+	},
+	{
+		id: 71,
+		code: '# your code goes here\n',
+	},
+	{
+		id: 80,
+		code: '\n',
+	},
+	{
+		id: 72,
+		code: '# your code goes here\n',
+	},
+	{
+		id: 82,
+		code: '',
+	},
+	{
+		id: 83,
+		code: '',
+	},
+	{
+		id: 74,
+		code: '',
+	},
+	{
+		id: 68,
+		code: '<?php\n\n\/\/ your code goes here\n',
+	},
+	{
+		id: 60,
+		code: 'package main\nimport \"fmt\"\n\nfunc main(){\n\t\/\/ your code goes here\n}\n',
+	},
+	{
+		id: 59,
+		code: 'program TEST\n\t! your code goes here\n\tstop\nend\n',
+	},
+	{
+		id: 58,
+		code: '-module(prog).\n-export([main\/0]).\n\nmain() ->\n\t% your code goes here\n\ttrue.\n',
+	},
+	{
+		id: 77,
+		code: '\t\t\tIDENTIFICATION DIVISION.\n\t\t\tPROGRAM-ID. hello.\n\t\t\tPROCEDURE DIVISION.\n\t\t\tDISPLAY \"Hello World!\".\n\t\t\tSTOP RUN.',
+	},
+	{
+		id: 74,
+		code: '',
+	},
+	{
+		id: 88,
+		code: '',
+	},
+	{
+		id: 78,
+		code: '',
+	},
+	{
+		id: 63,
+		code: '',
+	},
+];
+
 export const LangOptions = [
-    "C" ,
-    "C++" ,
+    "C",
+    "C++",
     "Python",
     "JAVA",
     "JavaScript",
     "Kotlin",
-    "Clojure" ,
+    "Clojure",
     "C#",
     "COBOL",
     "Erlang",
@@ -61,11 +142,10 @@ export const LangOptions = [
     "Ruby",
     "SQL",
     "Swift",
-    "TypeScript"
-]
+    "TypeScript",
+];
 
 export const langId = {
-
     "C" : 50,
     "C++" : 54,
     "Clojure" : 86,
@@ -85,11 +165,9 @@ export const langId = {
     "SQL": 82,
     "Swift": 83,
     "TypeScript": 74
-  
-  }
-  
+};
+
 export const langMode = {
-  
     "C": "c_cpp",
     "C++": "c_cpp",
     "Clojure": "clojure",
@@ -109,9 +187,7 @@ export const langMode = {
     "SQL": "sql",
     "Swift": "swift",
     "TypeScript": "typescript",
-  
-}
-
+};
 
 export const themes = [
     "monokai",
@@ -125,6 +201,4 @@ export const themes = [
     "solarized_dark",
     "solarized_light",
     "terminal",
-  ];
-  
-  
+];
