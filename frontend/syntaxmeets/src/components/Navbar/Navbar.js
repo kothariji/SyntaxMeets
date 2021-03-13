@@ -9,6 +9,8 @@ import {
 } from "@material-ui/core";
 import logo from "../../images/navlogo.png";
 import PersonIcon from "@material-ui/icons/Person";
+import Snackbar from "@material-ui/core/Snackbar";
+import Alert from "@material-ui/lab/Alert";
 import SyntaxChat from "../SyntaxChat/SyntaxChat";
 import copy from "copy-to-clipboard";
 import About from "../About/About.js";
@@ -25,10 +27,12 @@ const Transition = React.forwardRef(function Transition(props, ref) {
 const Navbar = (props) => {
   const Copytext = (value) => {
     copy(value);
-    alert("Copied Room ID : " + value);
+    setPopup(true);
+    // alert("Copied Room ID : " + value);
   };
 
   const [open, setOpen] = React.useState(false);
+  const [popup, setPopup] = React.useState(false);
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -78,6 +82,7 @@ const Navbar = (props) => {
           <Button
             variant="contained"
             startIcon={<PersonIcon />}
+            // onClick={handleClick}
             onClick={() => Copytext(props.roomId)}
             color="primary"
             style={{
@@ -89,6 +94,24 @@ const Navbar = (props) => {
           >
             RoomId : {props.roomId}
           </Button>
+          <Snackbar
+            open={popup}
+            autoHideDuration={2000}
+            onClose={() => {
+              setPopup(false);
+            }}
+            key="topcenter"
+            anchorOrigin={{ vertical: "top", horizontal: "center" }}
+          >
+            <Alert
+              onClose={() => {
+                setPopup(false);
+              }}
+              severity="success"
+            >
+              Room-ID Copied !
+            </Alert>
+          </Snackbar>
           <SyntaxChat
             name={props.name}
             roomId={props.roomId}
