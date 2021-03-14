@@ -223,7 +223,9 @@ const Home = (props) => {
                       <TextField
                         onChange={(event) => {
                           setjoinRoomId(event.target.value)
-                          event.target.value.length >= 14 ? setDisabledRoomId(false) : setDisabledRoomId(true)
+                          let pattern = new RegExp("(([A-Za-z]{4})(-)){2}[A-Za-z]{4}");
+                          let roomIdStatus = pattern.test(event.target.value);
+                          roomIdStatus ? setDisabledRoomId(false) : setDisabledRoomId(true)
                         }}
                         fullWidth
                         id="outlined-basic"
