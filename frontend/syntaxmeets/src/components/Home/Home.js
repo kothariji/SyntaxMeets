@@ -39,6 +39,8 @@ const Home = (props) => {
   const [roomId] = useState(generateRoomId());
   const [joinRoomId, setjoinRoomId] = useState("123");
   const [name, setName] = useState("");
+  const [disabledName, setDisabledName] = useState(true);
+  const [disabledRoomId, setDisabledRoomId] = useState(true);
   
 
   const roomModal = {
@@ -149,6 +151,7 @@ const Home = (props) => {
                         value={name}
                         onChange={(e) => {
                           setName(e.target.value)
+                          e.target.value.length >= 1 ? setDisabledName(false) : setDisabledName(true)
                         }}
                       />
 
@@ -164,6 +167,7 @@ const Home = (props) => {
                           }}
                           variant="contained"
                           size="large"
+                          disabled={disabledName}
                           component={Link}
                           to={{
                             pathname: roomId,
@@ -201,6 +205,7 @@ const Home = (props) => {
                         value={name}
                         onChange={(e) => {
                           setName(e.target.value)
+                          e.target.value.length >= 1 ? setDisabledName(false) : setDisabledName(true)
                         }}
                         style = {{color: '#000'}}
                       />
@@ -216,7 +221,10 @@ const Home = (props) => {
                         Enter Room Id
                       </Typography>
                       <TextField
-                        onChange={(event) => setjoinRoomId(event.target.value)}
+                        onChange={(event) => {
+                          setjoinRoomId(event.target.value)
+                          event.target.value.length >= 14 ? setDisabledRoomId(false) : setDisabledRoomId(true)
+                        }}
                         fullWidth
                         id="outlined-basic"
                         className={classes.root}
@@ -241,6 +249,7 @@ const Home = (props) => {
                           }}
                           variant="contained"
                           size="large"
+                          disabled={disabledName || disabledRoomId}
                           component={Link}
                           to={{
                             pathname: joinRoomId,
