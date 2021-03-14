@@ -28,7 +28,6 @@ const Navbar = (props) => {
   const Copytext = (value) => {
     copy(value);
     setPopup(true);
-    // alert("Copied Room ID : " + value);
   };
 
   const [open, setOpen] = React.useState(false);
@@ -82,7 +81,6 @@ const Navbar = (props) => {
           <Button
             variant="contained"
             startIcon={<PersonIcon />}
-            // onClick={handleClick}
             onClick={() => Copytext(props.roomId)}
             color="primary"
             style={{
@@ -100,14 +98,13 @@ const Navbar = (props) => {
             onClose={() => {
               setPopup(false);
             }}
-            key="topcenter"
-            anchorOrigin={{ vertical: "top", horizontal: "center" }}
           >
             <Alert
               onClose={() => {
                 setPopup(false);
               }}
               severity="success"
+              variant="filled"
             >
               Room-ID Copied !
             </Alert>
