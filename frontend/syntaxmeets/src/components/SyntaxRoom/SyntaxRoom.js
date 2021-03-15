@@ -22,7 +22,6 @@ const Alert = (props) => {
 };
 
 const SyntaxRoom = (props) => {
-
   let paramsRoom = useParams().roomId;
   const [roomId] = useState(paramsRoom);
   const [name] = useState(props.location.name);
