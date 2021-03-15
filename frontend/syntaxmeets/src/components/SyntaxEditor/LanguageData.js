@@ -27,8 +27,6 @@ export const defaultValue = `#include <bits/stdc++.h>
 #define MAX 1000005
 #define MOD 1000000007
 using namespace std;
-
-
 int main()
 {
 	int t;
@@ -126,5 +124,3 @@ export const themes = [
     "solarized_light",
     "terminal",
   ];
-  
-  
