@@ -81,7 +81,7 @@ const Navbar = (props) => {
           <Button
             variant="contained"
             startIcon={<PersonIcon />}
-            onClick={() => Copytext(props.roomId)}
+            onClick={() => Copytext(`Hi there! You have been invited by ${props.name} to join SyntaxMeets. \n \nClick on this link - https://syntaxmeets.vercel.app \n \nand join the room by providing your name and Room-Id: ${props.roomId}`)}
             color="primary"
             style={{
               fontFamily: "poppins",
