@@ -12,6 +12,7 @@ import {
 import SendIcon from "@material-ui/icons/Send";
 import ForumIcon from "@material-ui/icons/Forum";
 import { ChatMessage } from "./ChatMessage";
+import CloseSharpIcon from '@material-ui/icons/CloseSharp';
 
 const useStyles = makeStyles({
   list: {
@@ -98,6 +99,7 @@ const SyntaxChat = (props) => {
         Chat Box
       </Button>
       <Drawer anchor={"right"} open={state} onClose={toggleDrawer(false)}>
+      <CloseSharpIcon style={{padding: "5px", fontSize: "3em", cursor: "pointer"}} onClick={toggleDrawer(false)} />
         <div
           className={classes.list}
           style={{ display: "flex", flexDirection: "column" }}
