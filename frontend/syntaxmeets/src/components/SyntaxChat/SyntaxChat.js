@@ -16,8 +16,6 @@ const useStyles = makeStyles({
 });
 
 const SyntaxChat = (props) => {
-
-
   const classes = useStyles();
   const [message, setMessage] = useState("");
   const [messages, setMessages] = useState([]);
@@ -26,7 +24,7 @@ const SyntaxChat = (props) => {
 
   const [mCount, setMCount] = useState(0);
   const [state, setState] = useState(false);
-  
+
   const handleMessageSubmit = () => {
     if (message === "") return;
     let data = {
@@ -35,28 +33,24 @@ const SyntaxChat = (props) => {
       message: message,
     };
     props.socket.emit("chatmessage", data);
-    setMessages(messages => [ ...messages, data ]);
+    setMessages((messages) => [...messages, data]);
     setMCount(mCount + 1);
     setMessage("");
   };
 
   useEffect(() => {
     props.socket.on("chatmessage", (data) => {
-      setMessages(messages => [ ...messages, data ]);
+      setMessages((messages) => [...messages, data]);
     });
-  }, []);
-
+  }, [props.socket]);
 
   const scrollToBottom = () => {
-    if(messagesEndRef.current){
-    messagesEndRef.current.scrollIntoView({ behavior: "smooth" });
+    if (messagesEndRef.current) {
+      messagesEndRef.current.scrollIntoView({ behavior: "smooth" });
     }
   };
 
-
   useEffect(scrollToBottom, [messages]);
-
-  
 
   const toggleDrawer = (open) => (event) => {
     if (

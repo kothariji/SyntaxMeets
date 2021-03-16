@@ -22,7 +22,6 @@ const Alert = (props) => {
 };
 
 const SyntaxRoom = (props) => {
-
   let paramsRoom = useParams().roomId;
   const [roomId] = useState(paramsRoom);
   const [name] = useState(props.location.name);
@@ -37,7 +36,7 @@ const SyntaxRoom = (props) => {
 
   useEffect(() => {
     // If disconnected then connect again to server
-    // Trigerred when user leaves a room 
+    // Trigerred when user leaves a room
 
     socket.on("disconnect", (reason) => {
       socket.connect();
@@ -97,7 +96,7 @@ const SyntaxRoom = (props) => {
       setUserLeftName(userObject.name);
       setUserDisconnect(true);
     });
-  }, []);
+  }, [name, props.location.name, props.location.pathname, roomId]);
 
   const handleClose = (event, reason) => {
     if (reason === "clickaway") {
