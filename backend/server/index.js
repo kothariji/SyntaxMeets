@@ -1,13 +1,13 @@
-const app = require('express')();
-const server = require('http').createServer(app);
-const cors = require('cors');
+const app = require("express")();
+const server = require("http").createServer(app);
+const cors = require("cors");
 const Rooms = require("./Utils/Rooms");
-const io = require('socket.io')(server, { origins: '*:*'});
+const io = require("socket.io")(server, { origins: "*:*" });
 
 // instantiate a new rooms object to store all clients in the room
 const rooms = new Rooms();
 
-// io.origins(["http://localhost:3000"]);
+io.origins(["http://localhost:3000"]);
 app.use(cors());
 
 io.on("connection", (socket) => {
@@ -33,6 +33,7 @@ io.on("connection", (socket) => {
     // inform everyone (excluding the new User) , that a user has been added
     // also send the id of an already existing user to the client so only that one
     // will emit the code to update for the new user
+    console.log(users);
     socket.broadcast
       .to(roomId)
       .emit("userjoined", { newUser: { [socket.id]: name }, oldUser });
@@ -43,6 +44,11 @@ io.on("connection", (socket) => {
     socket.to(roomId).emit("message", message);
   });
 
+  socket.on("typing", (user) => {
+    console.log(user);
+    // inform everyone (excluding the typing user himself) who is typing
+    socket.broadcast.to(roomId).emit("typing", user);
+  });
   socket.on("chatmessage", (data) => {
     // send the chat message to all the users
     socket.to(roomId).emit("chatmessage", data);
