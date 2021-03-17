@@ -88,7 +88,7 @@ const SyntaxEditor = (props) => {
     if (props.previousUser.id === props.id) {
       props.socket.emit("message", value);
     }
-  }, []);
+  }, [props.previousUser]);
 
   var codeToken = 0;
   const classes = useStyles();
