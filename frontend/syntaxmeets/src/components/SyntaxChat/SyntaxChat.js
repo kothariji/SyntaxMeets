@@ -50,19 +50,18 @@ const SyntaxChat = (props) => {
     props.socket.on("chatmessage", (data) => {
       setMessages((messages) => [...messages, data]);
     });
+    let timeout;
+    // recieve the user who is currently typing's data from the backend
+    props.socket.on("typing", (data) => {
+      setTypingUser(data.name);
+      //Remove the timeout(to clear typing message) , if someone has again typed something
+      clearTimeout(timeout);
+      timeout = setTimeout(() => {
+        //Remove the typing message if no one is typing after 500ms
+        setTypingUser();
+      }, 500);
+    });
   }, [props.socket]);
-
-  let timeout;
-  // recieve the user who is currently typing's data from the backend
-  props.socket.on("typing", (data) => {
-    setTypingUser(data.name);
-    //Remove the timeout(to clear typing message) , if someone has again typed something
-    clearTimeout(timeout);
-    timeout = setTimeout(() => {
-      //Remove the typing message if no one is typing after 500ms
-      setTypingUser();
-    }, 500);
-  });
 
   const scrollToBottom = () => {
     if (messagesEndRef.current) {
