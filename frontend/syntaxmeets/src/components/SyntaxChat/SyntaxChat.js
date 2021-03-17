@@ -12,7 +12,7 @@ import {
 import SendIcon from "@material-ui/icons/Send";
 import ForumIcon from "@material-ui/icons/Forum";
 import { ChatMessage } from "./ChatMessage";
-import CloseSharpIcon from '@material-ui/icons/CloseSharp';
+import CloseSharpIcon from "@material-ui/icons/CloseSharp";
 
 const useStyles = makeStyles({
   list: {
@@ -52,19 +52,17 @@ const SyntaxChat = (props) => {
     });
   }, [props.socket]);
 
-    let timeout;
-    // recieve the user who is currently typing's data from the backend
-    props.socket.on("typing", (data) => {
-      setTypingUser(data.name);
-      //Remove the timeout(to clear typing message) , if someone has again typed something
-      clearTimeout(timeout);
-      timeout = setTimeout(() => {
-        //Remove the typing message if no one is typing after 500ms
-        setTypingUser();
-      }, 500);
-    });
-  }, []);
-
+  let timeout;
+  // recieve the user who is currently typing's data from the backend
+  props.socket.on("typing", (data) => {
+    setTypingUser(data.name);
+    //Remove the timeout(to clear typing message) , if someone has again typed something
+    clearTimeout(timeout);
+    timeout = setTimeout(() => {
+      //Remove the typing message if no one is typing after 500ms
+      setTypingUser();
+    }, 500);
+  });
 
   const scrollToBottom = () => {
     if (messagesEndRef.current) {
@@ -102,7 +100,10 @@ const SyntaxChat = (props) => {
         Chat Box
       </Button>
       <Drawer anchor={"right"} open={state} onClose={toggleDrawer(false)}>
-      <CloseSharpIcon style={{padding: "5px", fontSize: "3em", cursor: "pointer"}} onClick={toggleDrawer(false)} />
+        <CloseSharpIcon
+          style={{ padding: "5px", fontSize: "3em", cursor: "pointer" }}
+          onClick={toggleDrawer(false)}
+        />
         <div
           className={classes.list}
           style={{ display: "flex", flexDirection: "column" }}
