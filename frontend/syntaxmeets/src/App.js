@@ -6,19 +6,21 @@ import Loader from "./components/Loader/Loader";
 
 const Home = React.lazy(() => import("./components/Home/Home"));
 const About = React.lazy(() => import("./components/About/About"));
-const SyntaxRoom = React.lazy(() => import("./components/SyntaxRoom/SyntaxRoom"));
+const SyntaxRoom = React.lazy(() =>
+  import("./components/SyntaxRoom/SyntaxRoom")
+);
 
 const App = () => {
   return (
-    <Suspense fallback={<Loader />}>
-      <Router>
+    <Router>
+      <Suspense fallback={<Loader />}>
         <Switch>
           <Route exact path="/" component={Home} />
           <Route exact path="/about" component={About} />
           <Route exact path="/:roomId" component={SyntaxRoom} />
         </Switch>
-      </Router>
-    </Suspense>
+      </Suspense>
+    </Router>
   );
 };
 
