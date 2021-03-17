@@ -61,7 +61,7 @@ const SyntaxChat = (props) => {
         setTypingUser();
       }, 500);
     });
-  }, [props.socket]);
+  }, []);
 
   const scrollToBottom = () => {
     if (messagesEndRef.current) {

@@ -96,7 +96,7 @@ const SyntaxRoom = (props) => {
       setUserLeftName(userObject.name);
       setUserDisconnect(true);
     });
-  }, [name, props.location.name, props.location.pathname, roomId]);
+  }, []);
 
   const handleClose = (event, reason) => {
     if (reason === "clickaway") {
