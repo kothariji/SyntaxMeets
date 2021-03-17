@@ -60,7 +60,7 @@ const SyntaxRoom = (props) => {
       name: name,
     };
     socket.emit("joinroom", data);
-
+    localStorage.setItem("my_name", name);
     socket.on("addusers", (data) => {
       // When a new User joins in the room
       // Get all the users from the backend , when the current user joins in the room
