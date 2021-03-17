@@ -1,10 +1,18 @@
 import React, { useState, useEffect, useRef } from "react";
 import { makeStyles } from "@material-ui/core/styles";
-import { Drawer, Button, Divider, TextField, Grid } from "@material-ui/core";
+import {
+  Drawer,
+  Button,
+  Divider,
+  TextField,
+  Grid,
+  Typography,
+} from "@material-ui/core";
 
 import SendIcon from "@material-ui/icons/Send";
 import ForumIcon from "@material-ui/icons/Forum";
 import { ChatMessage } from "./ChatMessage";
+import CloseSharpIcon from '@material-ui/icons/CloseSharp';
 
 const useStyles = makeStyles({
   list: {
@@ -19,7 +27,7 @@ const SyntaxChat = (props) => {
   const classes = useStyles();
   const [message, setMessage] = useState("");
   const [messages, setMessages] = useState([]);
-
+  const [typingUser, setTypingUser] = useState();
   const messagesEndRef = useRef(null);
 
   const [mCount, setMCount] = useState(0);
@@ -43,6 +51,20 @@ const SyntaxChat = (props) => {
       setMessages((messages) => [...messages, data]);
     });
   }, [props.socket]);
+
+    let timeout;
+    // recieve the user who is currently typing's data from the backend
+    props.socket.on("typing", (data) => {
+      setTypingUser(data.name);
+      //Remove the timeout(to clear typing message) , if someone has again typed something
+      clearTimeout(timeout);
+      timeout = setTimeout(() => {
+        //Remove the typing message if no one is typing after 500ms
+        setTypingUser();
+      }, 500);
+    });
+  }, []);
+
 
   const scrollToBottom = () => {
     if (messagesEndRef.current) {
@@ -80,6 +102,7 @@ const SyntaxChat = (props) => {
         Chat Box
       </Button>
       <Drawer anchor={"right"} open={state} onClose={toggleDrawer(false)}>
+      <CloseSharpIcon style={{padding: "5px", fontSize: "3em", cursor: "pointer"}} onClick={toggleDrawer(false)} />
         <div
           className={classes.list}
           style={{ display: "flex", flexDirection: "column" }}
@@ -95,7 +118,6 @@ const SyntaxChat = (props) => {
             {<ChatMessage messages={messages} />}
             <div ref={messagesEndRef} />
           </div>
-
           <div
             style={{
               bottom: "0",
@@ -110,7 +132,24 @@ const SyntaxChat = (props) => {
                 <Divider />
               </Grid>
             </Grid>
-            <br />
+            {typingUser ? (
+              <Grid container justify="center">
+                <Grid item xs={1}></Grid>
+                <Typography
+                  display="block"
+                  variant="overline"
+                  color="textSecondary"
+                  align="justify"
+                  style={{ marginBottom: "4px" }}
+                  gutterBottom
+                >
+                  <b>{typingUser}</b> is typing...
+                </Typography>
+
+                <Grid item xs={1}></Grid>
+              </Grid>
+            ) : undefined}
+
             <Grid container spacing={3}>
               <Grid item xs={1}></Grid>
               <Grid item xs={7}>
@@ -121,7 +160,14 @@ const SyntaxChat = (props) => {
                   fullWidth
                   size="small"
                   value={message}
-                  onChange={(e) => setMessage(e.target.value)}
+                  onChange={(e) => {
+                    // Send the user who is currently typings , name and id to the backend
+                    props.socket.emit("typing", {
+                      id: props.socket.id,
+                      name: props.name,
+                    });
+                    setMessage(e.target.value);
+                  }}
                   onKeyDown={(e) => {
                     if (e.key === "Enter") {
                       handleMessageSubmit();
