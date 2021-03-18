@@ -6,7 +6,8 @@ const io = require("socket.io")(server, { origins: "*:*" });
 
 // instantiate a new rooms object to store all clients in the room
 const rooms = new Rooms();
-
+// to store all the rooms
+const roomsCreated = [];
 // io.origins(["http://localhost:3000"]);
 app.use(cors());
 
@@ -22,12 +23,14 @@ io.on("connection", (socket) => {
     roomId = room;
     userName = name;
     userId = socket.id;
-
+    // pushes new rooms created
+    if(!roomsCreated.includes(room))
+      roomsCreated.push(room);
+ 
     socket.join(room);
     const oldUser = rooms.getUser(roomId);
     rooms.addUserToRoom(socket.id, name, room);
     const users = rooms.getAllUsers(room);
-
     // send all the users to only the new User who joined and id of the current user
     socket.emit("addusers", { id: socket.id, users });
     // inform everyone (excluding the new User) , that a user has been added
@@ -56,8 +59,9 @@ io.on("connection", (socket) => {
 
   socket.on("disconnect", function () {
     if (!userName) return;
-
+    
     const returnId = rooms.deleteUser(roomId, socket.id);
+    
     if (returnId)
       socket.broadcast
         .to(roomId)
@@ -68,7 +72,13 @@ io.on("connection", (socket) => {
 app.get("/", (req, res) => {
   res.send({ response: "Server is up and Running." }).status(200);
 });
+// api call to get rooms created 
+app.get('/rooms', function(req, res) {
+  console.log('got the response');
+  res.json(roomsCreated);
+});
 
 server.listen(process.env.PORT || 4000, function () {
   console.log("server is working");
 });
+

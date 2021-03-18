@@ -12,7 +12,6 @@ import { withStyles } from "@material-ui/core/styles";
 import MeetingRoomIcon from '@material-ui/icons/MeetingRoom';
 import GroupAddIcon from '@material-ui/icons/GroupAdd';
 
-
 function generateRoomId() {
   var tempId = "";
   var characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
@@ -23,8 +22,10 @@ function generateRoomId() {
       tempId += "-";
     }
   }
+
   return tempId;
 }
+
 
 const styles = {
   input: {
@@ -41,7 +42,6 @@ const Home = (props) => {
   const [name, setName] = useState("");
   const [disabledName, setDisabledName] = useState(true);
   const [disabledRoomId, setDisabledRoomId] = useState(true);
-  
 
   const roomModal = {
         backgroundImage: "linear-gradient(to top, #d6d4ee, #e1dff2, #ebe9f6, #f5f4fb, #ffffff)",
@@ -173,6 +173,11 @@ const Home = (props) => {
                             pathname: roomId,
                             name: name,
                           }}
+                          onClick={()=>{
+                            localStorage.setItem('roomId',roomId);
+                            localStorage.setItem('name',name);
+                          }
+                          }
                         >
                           Create Room
                         </MUIButton>
@@ -257,6 +262,12 @@ const Home = (props) => {
                             pathname: joinRoomId,
                             name: name,
                           }}
+                          onClick={ ()=>{
+                            localStorage.setItem('roomId',joinRoomId)
+                            localStorage.setItem('name',name)   
+                          }
+
+                          }
                         >
                           Join a Room
                         </MUIButton>

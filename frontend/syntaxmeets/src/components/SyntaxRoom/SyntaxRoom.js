@@ -1,4 +1,4 @@
-import React, { Fragment, useState, useEffect } from "react";
+import React, { Fragment, useState, useEffect} from "react";
 import Navbar from "../Navbar/Navbar";
 import { Grid, Snackbar } from "@material-ui/core";
 import SyntaxEditor from "../SyntaxEditor/SyntaxEditor";
@@ -12,14 +12,17 @@ import { useParams } from "react-router-dom";
 var connectionOptions = {
   transport: ["websocket"],
 };
-const socket = io.connect(
+/*const socket = io.connect(
   process.env.REACT_APP_SYNTAXMEETS_BACKEND_API,
   connectionOptions
-);
+);*/
+// to use for localhost
+var socket = io.connect("http://localhost:4000",connectionOptions);
 
 const Alert = (props) => {
   return <MuiAlert elevation={6} variant="filled" {...props} />;
 };
+
 
 const SyntaxRoom = (props) => {
   let paramsRoom = useParams().roomId;
@@ -33,18 +36,51 @@ const SyntaxRoom = (props) => {
   const [userLeftName, setUserLeftName] = useState();
   const [id, setId] = useState(); // Stores the userid default 1 and then increases and decreases according to the users.
   const [previousUser, setPreviousUser] = useState({}); //Store the id of an already existing user , so this user will emit the code when a new user joins
-
+ 
+  
   useEffect(() => {
+    // fetch the list of active rooms from backend
+    var roomsList = [];
+    const url = `${process.env.REACT_APP_SYNTAXMEETS_BACKEND_API}/rooms`;
+    fetch(url)
+      .then(res => {
+        return res.json();
+      })
+      .then(rooms => {
+        console.log(rooms);
+        for (let i = 0; i < rooms.length; i++)
+          roomsList.push(rooms[i]);
+      });
+
+    console.log(roomsList);
     // If disconnected then connect again to server
     // Trigerred when user leaves a room 
-
     socket.on("disconnect", (reason) => {
+
       socket.connect();
     });
 
+    var roomid = localStorage.getItem('roomId');
+
     if (props.location.name === undefined || props.location.name === "") {
-      alert("Please Enter your name");
-      setGoToHome(true);
+      // If user disconnects and want to connect back to same room
+      var flag = false;
+      flag = roomsList.includes(roomid);
+      localStorage.setItem('flag', flag);
+      if (localStorage.getItem('flag')) {
+        props.location.name = localStorage.getItem('name');
+        let data = {
+          room: localStorage.getItem('roomId'),
+          name: localStorage.getItem('name'),
+        }
+        // join back to same room
+        socket.emit("joinroom", data);
+      }
+      else {
+        // direct back to home
+        alert("Please Enter your name");
+        setGoToHome(true);
+      }
     }
 
     var patt = new RegExp("(([A-Za-z]{4})(-)){2}[A-Za-z]{4}");
