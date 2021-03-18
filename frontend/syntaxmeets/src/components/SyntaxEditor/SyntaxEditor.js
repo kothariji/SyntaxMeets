@@ -18,8 +18,10 @@ import {
   Dialog,
   DialogTitle,
   DialogActions,
+  Snackbar,
 } from "@material-ui/core";
 import Grid from "@material-ui/core/Grid";
+import Alert from "@material-ui/lab/Alert";
 import localClasses from "./SyntaxEditor.module.css";
 import {
   languages,
@@ -83,6 +85,7 @@ const SyntaxEditor = (props) => {
   const [isCompiling, setIsCompiling] = useState(false);
   const [isError, setIsError] = useState(false);
   const [codeError, setCodeError] = useState("");
+  const [popup, setPopup] = useState(false);
   // This will resend a message to update the code of the newly joined user
   useEffect(() => {
     if (props.previousUser.id === props.id) {
@@ -105,7 +108,7 @@ const SyntaxEditor = (props) => {
 
   const copyCode = (value) => {
     copy(value);
-    alert("Code Copied Sucessfully");
+    setPopup(true);
   };
 
   const handleInputChange = (newInput) => {
@@ -219,6 +222,23 @@ const SyntaxEditor = (props) => {
           </Button>
         </DialogActions>
       </Dialog>
+      <Snackbar
+        open={popup}
+        autoHideDuration={2000}
+        onClose={() => {
+          setPopup(false);
+        }}
+      >
+        <Alert
+          onClose={() => {
+            setPopup(false);
+          }}
+          severity="success"
+          variant="filled"
+        >
+          Code Copied Sucessfully
+        </Alert>
+      </Snackbar>
       <AppBar position="static" style={{ backgroundColor: "#000A29" }}>
         <div className={`${localClasses.Editor__navbar} row`}>
           <Typography
