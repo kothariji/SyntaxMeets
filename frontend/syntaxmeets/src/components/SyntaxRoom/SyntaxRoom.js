@@ -36,7 +36,7 @@ const SyntaxRoom = (props) => {
 
   useEffect(() => {
     // If disconnected then connect again to server
-    // Trigerred when user leaves a room 
+    // Trigerred when user leaves a room
 
     socket.on("disconnect", (reason) => {
       socket.connect();

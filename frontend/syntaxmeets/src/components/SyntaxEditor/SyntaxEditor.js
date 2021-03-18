@@ -85,9 +85,7 @@ const SyntaxEditor = (props) => {
   const [codeError, setCodeError] = useState("");
   // This will resend a message to update the code of the newly joined user
   useEffect(() => {
-
     if (props.previousUser.id === props.id) {
-
       props.socket.emit("message", value);
     }
   }, [props.previousUser]);
@@ -98,7 +96,7 @@ const SyntaxEditor = (props) => {
     props.socket.on("message", (newValue) => {
       setValue(newValue);
     });
-  },[]);
+  }, []);
 
   const handleChange = (newValue) => {
     setValue(newValue);
@@ -203,7 +201,7 @@ const SyntaxEditor = (props) => {
             <span style={{ paddingLeft: "190px" }}>
               <ShareIcon style={{ fontSize: "125px" }} />
             </span>
-            <span className={localClasses.arrow}>></span>
+            <span className={localClasses.arrow}>&gt;</span>
           </div>
         </div>
       </Dialog>
