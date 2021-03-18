@@ -88,7 +88,7 @@ const SyntaxEditor = (props) => {
     if (props.previousUser.id === props.id) {
       props.socket.emit("message", value);
     }
-  }, [props, value]);
+  }, [props.previousUser]);
 
   var codeToken = 0;
   const classes = useStyles();
@@ -96,7 +96,7 @@ const SyntaxEditor = (props) => {
     props.socket.on("message", (newValue) => {
       setValue(newValue);
     });
-  }, [props.socket]);
+  }, []);
 
   const handleChange = (newValue) => {
     setValue(newValue);
