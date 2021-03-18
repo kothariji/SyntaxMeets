@@ -12,12 +12,12 @@ import { useParams } from "react-router-dom";
 var connectionOptions = {
   transport: ["websocket"],
 };
-/*const socket = io.connect(
+const socket = io.connect(
   process.env.REACT_APP_SYNTAXMEETS_BACKEND_API,
   connectionOptions
-);*/
+);
 // to use for localhost
-var socket = io.connect("http://localhost:4000",connectionOptions);
+//var socket = io.connect("http://localhost:4000",connectionOptions);
 
 const Alert = (props) => {
   return <MuiAlert elevation={6} variant="filled" {...props} />;
