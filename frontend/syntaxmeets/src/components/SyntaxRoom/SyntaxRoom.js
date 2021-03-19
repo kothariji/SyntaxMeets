@@ -53,10 +53,8 @@ const SyntaxRoom = (props) => {
       });
 
     console.log(roomsList);
-    // If disconnected then connect again to server
-    // Trigerred when user leaves a room 
+    // If disconnected then connect again to server 
     // Trigerred when user leaves a room
-
     socket.on("disconnect", (reason) => {
 
       socket.connect();
