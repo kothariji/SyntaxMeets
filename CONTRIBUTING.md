@@ -50,7 +50,7 @@ In general, we follow the "fork-and-pull" Git workflow.
 
 4. Set the _**upstream**_ with original repository :
 
-    `git add upstream master https://github.com/kothariji/SyntaxMeets.git`
+    `git remote add upstream https://github.com/kothariji/SyntaxMeets.git`
 
 5. In order to check associated URLs with the project :
 

@@ -7,11 +7,10 @@ import {
   Avatar,
   Button,
   Drawer,
-  Typography,
-  Divider,
   List,
 } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
+import CloseSharpIcon from '@material-ui/icons/CloseSharp';
 
 const useStyles = makeStyles({
   list: {
@@ -78,6 +77,7 @@ function ParticipantsList(props) {
         open={openList}
         onClose={() => setOpenList(false)}
       >
+        <CloseSharpIcon style={{padding: "5px", fontSize: "3em", cursor: "pointer"}} onClick={() => setOpenList(false)} />
         <div
           className={classes.list}
           style={{

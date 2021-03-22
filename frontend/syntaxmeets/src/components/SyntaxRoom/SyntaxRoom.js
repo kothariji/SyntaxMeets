@@ -22,7 +22,6 @@ const Alert = (props) => {
 };
 
 const SyntaxRoom = (props) => {
-
   let paramsRoom = useParams().roomId;
   const [roomId] = useState(paramsRoom);
   const [name] = useState(props.location.name);
@@ -37,7 +36,7 @@ const SyntaxRoom = (props) => {
 
   useEffect(() => {
     // If disconnected then connect again to server
-    // Trigerred when user leaves a room 
+    // Trigerred when user leaves a room
 
     socket.on("disconnect", (reason) => {
       socket.connect();
@@ -61,7 +60,7 @@ const SyntaxRoom = (props) => {
       name: name,
     };
     socket.emit("joinroom", data);
-
+    localStorage.setItem("my_name", name);
     socket.on("addusers", (data) => {
       // When a new User joins in the room
       // Get all the users from the backend , when the current user joins in the room

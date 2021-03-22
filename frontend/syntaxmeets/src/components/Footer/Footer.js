@@ -16,7 +16,11 @@ export default function Footer() {
       <div className={localclasses.footer}>
         <Row className={localclasses.footer_content}>
           <Col md="8">
-            <img src={logo} style={{ width: "100px", height: "100px" }} />
+            <img
+              src={logo}
+              alt="syntaxmeets-logo"
+              style={{ width: "100px", height: "100px" }}
+            />
             <p>
               <span
                 style={{
@@ -48,6 +52,7 @@ export default function Footer() {
               <a
                 href="https://www.producthunt.com/posts/syntaxmeets?utm_source=badge-featured&utm_medium=badge&utm_souce=badge-syntaxmeets"
                 target="_blank"
+                rel="noopener noreferrer"
               >
                 <img
                   src="https://api.producthunt.com/widgets/embed-image/v1/featured.svg?post_id=276565&theme=light"
@@ -86,6 +91,7 @@ export default function Footer() {
                 className={localclasses.iconGit}
                 href="https://github.com/kothariji/SyntaxMeets"
                 target="_blank"
+                rel="noopener noreferrer"
               >
                 <GithubIcon
                   className={localclasses.iconGit}
@@ -105,6 +111,7 @@ export default function Footer() {
           <a
             href="https://github.com/kothariji/SyntaxMeets"
             target="_blank"
+            rel="noopener noreferrer"
             style={{ textDecoration: "none" }}
           >
             <span className={localclasses.bgblock}>

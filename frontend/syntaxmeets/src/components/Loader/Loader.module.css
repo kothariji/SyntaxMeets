@@ -1,0 +1,9 @@
+.load {
+  background-color: #000a29;
+  text-align: center;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
