@@ -12,7 +12,7 @@ app.use(helmet());
 // io.origins(["http://localhost:3000"]);
 app.use(cors());
 
-io.on("connection",rateLimiter , (socket) => {
+io.on("connection" , (socket) => {
   let roomId = 0;
   let userName = "";
   let userId = 1;
