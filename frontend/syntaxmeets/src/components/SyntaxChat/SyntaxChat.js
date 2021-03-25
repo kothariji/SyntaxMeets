@@ -170,9 +170,9 @@ const SyntaxChat = (props) => {
               </Grid>
             ) : undefined}
 
-            <Grid container spacing={3}>
+            <Grid container spacing={3} alignContent="center">
               {/* <Grid item xs={1}></Grid> */}
-              <Grid item xs={1}>
+              <Grid item xs={1} alignContent="center">
                 {/* <Button
                   variant="contained"
                   // className={classes.button}
@@ -186,12 +186,17 @@ const SyntaxChat = (props) => {
                   onClick={triggerPicker}
                   color="primary"
                   // className={classes.list}
-                  style={{ display: "flex", alignSelf: "center" }}
+                  style={{
+                    display: "flex",
+                    alignSelf: "center",
+                    cursor: "pointer",
+                  }}
+                  alignContent="center"
                 ></InsertEmoticonIcon>
                 {/* <Grid item xs={1}></Grid> */}
               </Grid>
 
-              <Grid item xs={7}>
+              <Grid item xs={7} alignContent="center">
                 <TextField
                   id="outlined-basic"
                   label="Enter Your Message"
@@ -222,7 +227,7 @@ const SyntaxChat = (props) => {
                   onChange={(event) => SetMessage(event.target.value)}
                 /> */}
               </Grid>
-              <Grid item xs={3}>
+              <Grid item xs={3} alignContent="center">
                 <Button
                   variant="contained"
                   color="primary"
