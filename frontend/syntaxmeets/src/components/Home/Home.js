@@ -176,6 +176,7 @@ const Home = (props) => {
                           onClick={()=>{
                             localStorage.setItem('roomId',roomId);
                             localStorage.setItem('name',name);
+                            sessionStorage.setItem('isconnected',true);
                           }
                           }
                         >
@@ -264,7 +265,8 @@ const Home = (props) => {
                           }}
                           onClick={ ()=>{
                             localStorage.setItem('roomId',joinRoomId)
-                            localStorage.setItem('name',name)   
+                            localStorage.setItem('name',name) 
+                            sessionStorage.setItem('isconnected',true)  
                           }
 
                           }

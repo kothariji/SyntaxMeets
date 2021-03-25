@@ -53,8 +53,10 @@ const SyntaxRoom = (props) => {
       });
 
     console.log(roomsList);
-    // If disconnected then connect again to server 
+    // If disconnected then connect again to server
+    // Trigerred when user leaves a room 
     // Trigerred when user leaves a room
+
     socket.on("disconnect", (reason) => {
 
       socket.connect();
@@ -67,7 +69,7 @@ const SyntaxRoom = (props) => {
       var flag = false;
       flag = roomsList.includes(roomid);
       localStorage.setItem('flag', flag);
-      if (localStorage.getItem('flag')) {
+      if (localStorage.getItem('flag') && sessionStorage.getItem('isconnected')) {
         props.location.name = localStorage.getItem('name');
         let data = {
           room: localStorage.getItem('roomId'),

@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import { makeStyles } from "@material-ui/core/styles";
+
 import {
   Drawer,
   Button,
@@ -34,18 +35,33 @@ const SyntaxChat = (props) => {
   const [state, setState] = useState(false);
 
   const handleMessageSubmit = () => {
-    if (message === "") return;
-    let data = {
-      name: props.name,
-      roomId: props.roomId,
-      message: message,
-    };
-    props.socket.emit("chatmessage", data);
-    setMessages((messages) => [...messages, data]);
-    setMCount(mCount + 1);
-    setMessage("");
+    if (localStorage.getItem('flag') && sessionStorage.getItem('isconnected')) {
+      if (message === "") return;
+      let data = {
+        name: localStorage.getItem('name'),
+        roomId: localStorage.getItem('roomId'),
+        message: message,
+      };
+      props.socket.emit("chatmessage", data);
+      setMessages((messages) => [...messages, data]);
+      setMCount(mCount + 1);
+      setMessage("");
+    }
+    else {
+      if (message === "") return;
+      let data = {
+        name: props.name,
+        roomId: props.roomId,
+        message: message,
+      };
+      props.socket.emit("chatmessage", data);
+      setMessages((messages) => [...messages, data]);
+      setMCount(mCount + 1);
+      setMessage("");
+    }
   };
 
+  
   useEffect(() => {
     props.socket.on("chatmessage", (data) => {
       setMessages((messages) => [...messages, data]);

@@ -91,6 +91,11 @@ const SyntaxEditor = (props) => {
     if (props.previousUser.id === props.id) {
       props.socket.emit("message", value);
     }
+    else if(sessionStorage.getItem('isconnected'))
+    {
+      setValue(sessionStorage.getItem('code'));
+      //console.log("1");
+    }
   }, [props.previousUser]);
 
   var codeToken = 0;
@@ -98,11 +103,13 @@ const SyntaxEditor = (props) => {
   useEffect(() => {
     props.socket.on("message", (newValue) => {
       setValue(newValue);
+      
     });
   }, []);
 
   const handleChange = (newValue) => {
     setValue(newValue);
+    sessionStorage.setItem('code',newValue);
     props.socket.emit("message", newValue);
   };
 
