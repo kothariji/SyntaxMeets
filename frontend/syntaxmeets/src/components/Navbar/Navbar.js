@@ -106,7 +106,7 @@ const Navbar = (props) => {
               severity="success"
               variant="filled"
             >
-              Room-ID Copied !
+              Invite created ! Share with your friends and have a meet.
             </Alert>
           </Snackbar>
           <SyntaxChat
