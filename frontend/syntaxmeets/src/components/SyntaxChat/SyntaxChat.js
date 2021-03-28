@@ -1,6 +1,9 @@
 import React, { useState, useEffect, useRef } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 
+
+import InsertEmoticonIcon from "@material-ui/icons/InsertEmoticon";
+
 import {
   Drawer,
   Button,
@@ -14,6 +17,8 @@ import SendIcon from "@material-ui/icons/Send";
 import ForumIcon from "@material-ui/icons/Forum";
 import { ChatMessage } from "./ChatMessage";
 import CloseSharpIcon from "@material-ui/icons/CloseSharp";
+import "emoji-mart/css/emoji-mart.css";
+import { Picker } from "emoji-mart";
 
 const useStyles = makeStyles({
   list: {
@@ -29,12 +34,14 @@ const SyntaxChat = (props) => {
   const [message, setMessage] = useState("");
   const [messages, setMessages] = useState([]);
   const [typingUser, setTypingUser] = useState();
+  const [emojiPickerState, SetEmojiPicker] = useState(false);
   const messagesEndRef = useRef(null);
 
   const [mCount, setMCount] = useState(0);
   const [state, setState] = useState(false);
 
   const handleMessageSubmit = () => {
+
     if (localStorage.getItem('flag') && sessionStorage.getItem('isconnected')) {
       if (message === "") return;
       let data = {
@@ -59,6 +66,19 @@ const SyntaxChat = (props) => {
       setMCount(mCount + 1);
       setMessage("");
     }
+
+    SetEmojiPicker(false);
+    if (message === "") return;
+    let data = {
+      name: props.name,
+      roomId: props.roomId,
+      message: message,
+    };
+    props.socket.emit("chatmessage", data);
+    setMessages((messages) => [...messages, data]);
+    setMCount(mCount + 1);
+    setMessage("");
+
   };
 
   
@@ -85,7 +105,22 @@ const SyntaxChat = (props) => {
     }
   };
 
+  function triggerPicker(event) {
+    event.preventDefault();
+    SetEmojiPicker(!emojiPickerState);
+  }
   useEffect(scrollToBottom, [messages]);
+  let emojiPicker;
+  if (emojiPickerState) {
+    emojiPicker = (
+      <Picker
+        title="Pick your emoji…"
+        emoji="point_up"
+        onSelect={(emoji) => setMessage(message + emoji.native)}
+        // style={{width: "90%", display: "flex"}}
+      />
+    );
+  }
 
   const toggleDrawer = (open) => (event) => {
     if (
@@ -166,9 +201,33 @@ const SyntaxChat = (props) => {
               </Grid>
             ) : undefined}
 
-            <Grid container spacing={3}>
-              <Grid item xs={1}></Grid>
-              <Grid item xs={7}>
+            <Grid container spacing={3} alignContent="center">
+              {/* <Grid item xs={1}></Grid> */}
+              <Grid item xs={1} alignContent="center">
+                {/* <Button
+                  variant="contained"
+                  // className={classes.button}
+                  // class="ma4 b ph3 pv2 input-reset ba b--black bg-transparent grow pointer f6 dib"
+                  onClick={triggerPicker}
+                  color="white"
+                  size="small"
+                ></Button> */}
+                <Grid item xs={1}></Grid>
+                <InsertEmoticonIcon
+                  onClick={triggerPicker}
+                  color="primary"
+                  // className={classes.list}
+                  style={{
+                    display: "flex",
+                    alignSelf: "center",
+                    cursor: "pointer",
+                  }}
+                  alignContent="center"
+                ></InsertEmoticonIcon>
+                {/* <Grid item xs={1}></Grid> */}
+              </Grid>
+
+              <Grid item xs={7} alignContent="center">
                 <TextField
                   id="outlined-basic"
                   label="Enter Your Message"
@@ -190,26 +249,39 @@ const SyntaxChat = (props) => {
                     }
                   }}
                 />
+                {/* <input
+                  id="name"
+                  class="input-reset ba b--black-20 pa2 mb2 db w-100"
+                  type="text"
+                  aria-describedby="name-desc"
+                  value={message}
+                  onChange={(event) => SetMessage(event.target.value)}
+                /> */}
               </Grid>
-              <Grid item xs={3}>
+              <Grid item xs={3} alignContent="center">
                 <Button
                   variant="contained"
                   color="primary"
                   className={classes.button}
-                  endIcon={<SendIcon />}
-                  size="large"
-                  onClick={handleMessageSubmit}
+                  // size="large"
                   style={{
                     fontFamily: "poppins",
                     marginLeft: "auto",
                     fontWeight: "600",
                     color: "white",
                   }}
+                  endIcon={<SendIcon />}
+                  onClick={handleMessageSubmit}
                 >
                   Send
                 </Button>
                 <Grid item xs={1}></Grid>
               </Grid>
+            </Grid>
+            <Grid container spacing={3} style={{ paddingTop: "10px" }}>
+              <Grid item xs={1}></Grid>
+              {emojiPicker}
+              <Grid item xs={1}></Grid>
             </Grid>
           </div>
         </div>
