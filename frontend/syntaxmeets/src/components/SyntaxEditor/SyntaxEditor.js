@@ -33,6 +33,7 @@ import {
 import ShareIcon from "@material-ui/icons/Share";
 import PlayArrowIcon from "@material-ui/icons/PlayArrow";
 import FileCopyIcon from "@material-ui/icons/FileCopy";
+import CloudUploadIcon from '@material-ui/icons/CloudUpload';
 import INPUT from "./CodeInput";
 import OUTPUT from "./CodeOutput";
 import copy from "copy-to-clipboard";
@@ -110,6 +111,29 @@ const SyntaxEditor = (props) => {
       </AppBar>
     );
   };
+  
+  const uploadFile = () => {
+    document.querySelector("#upload").click();
+  }
+
+  const handleFileChange = () => {
+    var file = document.querySelector("#upload").files[0];
+
+    if (file) {
+        var reader = new FileReader();
+
+        reader.onload = function (e) {
+            console.log(e);
+           handleChange(e.target.result);
+        };
+
+        reader.onerror = function (e) {
+            console.error("An error ocurred reading the file", e);
+        };
+
+        reader.readAsText(file, "UTF-8");
+    }
+  }
 
   return (
     <Fragment>
@@ -299,6 +323,21 @@ const SyntaxEditor = (props) => {
               </Typography>
             }
           />
+          <input type="file" id="upload" onChange={() => handleFileChange()} hidden accept=".c, .cpp, .java, .js, .ts, .clj, .cljs, .cs, .cbl, .cob, .cpy, .erl, .hrl, .go, .py, .f90, .f95, .f03, .txt, .groovy, .gvy, .gy, .gsh, 	.kt, .kts, .ktm, .php, .r, .rb, .sql, .swift"/>
+          <Button
+            variant="contained"
+            color="primary"
+            onClick={() => uploadFile()}
+            startIcon={<CloudUploadIcon />}
+            style={{
+              fontFamily: "poppins",
+              marginLeft: "auto",
+              fontWeight: "600",
+              color: "white",
+            }}
+          >
+            Upload File
+          </Button>
           <Button
             variant="contained"
             color="primary"
