@@ -3,14 +3,16 @@ const server = require("http").createServer(app);
 const cors = require("cors");
 const Rooms = require("./Utils/Rooms");
 const io = require("socket.io")(server, { origins: "*:*" });
-
+const helmet = require('helmet');
+const rateLimiter = require('./rateLimiter');
 // instantiate a new rooms object to store all clients in the room
 const rooms = new Rooms();
+app.use(helmet());
 
 // io.origins(["http://localhost:3000"]);
 app.use(cors());
 
-io.on("connection", (socket) => {
+io.on("connection" , (socket) => {
   let roomId = 0;
   let userName = "";
   let userId = 1;
@@ -65,7 +67,7 @@ io.on("connection", (socket) => {
   });
 });
 
-app.get("/", (req, res) => {
+app.get("/",rateLimiter ,  (req, res) => {
   res.send({ response: "Server is up and Running." }).status(200);
 });
 
