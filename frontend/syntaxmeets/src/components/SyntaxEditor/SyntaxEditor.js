@@ -25,7 +25,6 @@ import Alert from "@material-ui/lab/Alert";
 import localClasses from "./SyntaxEditor.module.css";
 import {
   languages,
-  defaultValue,
   langMode,
   LangOptions,
   langId,
@@ -34,8 +33,11 @@ import {
 import ShareIcon from "@material-ui/icons/Share";
 import PlayArrowIcon from "@material-ui/icons/PlayArrow";
 import FileCopyIcon from "@material-ui/icons/FileCopy";
+import INPUT from "./CodeInput";
+import OUTPUT from "./CodeOutput";
 import copy from "copy-to-clipboard";
-
+import { connect } from "react-redux";
+import * as actions from "../../store/actions/editorActions.js";
 //extracting all the languages recquired
 languages.forEach((lang) => {
   require(`ace-builds/src-noconflict/mode-${lang}`);
@@ -44,8 +46,6 @@ languages.forEach((lang) => {
 
 //extracting themes
 themes.forEach((theme) => require(`ace-builds/src-noconflict/theme-${theme}`));
-
-const axios = require("axios");
 
 const useStyles = makeStyles((mutheme) => ({
   formControl: {
@@ -56,53 +56,27 @@ const useStyles = makeStyles((mutheme) => ({
     marginTop: mutheme.spacing(2),
   },
 }));
-
-const ICE = (props) => {
-  const handleIChange = (newValue) => {
-    props.onInputChange(newValue);
-  };
-
-  return (
-    <AceEditor
-      mode="c_cpp"
-      theme="monokai"
-      height="150px"
-      width={"auto"}
-      onChange={handleIChange}
-      value={props.inputValue}
-      fontSize={18}
-    />
-  );
-};
 const SyntaxEditor = (props) => {
-  const [value, setValue] = useState(defaultValue);
-  const [currLang, setCurrLang] = useState("C++");
   const [theme, setTheme] = useState("monokai");
-  const [fontSize, setFontSize] = useState(16);
-  const [autoCompletion, setautoCompletion] = useState(true);
-  const [codeInput, setCodeInput] = useState("");
-  const [codeOutput, setCodeOutput] = useState("");
-  const [isCompiling, setIsCompiling] = useState(false);
-  const [isError, setIsError] = useState(false);
-  const [codeError, setCodeError] = useState("");
   const [popup, setPopup] = useState(false);
+
   // This will resend a message to update the code of the newly joined user
   useEffect(() => {
+    let UpdatedCode = props.code;
     if (props.previousUser.id === props.id) {
-      props.socket.emit("message", value);
+      props.socket.emit("message", UpdatedCode);
     }
   }, [props.previousUser]);
 
-  var codeToken = 0;
   const classes = useStyles();
   useEffect(() => {
     props.socket.on("message", (newValue) => {
-      setValue(newValue);
+      props.setCode(newValue);
     });
   }, []);
 
   const handleChange = (newValue) => {
-    setValue(newValue);
+    props.setCode(newValue);
     props.socket.emit("message", newValue);
   };
 
@@ -111,66 +85,8 @@ const SyntaxEditor = (props) => {
     setPopup(true);
   };
 
-  const handleInputChange = (newInput) => {
-    setCodeInput(newInput);
-  };
-
-  const handleCodeRun = async () => {
-    setIsCompiling(true);
-
-    let options = {
-      method: "POST",
-      url: "https://judge0-ce.p.rapidapi.com/submissions",
-      headers: {
-        "content-type": "application/json",
-        "x-rapidapi-key": process.env.REACT_APP_ONLINE_JUDGE_API,
-        "x-rapidapi-host": "judge0-ce.p.rapidapi.com",
-      },
-      data: {
-        language_id: langId[currLang],
-        source_code: value,
-        stdin: codeInput,
-      },
-    };
-
-    await axios
-      .request(options)
-      .then(function (response) {
-        console.log("compile: ", response);
-        codeToken = response.data.token;
-      })
-      .catch(function (error) {
-        console.error(error);
-      });
-
-    const delay = (ms) => new Promise((res) => setTimeout(res, ms));
-    await delay(7000);
-
-    options = {
-      method: "GET",
-      url: "https://judge0-ce.p.rapidapi.com/submissions/" + codeToken,
-      headers: {
-        "x-rapidapi-key": process.env.REACT_APP_ONLINE_JUDGE_API,
-        "x-rapidapi-host": "judge0-ce.p.rapidapi.com",
-      },
-    };
-    await axios
-      .request(options)
-      .then(function (response) {
-        if (response.data.stderr !== null) {
-          setIsCompiling(false);
-          setCodeError(response.data.stderr);
-          setIsError(true);
-        } else {
-          setCodeOutput(response.data.stdout);
-          setIsCompiling(false);
-        }
-      })
-      .catch(function (error) {
-        setIsCompiling(false);
-        setCodeError("Compilation Error: " + error.response.data.error);
-        setIsError(true);
-      });
+  const handleCodeRun = () => {
+    props.executeCode(langId[props.currLang], props.code, props.codeInput);
   };
 
   const IONavbar = (props) => {
@@ -197,7 +113,7 @@ const SyntaxEditor = (props) => {
 
   return (
     <Fragment>
-      <Dialog fullWidth={true} maxWidth={"sm"} open={isCompiling}>
+      <Dialog fullWidth={true} maxWidth={"sm"} open={props.isCompiling}>
         <DialogTitle style={{ align: "center" }}>Compiling ...</DialogTitle>
         <div className={localClasses.loader}>
           <div>
@@ -208,12 +124,12 @@ const SyntaxEditor = (props) => {
           </div>
         </div>
       </Dialog>
-      <Dialog maxWidth={"sm"} open={isError}>
+      <Dialog maxWidth={"sm"} open={props.isError}>
         <DialogTitle>Oops Error Occured</DialogTitle>
-        <span style={{ marginLeft: "15px" }}>{codeError}</span>
+        <span style={{ marginLeft: "15px" }}>{props.codeError}</span>
         <DialogActions>
           <Button
-            onClick={() => setIsError(false)}
+            onClick={() => props.setIsError(false)}
             variant="contained"
             size="large"
             color="primary"
@@ -271,9 +187,9 @@ const SyntaxEditor = (props) => {
                 name="mode"
                 labelId="mode-label"
                 id="select-mode"
-                value={currLang}
+                value={props.currLang}
                 onChange={(e) => {
-                  setCurrLang(e.target.value);
+                  props.setLanguage(e.target.value);
                 }}
                 label="Language"
                 style={{ fontFamily: "poppins", color: "#ffffff" }}
@@ -329,8 +245,8 @@ const SyntaxEditor = (props) => {
                 name="Theme"
                 labelId="font-label"
                 id="select-font"
-                onChange={(e) => setFontSize(e.target.value)}
-                value={fontSize}
+                onChange={(e) => props.setFontSize(e.target.value)}
+                value={props.fontSize}
                 label="Font Size"
                 style={{ fontFamily: "poppins", color: "#ffffff" }}
               >
@@ -345,20 +261,20 @@ const SyntaxEditor = (props) => {
         </div>
       </AppBar>
       <AceEditor
-        mode={langMode[currLang]}
+        mode={langMode[props.currLang]}
         theme={theme}
         height="550px"
         width={"auto"}
-        value={value}
+        value={props.code}
         onChange={handleChange}
-        fontSize={fontSize}
+        fontSize={props.fontSize}
         showPrintMargin
         showGutter
         highlightActiveLine
         name="CODEEDITOR"
         setOptions={{
           useWorker: false,
-          enableLiveAutocompletion: autoCompletion,
+          enableLiveAutocompletion: props.autoCompletion,
         }}
       />
       <AppBar
@@ -370,9 +286,9 @@ const SyntaxEditor = (props) => {
             control={
               <Switch
                 color="primary"
-                checked={autoCompletion}
+                checked={props.autoCompletion}
                 onChange={() => {
-                  setautoCompletion(!autoCompletion);
+                  props.setAutoCompletion(!props.autoCompletion);
                 }}
                 name="EnableAutoCompletion"
               />
@@ -386,7 +302,7 @@ const SyntaxEditor = (props) => {
           <Button
             variant="contained"
             color="primary"
-            onClick={() => copyCode(value)}
+            onClick={() => copyCode(props.code)}
             startIcon={<FileCopyIcon />}
             style={{
               fontFamily: "poppins",
@@ -418,30 +334,41 @@ const SyntaxEditor = (props) => {
       <Grid container spacing={0}>
         <Grid item xs={12} sm={12} md={6}>
           <IONavbar type={"Input"} />
-          <ICE inputValue={codeInput} onInputChange={handleInputChange} />
+          <INPUT />
         </Grid>
         <Grid item xs={12} sm={12} md={6}>
           <IONavbar type={"Output"} />
-          <AceEditor
-            mode="c_cpp"
-            theme="monokai"
-            height="150px"
-            width={"auto"}
-            readOnly
-            value={codeOutput}
-            fontSize={fontSize}
-            showPrintMargin
-            showGutter
-            name="OUTPUTEDITOR"
-            setOptions={{
-              useWorker: false,
-              enableLiveAutocompletion: false,
-            }}
-          />
+          <OUTPUT />
         </Grid>
       </Grid>
     </Fragment>
   );
 };
 
-export default SyntaxEditor;
+const mapStateToProps = (state) => {
+  return {
+    code: state.EDITOR.code,
+    currLang: state.EDITOR.lang,
+    fontSize: state.EDITOR.fontSize,
+    autoCompletion: state.EDITOR.autoCompletion,
+    codeInput: state.EDITOR.codeInput,
+    codeOutput: state.EDITOR.codeOutput,
+    isCompiling: state.EDITOR.isCompiling,
+    isError: state.EDITOR.isError,
+    codeError: state.EDITOR.codeError,
+    previousUser:state.ROOM.previousUser,
+    id:state.ROOM.id
+  };
+};
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    setCode: (code) => dispatch(actions.setCode(code)),
+    setLanguage: (lang) => dispatch(actions.setLanguage(lang)),
+    setFontSize: (size) => dispatch(actions.setFontSize(size)),
+    setAutoCompletion: (name) => dispatch(actions.setAutoCompletion(name)),
+    executeCode: (langId, code, input) =>
+      dispatch(actions.executeCode(langId, code, input)),
+  };
+};
+export default connect(mapStateToProps, mapDispatchToProps)(SyntaxEditor);

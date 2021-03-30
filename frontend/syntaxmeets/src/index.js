@@ -67,7 +67,7 @@ const theme = createMuiTheme({
 });
 
 ReactDOM.render(
-  <React.StrictMode>
+  
     <ThemeProvider theme={theme}>
       <MediaQuery query="(max-device-width: 768px)">
         <Mobile /> 
@@ -76,7 +76,7 @@ ReactDOM.render(
         <App />
       </MediaQuery>
     </ThemeProvider>
-  </React.StrictMode>,
+,
   document.getElementById('root')
 );
 

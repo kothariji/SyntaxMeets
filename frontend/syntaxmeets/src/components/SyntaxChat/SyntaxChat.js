@@ -8,7 +8,8 @@ import {
   Grid,
   Typography,
 } from "@material-ui/core";
-
+import { connect } from 'react-redux';
+import * as actions from "../../store/actions/chatActions.js";
 import SendIcon from "@material-ui/icons/Send";
 import ForumIcon from "@material-ui/icons/Forum";
 import { ChatMessage } from "./ChatMessage";
@@ -25,40 +26,36 @@ const useStyles = makeStyles({
 
 const SyntaxChat = (props) => {
   const classes = useStyles();
-  const [message, setMessage] = useState("");
-  const [messages, setMessages] = useState([]);
-  const [typingUser, setTypingUser] = useState();
   const messagesEndRef = useRef(null);
-
-  const [mCount, setMCount] = useState(0);
-  const [state, setState] = useState(false);
+  const [openDrawer, setopenDrawer] = useState(false);
 
   const handleMessageSubmit = () => {
-    if (message === "") return;
+    if (props.message === "") return;
     let data = {
       name: props.name,
       roomId: props.roomId,
-      message: message,
+      message: props.message,
     };
     props.socket.emit("chatmessage", data);
-    setMessages((messages) => [...messages, data]);
-    setMCount(mCount + 1);
-    setMessage("");
+    
+    props.setMessages(data);
+    props.setMessage("");
   };
 
   useEffect(() => {
+  
     props.socket.on("chatmessage", (data) => {
-      setMessages((messages) => [...messages, data]);
+      props.setMessages(data);
     });
     let timeout;
-    // recieve the user who is currently typing's data from the backend
-    props.socket.on("typing", (data) => {
-      setTypingUser(data.name);
+      // recieve the user who is currently typing's data from the backend
+      props.socket.on("typing", (data) => {
+      props.whoIsTyping(data.name);
       //Remove the timeout(to clear typing message) , if someone has again typed something
       clearTimeout(timeout);
       timeout = setTimeout(() => {
         //Remove the typing message if no one is typing after 500ms
-        setTypingUser();
+      props.whoIsTyping();
       }, 500);
     });
   }, []);
@@ -69,17 +66,13 @@ const SyntaxChat = (props) => {
     }
   };
 
-  useEffect(scrollToBottom, [messages]);
+  useEffect(scrollToBottom, [props.messages]);
 
   const toggleDrawer = (open) => (event) => {
-    if (
-      event.type === "keydown" &&
-      (event.key === "Tab" || event.key === "Shift")
-    ) {
+    if (event.type === "keydown" && (event.key === "Tab" || event.key === "Shift")){
       return;
     }
-
-    setState(open);
+    setopenDrawer(open);
   };
 
   return (
@@ -98,7 +91,7 @@ const SyntaxChat = (props) => {
       >
         Chat Box
       </Button>
-      <Drawer anchor={"right"} open={state} onClose={toggleDrawer(false)}>
+      <Drawer anchor={"right"} open={openDrawer} onClose={toggleDrawer(false)}>
         <CloseSharpIcon
           style={{ padding: "5px", fontSize: "3em", cursor: "pointer" }}
           onClick={toggleDrawer(false)}
@@ -115,7 +108,7 @@ const SyntaxChat = (props) => {
               height: "90%",
             }}
           >
-            {<ChatMessage messages={messages} />}
+            {<ChatMessage messages={props.messages} />}
             <div ref={messagesEndRef} />
           </div>
           <div
@@ -132,7 +125,7 @@ const SyntaxChat = (props) => {
                 <Divider />
               </Grid>
             </Grid>
-            {typingUser ? (
+            {props.typingUser ? (
               <Grid container justify="center">
                 <Grid item xs={1}></Grid>
                 <Typography
@@ -143,7 +136,7 @@ const SyntaxChat = (props) => {
                   style={{ marginBottom: "4px" }}
                   gutterBottom
                 >
-                  <b>{typingUser}</b> is typing...
+                  <b>{props.typingUser}</b> is typing...
                 </Typography>
 
                 <Grid item xs={1}></Grid>
@@ -159,14 +152,13 @@ const SyntaxChat = (props) => {
                   variant="outlined"
                   fullWidth
                   size="small"
-                  value={message}
+                  value={props.message}
                   onChange={(e) => {
-                    // Send the user who is currently typings , name and id to the backend
                     props.socket.emit("typing", {
                       id: props.socket.id,
                       name: props.name,
                     });
-                    setMessage(e.target.value);
+                    props.setMessage(e.target.value);
                   }}
                   onKeyDown={(e) => {
                     if (e.key === "Enter") {
@@ -202,4 +194,19 @@ const SyntaxChat = (props) => {
   );
 };
 
-export default SyntaxChat;
+const mapStateToProps = state => {
+    return {
+      typingUser: state.CHAT.typingUser,
+      message:state.CHAT.message,
+      messages : state.CHAT.chat,
+    }
+}
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+      setMessage: (msg) => dispatch(actions.setMessage(msg)),
+      setMessages: (msg) => dispatch(actions.makeMessage(msg)),
+      whoIsTyping: (user) => dispatch(actions.whoIsTyping(user))
+  }
+}
+export default connect(mapStateToProps,mapDispatchToProps)(SyntaxChat);
