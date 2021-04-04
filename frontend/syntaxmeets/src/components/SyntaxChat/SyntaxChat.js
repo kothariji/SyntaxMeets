@@ -29,15 +29,13 @@ const useStyles = makeStyles({
 
 const SyntaxChat = (props) => {
   const classes = useStyles();
-  const [message, setMessage] = useState("");
-  const [messages, setMessages] = useState([]);
-  const [typingUser, setTypingUser] = useState();
   const [emojiPickerState, SetEmojiPicker] = useState(false);
   const messagesEndRef = useRef(null);
   const [openDrawer, setopenDrawer] = useState(false);
 
   const handleMessageSubmit = () => {
     if (props.message === "") return;
+    SetEmojiPicker(false);
     let data = {
       name: props.name,
       roomId: props.roomId,
@@ -84,7 +82,7 @@ const SyntaxChat = (props) => {
       <Picker
         title="Pick your emoji…"
         emoji="point_up"
-        onSelect={(emoji) => setMessage(message + emoji.native)}
+        onSelect={(emoji) => props.setMessage(props.message + emoji.native)}
         // style={{width: "90%", display: "flex"}}
       />
     );

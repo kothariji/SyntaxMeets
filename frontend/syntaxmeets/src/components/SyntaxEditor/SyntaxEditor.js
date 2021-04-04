@@ -367,6 +367,7 @@ const mapDispatchToProps = (dispatch) => {
     setLanguage: (lang) => dispatch(actions.setLanguage(lang)),
     setFontSize: (size) => dispatch(actions.setFontSize(size)),
     setAutoCompletion: (name) => dispatch(actions.setAutoCompletion(name)),
+    setIsError: (isactive) => dispatch(actions.setIsError(isactive)),
     executeCode: (langId, code, input) =>
       dispatch(actions.executeCode(langId, code, input)),
   };

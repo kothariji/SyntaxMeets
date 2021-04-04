@@ -38,7 +38,6 @@ const SyntaxRoom = (props) => {
       room: roomId,
       name: props.Username,
     };
-    console.log(data);
     socket.emit("joinroom", data);
     localStorage.setItem("my_name", props.Username);
     socket.on("addusers", (data) => {

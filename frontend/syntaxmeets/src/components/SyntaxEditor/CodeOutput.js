@@ -12,7 +12,7 @@ const OUTPUT = (props) => {
         width={"auto"}
         readOnly
         value={props.codeOutput}
-        fontSize={props.fontSize}
+        fontSize={16}
         showPrintMargin
         showGutter
         name="OUTPUTEDITOR"
@@ -28,7 +28,6 @@ const OUTPUT = (props) => {
   const mapStateToProps = (state) => {
     return {
       codeOutput: state.EDITOR.codeOutput, 
-      fontSize: state.EDITOR.fontSize,
     };
   };
 export default connect(mapStateToProps)(OUTPUT);
