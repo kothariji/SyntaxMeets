@@ -1,4 +1,4 @@
-import React, { useState, useRef} from "react";
+import React, { useState, useRef,useEffect} from "react";
 import localclasses from "./Home.module.css";
 import bgimg from "../../images/homepage.svg";
 import Container from "react-bootstrap/Container";
@@ -9,22 +9,11 @@ import { Link } from "react-router-dom";
 import SkyLight from "react-skylight";
 import PropTypes from "prop-types";
 import { withStyles } from "@material-ui/core/styles";
-import MeetingRoomIcon from '@material-ui/icons/MeetingRoom';
-import GroupAddIcon from '@material-ui/icons/GroupAdd';
-
-
-function generateRoomId() {
-  var tempId = "";
-  var characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
-  var charactersLength = characters.length;
-  for (var i = 0; i < 12; i++) {
-    tempId += characters.charAt(Math.floor(Math.random() * charactersLength));
-    if ((i + 1) % 4 === 0 && i !== 11) {
-      tempId += "-";
-    }
-  }
-  return tempId;
-}
+import MeetingRoomIcon from "@material-ui/icons/MeetingRoom";
+import GroupAddIcon from "@material-ui/icons/GroupAdd";
+import { connect } from "react-redux";
+import { validateRoomID } from '../../util/util.js'
+import * as actions from "../../store/actions/roomActions.js";
 
 const styles = {
   input: {
@@ -36,19 +25,21 @@ const Home = (props) => {
   const { classes } = props;
   const skyLightCreateModal = useRef(SkyLight);
   const skyLightJoinModal = useRef(SkyLight);
-  const [roomId] = useState(generateRoomId());
-  const [joinRoomId, setjoinRoomId] = useState("123");
-  const [name, setName] = useState("");
   const [disabledName, setDisabledName] = useState(true);
   const [disabledRoomId, setDisabledRoomId] = useState(true);
-  
+
+
+  useEffect(() => {
+    props.reset();
+  },[]);
 
   const roomModal = {
-        backgroundImage: "linear-gradient(to top, #d6d4ee, #e1dff2, #ebe9f6, #f5f4fb, #ffffff)",
-        width: "30%",
-        marginTop: "-200px",
-        marginLeft: "-15%",
-    };
+    backgroundImage:
+      "linear-gradient(to top, #d6d4ee, #e1dff2, #ebe9f6, #f5f4fb, #ffffff)",
+    width: "30%",
+    marginTop: "-200px",
+    marginLeft: "-15%",
+  };
 
   const ModalTitle = (props) => (
     <Row className="justify-content-md-center mt-5">
@@ -61,8 +52,8 @@ const Home = (props) => {
         }}
       >
         {props.start}
-        <span style={{ color: "#000", fontWeight: "800", }}>&nbsp;Syntax</span>
-        <span style={{ color: "#ffd500", fontWeight: "800", }}>Room</span>
+        <span style={{ color: "#000", fontWeight: "800" }}>&nbsp;Syntax</span>
+        <span style={{ color: "#ffd500", fontWeight: "800" }}>Room</span>
       </span>
     </Row>
   );
@@ -87,15 +78,14 @@ const Home = (props) => {
                   color="secondary"
                   style={{
                     padding: "10px",
-                    fontSize: '3vh',
-                    fontWeight: '600',
-                    color: '#333',
+                    fontSize: "3vh",
+                    fontWeight: "600",
+                    color: "#333",
                     width: "310px",
-                    textDecoration:"none"
+                    textDecoration: "none",
                   }}
                   startIcon={<MeetingRoomIcon style={{ fontSize: 30 }} />}
                   size="large"
-                  
                   onClick={() => skyLightCreateModal.current.show()}
                 >
                   Create a Room
@@ -110,160 +100,159 @@ const Home = (props) => {
                   color="secondary"
                   style={{
                     padding: "10px",
-                    fontSize: '3vh',
-                    fontWeight: '600',
-                    color: '#333',
+                    fontSize: "3vh",
+                    fontWeight: "600",
+                    color: "#333",
                     width: "310px",
                   }}
                   startIcon={<GroupAddIcon style={{ fontSize: 30 }} />}
                   size="large"
-                  
                   onClick={() => skyLightJoinModal.current.show()}
                 >
                   Join a Room
                 </MUIButton>
               </Row>
-              
-              
-                  <SkyLight
-                    dialogStyles={roomModal}
-                    hideOnOverlayClicked
-                    ref={skyLightCreateModal}
-                    title={<ModalTitle start="Create a" />}
+
+              <SkyLight
+                dialogStyles={roomModal}
+                hideOnOverlayClicked
+                ref={skyLightCreateModal}
+                title={<ModalTitle start="Create a" />}
+              >
+                <Container className={localclasses.home__modal__container}>
+                  <Typography
+                    style={{
+                      color: "#000",
+                      marginBottom: "10px",
+                      fontSize: "2vh",
+                    }}
                   >
-                    <Container className={localclasses.home__modal__container}>
-                      <Typography
-                        style={{
-                          color: "#000",
-                          marginBottom: "10px",
-                          fontSize: "2vh",
-                        }}
-                      >
-                        Enter Your Name
-                      </Typography>
-                      <TextField
-                        className={classes.root}
-                        InputProps={{ className: classes.input }}
-                        fullWidth
-                        id="outlined-basic"
-                        label="Your Name"
-                        variant="outlined"
-                        value={name}
-                        onChange={(e) => {
-                          setName(e.target.value)
-                          e.target.value.length >= 1 ? setDisabledName(false) : setDisabledName(true)
-                        }}
-                      />
+                    Enter Your Name
+                  </Typography>
+                  <TextField
+                    className={classes.root}
+                    InputProps={{ className: classes.input }}
+                    fullWidth
+                    id="outlined-basic"
+                    label="Your Name"
+                    variant="outlined"
+                    value={props.name}
+                    onChange={(e) => {
+                      props.setName(e.target.value);
+                      e.target.value.length >= 1
+                        ? setDisabledName(false)
+                        : setDisabledName(true);
+                    }}
+                  />
 
-                      <br />
-                      <br />
+                  <br />
+                  <br />
 
-                      <Row>
-                        <MUIButton
-                          style={{
-                            marginLeft: "auto",
-                            marginRight: "auto",
-                            backgroundColor: "#ffd500",
-                          }}
-                          variant="contained"
-                          size="large"
-                          disabled={disabledName}
-                          component={Link}
-                          to={{
-                            pathname: roomId,
-                            name: name,
-                          }}
-                        >
-                          Create Room
-                        </MUIButton>
-                      </Row>
-                    </Container>
-                  </SkyLight>
-                  <SkyLight
-                    dialogStyles={roomModal}
-                    hideOnOverlayClicked
-                    ref={skyLightJoinModal}
-                    title={<ModalTitle start="Join a" />}
+                  <Row>
+                    <MUIButton
+                      style={{
+                        marginLeft: "auto",
+                        marginRight: "auto",
+                        backgroundColor: "#ffd500",
+                      }}
+                      variant="contained"
+                      size="large"
+                      disabled={disabledName}
+                      component={Link}
+                      to={{
+                        pathname: props.joinRoomId,
+                      }}
+                    >
+                      Create Room
+                    </MUIButton>
+                  </Row>
+                </Container>
+              </SkyLight>
+              <SkyLight
+                dialogStyles={roomModal}
+                hideOnOverlayClicked
+                ref={skyLightJoinModal}
+                title={<ModalTitle start="Join a" />}
+              >
+                <Container className={localclasses.home__modal__container}>
+                  <Typography
+                    style={{
+                      color: "#000",
+                      marginBottom: "10px",
+                      fontSize: "2vh",
+                    }}
                   >
-                    <Container className={localclasses.home__modal__container}>
-                      <Typography
-                        style={{
-                          color: "#000",
-                          marginBottom: "10px",
-                          fontSize: "2vh",
-                        }}
-                      >
-                        Enter Your Name
-                      </Typography>
-                      <TextField
-                        className={classes.root}
-                        InputProps={{ className: classes.input }}
-                        fullWidth
-                        id="outlined-basic"
-                        label="Your Name"
-                        variant="outlined"
-                        value={name}
-                        onChange={(e) => {
-                          setName(e.target.value)
-                          e.target.value.length >= 1 ? setDisabledName(false) : setDisabledName(true)
-                        }}
-                        style = {{color: '#000'}}
-                      />
+                    Enter Your Name
+                  </Typography>
+                  <TextField
+                    className={classes.root}
+                    InputProps={{ className: classes.input }}
+                    fullWidth
+                    id="outlined-basic"
+                    label="Your Name"
+                    variant="outlined"
+                    value={props.name}
+                    onChange={(e) => {
+                      props.setName(e.target.value);
+                      e.target.value.length >= 1
+                        ? setDisabledName(false)
+                        : setDisabledName(true);
+                    }}
+                    style={{ color: "#000" }}
+                  />
 
-                      <Typography
-                        style={{
-                          color: "#000",
-                          marginTop: "10px",
-                          marginBottom: "10px",
-                          fontSize: "2vh",
-                        }}
-                      >
-                        Enter Room Id
-                      </Typography>
-                      <TextField
-                        onChange={(event) => {
-                          setjoinRoomId(event.target.value)
-                          let pattern = new RegExp("(([A-Za-z]{4})(-)){2}[A-Za-z]{4}");
-                          let roomIdStatus = pattern.test(event.target.value);
-                          roomIdStatus ? setDisabledRoomId(false) : setDisabledRoomId(true)
-                        }}
-                        fullWidth
-                        id="outlined-basic"
-                        className={classes.root}
-                        InputProps={{ className: classes.input }}
-                        label="Enter Room ID"
-                        variant="outlined"
-                        InputLabelProps={{
-                          shrink: true,
-                        }}
-                        placeholder="xxxx-yyyy-zzzz"
-                      />
+                  <Typography
+                    style={{
+                      color: "#000",
+                      marginTop: "10px",
+                      marginBottom: "10px",
+                      fontSize: "2vh",
+                    }}
+                  >
+                    Enter Room Id
+                  </Typography>
+                  <TextField
+                    onChange={(event) => {
+                      props.setRoomID(event.target.value);
+                        validateRoomID(event.target.value)
+                        ? setDisabledRoomId(false)
+                        : setDisabledRoomId(true);
+                    }}
+                    fullWidth
+                    id="outlined-basic"
+                    className={classes.root}
+                    InputProps={{ className: classes.input }}
+                    label="Enter Room ID"
+                    variant="outlined"
+                    InputLabelProps={{
+                      shrink: true,
+                    }}
+                    placeholder="xxxx-yyyy-zzzz"
+                  />
 
-                      <br />
-                      <br />
+                  <br />
+                  <br />
 
-                      <Row>
-                        <MUIButton
-                          style={{
-                            marginLeft: "auto",
-                            marginRight: "auto",
-                            backgroundColor: "#ffd500",
-                          }}
-                          variant="contained"
-                          size="large"
-                          disabled={disabledName || disabledRoomId}
-                          component={Link}
-                          to={{
-                            pathname: joinRoomId,
-                            name: name,
-                          }}
-                        >
-                          Join a Room
-                        </MUIButton>
-                      </Row>
-                    </Container>
-                  </SkyLight>
-                
+                  <Row>
+                    <MUIButton
+                      style={{
+                        marginLeft: "auto",
+                        marginRight: "auto",
+                        backgroundColor: "#ffd500",
+                      }}
+                      variant="contained"
+                      size="large"
+                      disabled={disabledName || disabledRoomId}
+                      component={Link}
+                      to={{
+                        pathname: props.joinRoomId,
+                      }}
+                    >
+                      Join a Room
+                    </MUIButton>
+                  </Row>
+                </Container>
+              </SkyLight>
             </Container>
           </Col>
           <Col xs={12} md={1}></Col>
@@ -276,5 +265,22 @@ const Home = (props) => {
 Home.propTypes = {
   classes: PropTypes.object.isRequired,
 };
+const mapStateToProps = (state) => {
+  return {
+    joinRoomId: state.ROOM.roomId,
+    name: state.ROOM.name,
+  };
+};
 
-export default withStyles(styles)(Home);
+const mapDispatchToProps = (dispatch) => {
+  return {
+    setName: (name) => dispatch(actions.setName(name)),
+    setRoomID: (ID) => dispatch(actions.setRoomID(ID)),
+    reset: () => dispatch(actions.reset()),
+  };
+};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(withStyles(styles)(Home));
