@@ -36,7 +36,6 @@ const SyntaxPad = (props) => {
 
     const handleColorChange = (color) => {
       setBrushColor(color.hex);
-      // setdisplayColorPicker(false);
     }
 
     return (

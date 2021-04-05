@@ -11,7 +11,7 @@ import {
 } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import CloseSharpIcon from '@material-ui/icons/CloseSharp';
-
+import { connect } from "react-redux";
 const useStyles = makeStyles({
   list: {
     width: 400,
@@ -25,7 +25,6 @@ const nameGenerator = (name) =>
 
 function ParticipantsList(props) {
   const classes = useStyles();
-
   const { users } = props;
   const [openList, setOpenList] = useState(false);
 
@@ -70,7 +69,7 @@ function ParticipantsList(props) {
           color: "white",
         }}
       >
-        Participants
+      Participants [ {Object.keys(users).length} ]
       </Button>
       <Drawer
         anchor={"right"}
@@ -95,4 +94,11 @@ function ParticipantsList(props) {
   );
 }
 
-export default ParticipantsList;
+const mapStateToProps = (state) => {
+  return {
+    users: state.ROOM.users,
+  };
+};
+
+export default connect(mapStateToProps, null)(ParticipantsList);
+
