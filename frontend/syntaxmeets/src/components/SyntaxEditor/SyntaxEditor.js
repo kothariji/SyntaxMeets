@@ -57,6 +57,9 @@ const useStyles = makeStyles((mutheme) => ({
     marginTop: mutheme.spacing(2),
   },
 }));
+
+const validExtensions = [".c", ".cpp", ".java", ".js", ".ts", ".clj", ".cljs", ".cs", ".cbl", ".cob", ".cpy", ".erl", ".hrl", ".go", ".py", ".f90", ".f95", ".f03", ".txt", ".groovy", ".gvy", ".gy", ".gsh", ".kt", ".kts", ".ktm", ".php", ".r", ".rb", ".sql", ".swift"];
+
 const SyntaxEditor = (props) => {
   const [theme, setTheme] = useState("monokai");
   const [popup, setPopup] = useState(false);
@@ -116,22 +119,46 @@ const SyntaxEditor = (props) => {
     document.querySelector("#upload").click();
   }
 
+  const checkValidFileExtension = (file) => {
+    var name = file.name;
+    var valid = false;
+    if (name.length > 0) {
+      for (var i = 0; i < validExtensions.length; ++i) {
+        var ext = validExtensions[i];
+        if (name.substr(name.length - ext.length, ext.length).toLowerCase() == ext.toLowerCase()) {
+          valid = true;
+          break;
+        }
+      }
+    }
+    return valid;
+  }
+
   const handleFileChange = () => {
     var file = document.querySelector("#upload").files[0];
-
+    
     if (file) {
-        var reader = new FileReader();
+      var reader = new FileReader();
 
-        reader.onload = function (e) {
-            console.log(e);
-           handleChange(e.target.result);
-        };
+      reader.onload = function (e) {
+        if (file.size > 10000) {
+          alert("Error: File size greater than 10KB!");
+          return;
+        }
 
-        reader.onerror = function (e) {
-            console.error("An error ocurred reading the file", e);
-        };
+        if (!checkValidFileExtension(file)) {
+          alert("Error: Not a Valid File Extension!");
+          return;
+        }
 
-        reader.readAsText(file, "UTF-8");
+        handleChange(e.target.result);
+      };
+
+      reader.onerror = function (e) {
+        console.error("An error ocurred reading the file", e);
+      };
+
+      reader.readAsText(file, "UTF-8");
     }
   }
 
