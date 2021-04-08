@@ -98,7 +98,7 @@ Contributors should strictly abide by the following points while contributing:<b
 
 ## Contributors:
 
-<b>Thanks alot for Contributing :dizzy:</b>
+<b>Thanks alot for Contributing...:dizzy:</b>
 ![4](https://contributors-img.web.app/image?repo=kothariji/syntaxmeets)
 
 
