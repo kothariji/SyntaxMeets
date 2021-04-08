@@ -87,6 +87,7 @@ npm start		//runserver
 <b>This will run your application in localhost:3000</b>
 
 ## Contribution Guidelines:<br>
+-To contribute to this project, go through the step-by-step guidelines provided [here.](https://github.com/kothariji/SyntaxMeets/blob/master/CONTRIBUTING.md)
 Contributors should strictly abide by the following points while contributing:<br>
 - Make sure you do not copy code from external sources because that work will not be considered.<br>
 - Plagiarism is strictly not allowed.<br>
@@ -94,14 +95,11 @@ Contributors should strictly abide by the following points while contributing:<b
 - If you want to contribute, we prefer that you create an issue before making a PR and link your PR to that issue.<br>
 - If you have modified/added code work, make sure that the app is running successfully before submitting your PR.<br>
 
-### Note:
-- Issues will be assigned on a first come, first serve basis. You just have to comment on the issue, asking to be assigned( Optional: Explain briefly about your implementation) .
-- It will be highly appreciated if you add screenshot/video of the changes while making PR.
 
 ## Contributors:
 
-<b>Thanks alot for Contributing :pray: :dizzy:</b>
+<b>Thanks alot for Contributing :dizzy:</b>
 ![4](https://contributors-img.web.app/image?repo=kothariji/syntaxmeets)
 
 
-### If you liked our work do give us a star :star::star::star:.It Encourages us to do more :wink: :dizzy:
+### If you liked our work do give us a star :star::star::star:.It Encourages us to do more...
