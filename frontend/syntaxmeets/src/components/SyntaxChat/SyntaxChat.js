@@ -182,6 +182,8 @@ const SyntaxChat = (props) => {
                   style={{
                     display: "flex",
                     alignSelf: "center",
+                    marginLeft: "5px",
+                    marginTop: "10px",
                     cursor: "pointer",
                   }}
                   alignContent="center"
