@@ -11,6 +11,8 @@
 [
 ![contributions welcome](https://img.shields.io/badge/contributions-welcome-brightgreen.svg?style=flat)](https://github.com/dwyl/esta/issues) [![Open Source? Yes!](https://badgen.net/badge/Open%20Source%20%3F/Yes%21/blue?icon=github)](https://github.com/kothariji/SyntaxMeets) 
 
+
+[![forthebadge](https://forthebadge.com/images/badges/built-with-love.svg)](https://github.com/kothariji/SyntaxMeets)
 ## Website - <em>[SyntaxMeets](http://syntaxmeets.netlify.app/)</em>
 
 ## Tech Stack
@@ -87,7 +89,8 @@ npm start		//runserver
 <b>This will run your application in localhost:3000</b>
 
 ## Contribution Guidelines:<br>
--To contribute to this project, go through the step-by-step guidelines provided [here.](https://github.com/kothariji/SyntaxMeets/blob/master/CONTRIBUTING.md)
+To contribute to this project, go through the step-by-step guidelines provided [here.](https://github.com/kothariji/SyntaxMeets/blob/master/CONTRIBUTING.md)
+
 Contributors should strictly abide by the following points while contributing:<br>
 - Make sure you do not copy code from external sources because that work will not be considered.<br>
 - Plagiarism is strictly not allowed.<br>
@@ -98,8 +101,8 @@ Contributors should strictly abide by the following points while contributing:<b
 
 ## Contributors:
 
-<b>Thanks alot for Contributing...:dizzy:</b>
+<b>Thanks alot for Contributing :pray::dizzy:</b>
 ![4](https://contributors-img.web.app/image?repo=kothariji/syntaxmeets)
 
 
-### If you liked our work do give us a star :star::star::star:.It Encourages us to do more...
+### If you liked our work do give us a star :star::star::star:.It Encourages us to do more :wink: :dizzy:
