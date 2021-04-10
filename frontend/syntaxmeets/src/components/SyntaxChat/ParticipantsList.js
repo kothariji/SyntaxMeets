@@ -47,6 +47,10 @@ function ParticipantsList(props) {
                 border: "solid rgb(62 53 53) 1px",
                 textAlign: "center",
                 fontWeight: "bolder",
+                wordWrap: "break-word",
+                overflowWrap: "break-word",
+                hyphens: "auto",
+                WebkitHyphens: "auto",
               }}
               primary={name}
             />
