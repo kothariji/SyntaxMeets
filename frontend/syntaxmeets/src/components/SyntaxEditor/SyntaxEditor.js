@@ -59,6 +59,7 @@ const useStyles = makeStyles((mutheme) => ({
 }));
 
 const validExtensions = [".c", ".cpp", ".java", ".js", ".ts", ".clj", ".cljs", ".cs", ".cbl", ".cob", ".cpy", ".erl", ".hrl", ".go", ".py", ".f90", ".f95", ".f03", ".txt", ".groovy", ".gvy", ".gy", ".gsh", ".kt", ".kts", ".ktm", ".php", ".r", ".rb", ".sql", ".swift"];
+const langExtensionDict = {".c": "C", ".cpp": "C++", ".java": "JAVA", ".js": "JavaScript", ".ts": "TypeScript", ".clj": "Closure", ".cljs": "Closure", ".cs": "C#", ".cbl": "COBOL", ".cob": "COBOL", ".cpy": "COBOL", ".erl": "Erlang", ".hrl": "Erlang", ".go": "Go", ".py": "Python", ".f90": "FortRan", ".f95": "FortRan", ".f03": "FortRan", ".txt": "", ".groovy": "Groovy", ".gvy": "Groovy", ".gy": "Groovy", ".gshgsh": "Groovy", ".kt": "Kotlin", ".kts": "Kotlin", ".ktm": "Kotlin", ".php": "PHP", ".r": "R", ".rb": "Ruby", ".sql": "SQL", ".swift": "Swift" };
 
 const SyntaxEditor = (props) => {
   const [theme, setTheme] = useState("monokai");
@@ -152,6 +153,9 @@ const SyntaxEditor = (props) => {
         }
 
         handleChange(e.target.result);
+        const fileName = file.name;
+        const ext = `.${fileName.split(".")[1]}`;
+        props.setLanguage(langExtensionDict[ext]);
       };
 
       reader.onerror = function (e) {
