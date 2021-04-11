@@ -19,6 +19,7 @@ import {
   DialogTitle,
   DialogActions,
   Snackbar,
+  ButtonGroup,
 } from "@material-ui/core";
 import Grid from "@material-ui/core/Grid";
 import Alert from "@material-ui/lab/Alert";
@@ -397,7 +398,7 @@ const SyntaxEditor = (props) => {
             }
             label={
               <Typography>
-                <span style={{ color: "white" }}>Enable Auto-complete</span>
+                <span style={{ color: "white" }}>Auto-complete</span>
               </Typography>
             }
           />
@@ -408,47 +409,51 @@ const SyntaxEditor = (props) => {
             hidden
             accept=".c, .cpp, .java, .js, .ts, .clj, .cljs, .cs, .cbl, .cob, .cpy, .erl, .hrl, .go, .py, .f90, .f95, .f03, .txt, .groovy, .gvy, .gy, .gsh, 	.kt, .kts, .ktm, .php, .r, .rb, .sql, .swift"
           />
-          <Button
+          <ButtonGroup
+            style={{ marginLeft: "auto" }}
             variant="contained"
             color="primary"
-            onClick={() => uploadFile()}
-            startIcon={<CloudUploadIcon />}
-            style={{
-              fontFamily: "poppins",
-              marginLeft: "auto",
-              fontWeight: "600",
-              color: "white",
-            }}
           >
-            Upload File
-          </Button>
-          <Button
-            variant="contained"
-            color="primary"
-            onClick={() => copyCode(props.code)}
-            startIcon={<FileCopyIcon />}
-            style={{
-              fontFamily: "poppins",
-              marginLeft: "auto",
-              fontWeight: "600",
-              color: "white",
-            }}
-          >
-            Copy
-          </Button>
-          <Button
-            variant="contained"
-            color="primary"
-            style={{
-              fontFamily: "poppins",
-              marginLeft: "auto",
-              fontWeight: "600",
-              color: "white",
-            }}
-            onClick={handleCodeDownload}
-          >
-            <CloudDownloadRounded style={{ fontSize: 24 }} />
-          </Button>
+            <Button
+              variant="contained"
+              color="primary"
+              onClick={() => uploadFile()}
+              style={{
+                fontFamily: "poppins",
+                marginLeft: "auto",
+                fontWeight: "600",
+                color: "white",
+              }}
+            >
+              <CloudUploadIcon />
+            </Button>
+            <Button
+              variant="contained"
+              color="primary"
+              onClick={() => copyCode(props.code)}
+              style={{
+                fontFamily: "poppins",
+                marginLeft: "auto",
+                fontWeight: "600",
+                color: "white",
+              }}
+            >
+              <FileCopyIcon />
+            </Button>
+            <Button
+              variant="contained"
+              color="primary"
+              style={{
+                fontFamily: "poppins",
+                marginLeft: "auto",
+                fontWeight: "600",
+                color: "white",
+              }}
+              onClick={handleCodeDownload}
+            >
+              <CloudDownloadRounded style={{ fontSize: 24 }} />
+            </Button>
+          </ButtonGroup>
           <Button
             variant="contained"
             color="primary"
