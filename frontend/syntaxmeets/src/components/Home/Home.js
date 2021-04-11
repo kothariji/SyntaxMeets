@@ -148,7 +148,10 @@ const Home = (props) => {
                     onKeyPress={(ev) => {
                       if(ev.key === 'Enter') {
                         ev.preventDefault();
-                        createRoomButton.current.click();
+                        if(!disabledName)
+                        {
+                          createRoomButton.current.click();
+                        }
                       }
                     }}
                   />
@@ -230,7 +233,10 @@ const Home = (props) => {
                     onKeyPress={(ev) => {
                       if(ev.key === 'Enter') {
                         ev.preventDefault();
-                        joinRoomButton.current.click();
+                        if(!disabledName && !disabledRoomId)
+                        {
+                          joinRoomButton.current.click();
+                        }
                       }
                     }}
                     fullWidth
