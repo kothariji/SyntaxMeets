@@ -29,6 +29,7 @@ import {
   langMode,
   LangOptions,
   langId,
+  langExtensionDict,
   themes,
 } from "./LanguageData";
 import ShareIcon from "@material-ui/icons/Share";
@@ -60,40 +61,6 @@ const useStyles = makeStyles((mutheme) => ({
     marginTop: mutheme.spacing(2),
   },
 }));
-
-const validExtensions = [
-  ".c",
-  ".cpp",
-  ".java",
-  ".js",
-  ".ts",
-  ".clj",
-  ".cljs",
-  ".cs",
-  ".cbl",
-  ".cob",
-  ".cpy",
-  ".erl",
-  ".hrl",
-  ".go",
-  ".py",
-  ".f90",
-  ".f95",
-  ".f03",
-  ".txt",
-  ".groovy",
-  ".gvy",
-  ".gy",
-  ".gsh",
-  ".kt",
-  ".kts",
-  ".ktm",
-  ".php",
-  ".r",
-  ".rb",
-  ".sql",
-  ".swift",
-];
 
 const SyntaxEditor = (props) => {
   const [theme, setTheme] = useState("monokai");
@@ -169,6 +136,7 @@ const SyntaxEditor = (props) => {
   };
 
   const checkValidFileExtension = (file) => {
+    const validExtensions = Object.keys(langExtensionDict);
     var name = file.name;
     var valid = false;
     if (name.length > 0) {
@@ -204,8 +172,8 @@ const SyntaxEditor = (props) => {
         }
 
         handleChange(e.target.result);
-        const fileName = file.name;
-        const ext = `.${fileName.split(".")[1]}`;
+        const fileNameArr = file.name.split(".");
+        const ext = `.${fileNameArr[fileNameArr.length - 1]}`;
         props.setLanguage(langExtensionDict[ext]);
       };
 
