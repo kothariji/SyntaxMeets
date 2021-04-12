@@ -76,9 +76,9 @@ const SyntaxRoom = (props) => {
         <Redirect to="/" />
       ) : (
         <Fragment>
-          <Dialog fullWidth={true} maxWidth={"sm"} open={popup}>
-            <DialogTitle style={{ align: "center", backgroundColor: "#FFD500", color: "#FA1E0E" }}>{popupMessage}</DialogTitle>
-            <DialogActions style={{ backgroundColor: "#FFD500"}}>
+          <Dialog fullWidth={true} maxWidth={"xs"} open={popup}>
+            <DialogTitle style={{ textAlign: "center" }}>{popupMessage}</DialogTitle>
+            <DialogActions>
               <Button
                 onClick={() => {
                   setPopup(false);
@@ -88,7 +88,7 @@ const SyntaxRoom = (props) => {
                 }}
                 variant="contained"
                 size="large"
-                style={{backgroundColor: "#FA1E0E"}}
+                style={{backgroundColor: "#f57c00"}}
               >
                 OK
               </Button>
