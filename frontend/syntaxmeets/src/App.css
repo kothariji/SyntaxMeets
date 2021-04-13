@@ -1,5 +1,24 @@
 @import "assets/css/sx-chat.css";
 
-.ace_print-margin{
-    display: none;
+.ace_print-margin {
+	display: none;
+}
+
+/* scroll--bar styles */
+::-webkit-scrollbar {
+	width: 15px;
+	height: 4px;
+}
+
+::-webkit-scrollbar-track {
+	background: #000a29;
+	border-left: 5px solid #000a29;
+	border-right: 5px solid #000a29;
+}
+
+::-webkit-scrollbar-thumb {
+	background-image: linear-gradient(#ffd500, #000a29);
+	border-left: 5px solid #000a29;
+	border-right: 5px solid #000a29;
+	border-radius: 30px;
 }
