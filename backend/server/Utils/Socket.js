@@ -1,3 +1,4 @@
+// instantiate a new rooms object to store all clients in the room
 const Rooms = require("./Rooms");
 const rooms = new Rooms();
 

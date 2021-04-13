@@ -6,7 +6,7 @@ const io = require("socket.io")(server, { origins: "*:*" });
 const helmet = require('helmet');
 const rateLimiter = require('./rateLimiter');
 const handleSocket = require('./Utils/Socket');
-// instantiate a new rooms object to store all clients in the room
+
 
 app.use(helmet());
 
