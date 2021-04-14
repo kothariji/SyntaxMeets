@@ -9,31 +9,11 @@ import { Link } from "react-router-dom";
 import SkyLight from "react-skylight";
 import PropTypes from "prop-types";
 import { withStyles } from "@material-ui/core/styles";
-
-import MeetingRoomIcon from '@material-ui/icons/MeetingRoom';
-import GroupAddIcon from '@material-ui/icons/GroupAdd';
-
-function generateRoomId() {
-  var tempId = "";
-  var characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
-  var charactersLength = characters.length;
-  for (var i = 0; i < 12; i++) {
-    tempId += characters.charAt(Math.floor(Math.random() * charactersLength));
-    if ((i + 1) % 4 === 0 && i !== 11) {
-      tempId += "-";
-    }
-  }
-
-  return tempId;
-}
-
 import MeetingRoomIcon from "@material-ui/icons/MeetingRoom";
 import GroupAddIcon from "@material-ui/icons/GroupAdd";
 import { connect } from "react-redux";
 import { validateRoomID } from '../../util/util.js'
 import * as actions from "../../store/actions/roomActions.js";
-
-
 
 const styles = {
   input: {
@@ -52,7 +32,6 @@ const Home = (props) => {
   useEffect(() => {
     props.reset();
   },[]);
-
 
   const roomModal = {
     backgroundImage:
@@ -169,40 +148,6 @@ const Home = (props) => {
                   <br />
                   <br />
 
-
-                      <Row>
-                        <MUIButton
-                          style={{
-                            marginLeft: "auto",
-                            marginRight: "auto",
-                            backgroundColor: "#ffd500",
-                          }}
-                          variant="contained"
-                          size="large"
-                          disabled={disabledName}
-                          component={Link}
-                          to={{
-                            pathname: roomId,
-                            name: name,
-                          }}
-                          onClick={()=>{
-                            localStorage.setItem('roomId',roomId);
-                            localStorage.setItem('name',name);
-                            sessionStorage.setItem('isconnected',true);
-                          }
-                          }
-                        >
-                          Create Room
-                        </MUIButton>
-                      </Row>
-                    </Container>
-                  </SkyLight>
-                  <SkyLight
-                    dialogStyles={roomModal}
-                    hideOnOverlayClicked
-                    ref={skyLightJoinModal}
-                    title={<ModalTitle start="Join a" />}
-
                   <Row>
                     <MUIButton
                       style={{
@@ -216,6 +161,11 @@ const Home = (props) => {
                       component={Link}
                       to={{
                         pathname: props.joinRoomId,
+                      }}
+                      onClick={()=>{
+                        localStorage.setItem('roomId',props.joinRoomId);
+                        localStorage.setItem('name',props.name);
+                        sessionStorage.setItem('isconnected',true);
                       }}
                     >
                       Create Room
@@ -236,7 +186,6 @@ const Home = (props) => {
                       marginBottom: "10px",
                       fontSize: "2vh",
                     }}
-
                   >
                     Enter Your Name
                   </Typography>
@@ -289,37 +238,6 @@ const Home = (props) => {
                   <br />
                   <br />
 
-
-                      <Row>
-                        <MUIButton
-                          style={{
-                            marginLeft: "auto",
-                            marginRight: "auto",
-                            backgroundColor: "#ffd500",
-                          }}
-                          variant="contained"
-                          size="large"
-                          disabled={disabledName || disabledRoomId}
-                          component={Link}
-                          to={{
-                            pathname: joinRoomId,
-                            name: name,
-                          }}
-                          onClick={ ()=>{
-                            localStorage.setItem('roomId',joinRoomId)
-                            localStorage.setItem('name',name) 
-                            sessionStorage.setItem('isconnected',true)  
-                          }
-
-                          }
-                        >
-                          Join a Room
-                        </MUIButton>
-                      </Row>
-                    </Container>
-                  </SkyLight>
-                
-
                   <Row>
                     <MUIButton
                       style={{
@@ -334,13 +252,17 @@ const Home = (props) => {
                       to={{
                         pathname: props.joinRoomId,
                       }}
+                      onClick={ ()=>{
+                        localStorage.setItem('roomId',props.joinRoomId)
+                        localStorage.setItem('name',props.name)
+                        sessionStorage.setItem('isconnected',true);  
+                      }}
                     >
                       Join a Room
                     </MUIButton>
                   </Row>
                 </Container>
               </SkyLight>
-
             </Container>
           </Col>
           <Col xs={12} md={1}></Col>
