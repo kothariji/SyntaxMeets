@@ -44,11 +44,11 @@ const MediaCard = (props) => {
       </CardActionArea>
       <CardActions>
         <div>&nbsp;&nbsp;&nbsp;&nbsp;
-          <GitHubIcon onClick = {() => {window.open(props.github)}} /> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-          <TwitterIcon onClick = {() => {window.open(props.twitter)}}/> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-          <LinkedInIcon onClick = {() => {window.open(props.linkedin)}}/> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-          <EmailIcon onClick = {() => {window.open(props.gmail)}}/> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-          <InstagramIcon onClick = {() => {window.open(props.insta)}}/>
+          <GitHubIcon style={{ cursor: "pointer" }} onClick = {() => {window.open(props.github)}} /> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+          <TwitterIcon style={{ cursor: "pointer" }}onClick = {() => {window.open(props.twitter)}}/> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+          <LinkedInIcon style={{ cursor: "pointer" }} onClick = {() => {window.open(props.linkedin)}}/> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+          <EmailIcon style={{ cursor: "pointer" }} onClick = {() => {window.open(props.gmail)}}/> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+          <InstagramIcon style={{ cursor: "pointer" }} onClick = {() => {window.open(props.insta)}}/>
         </div>
       </CardActions>
     </Card>
