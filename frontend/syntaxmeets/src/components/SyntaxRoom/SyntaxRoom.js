@@ -1,4 +1,4 @@
-import React, { Fragment, useState, useEffect} from "react";
+import React, { Fragment, useEffect } from "react";
 import Navbar from "../Navbar/Navbar";
 import { Grid } from "@material-ui/core";
 import SyntaxEditor from "../SyntaxEditor/SyntaxEditor";
@@ -11,64 +11,36 @@ import { connect } from "react-redux";
 import * as actions from "../../store/actions/roomActions.js";
 import * as UIactions from "../../store/actions/uiActions.js";
 
-
-var connectionOptions = {
-  transport: ["websocket"],
-};
-const socket = io.connect(
-  process.env.REACT_APP_SYNTAXMEETS_BACKEND_API,
-  connectionOptions
-);
+// use following in case of localhost
+//import io from "socket.io-client";
 // to use for localhost
-//var socket = io.connect("http://localhost:4000",connectionOptions);
-
-const Alert = (props) => {
-  return <MuiAlert elevation={6} variant="filled" {...props} />;
-};
-
-
+//var socket = io.connect("http://localhost:4000");
 
 const SyntaxRoom = (props) => {
-
-  let paramsRoom = useParams().roomId;
-  const [roomId] = useState(paramsRoom);
-  const [name] = useState(props.location.name);
-  const [goToHome, setGoToHome] = useState(false);
-  const [open, setOpen] = useState(true);
-  const [users, setUsers] = useState({});
-  const [userDisconnect, setUserDisconnect] = useState(false);
-  const [userJoinedName, setUserJoinedName] = useState();
-  const [userLeftName, setUserLeftName] = useState();
-  const [id, setId] = useState(); // Stores the userid default 1 and then increases and decreases according to the users.
-  const [previousUser, setPreviousUser] = useState({}); //Store the id of an already existing user , so this user will emit the code when a new user joins
-
   const roomId = props.roomId;
-
   useEffect(() => {
-    // fetch the list of active rooms from backend
-    var roomsList = [];
-    const url = `${process.env.REACT_APP_SYNTAXMEETS_BACKEND_API}/rooms`;
-    fetch(url)
-      .then(res => {
-        return res.json();
-      })
-      .then(rooms => {
-        console.log(rooms);
-        for (let i = 0; i < rooms.length; i++)
-          roomsList.push(rooms[i]);
-      });
-
-    console.log(roomsList);
     // If disconnected then connect again to server
-    // Trigerred when user leaves a room 
     // Trigerred when user leaves a room
     socket.on("disconnect", (reason) => {
-
-
+      props.reset();
       socket.connect();
     });
+  });
+    useEffect(() => {
+      // fetch the list of active rooms from backend
+      var roomsList = [];
+      const url = `${process.env.REACT_APP_SYNTAXMEETS_BACKEND_API}/rooms`;
+      fetch(url)
+        .then(res => {
+          return res.json();
+        })
+        .then(rooms => {
+          console.log(rooms);
+          for (let i = 0; i < rooms.length; i++)
+            roomsList.push(rooms[i]);
+        });
 
-    var roomid = localStorage.getItem('roomId');
+        var roomid = localStorage.getItem('roomId');
 
     if (props.location.name === undefined || props.location.name === "") {
       // If user disconnects and want to connect back to same room
@@ -87,19 +59,11 @@ const SyntaxRoom = (props) => {
       else {
         // direct back to home
         alert("Please Enter your name");
-        setGoToHome(true);
+        props.reset();
+        props.setGoToHome(true);
       }
-
-      props.reset();
-      socket.connect();
-    });
-    if (props.Username === undefined || props.Username === "") {
-      alert("Please Enter your name");
-      props.reset();
-      props.setGoToHome(true);
-
     }
-
+    
     if (validateRoomID(roomId) === false || props.location.pathname === "") {
       alert("Invalid Room Id");
       props.reset();
@@ -176,7 +140,7 @@ const SyntaxRoom = (props) => {
       <Footer />
     </Fragment>
   );
-};
+          };
 const mapStateToProps = (state) => {
   return {
     users: state.ROOM.users,
@@ -200,4 +164,6 @@ const mapDispatchToProps = (dispatch) => {
     setSnackBar: (msg,type) => dispatch(UIactions.setSnackBar(msg,type)),
   };
 };
+
+
 export default connect(mapStateToProps, mapDispatchToProps)(SyntaxRoom);

@@ -1,9 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import { makeStyles } from "@material-ui/core/styles";
-
-
 import InsertEmoticonIcon from "@material-ui/icons/InsertEmoticon";
-
 import {
   Drawer,
   Button,
@@ -37,36 +34,21 @@ const SyntaxChat = (props) => {
   const [openDrawer, setopenDrawer] = useState(false);
 
   const handleMessageSubmit = () => {
-
-
-    if (localStorage.getItem('flag') && sessionStorage.getItem('isconnected')) {
-      if (message === "") return;
+    if(localStorage.getItem('flag') && sessionStorage.getItem('isconnected')){
+      if (props.message === "") return;
+      SetEmojiPicker(false);
       let data = {
         name: localStorage.getItem('name'),
         roomId: localStorage.getItem('roomId'),
-        message: message,
+        message: props.message,
       };
       props.socket.emit("chatmessage", data);
-      setMessages((messages) => [...messages, data]);
-      setMCount(mCount + 1);
-      setMessage("");
+      
+      props.setMessages(data);
+      props.setMessage("");
     }
-    else {
-      if (message === "") return;
-      let data = {
-        name: props.name,
-        roomId: props.roomId,
-        message: message,
-      };
-      props.socket.emit("chatmessage", data);
-      setMessages((messages) => [...messages, data]);
-      setMCount(mCount + 1);
-      setMessage("");
-    }
-
-
+    else{
     if (props.message === "") return;
-
     SetEmojiPicker(false);
     let data = {
       name: props.name,
@@ -74,19 +56,12 @@ const SyntaxChat = (props) => {
       message: props.message,
     };
     props.socket.emit("chatmessage", data);
-
-    setMessages((messages) => [...messages, data]);
-    setMCount(mCount + 1);
-    setMessage("");
-
-
     
     props.setMessages(data);
     props.setMessage("");
-
+  }
   };
 
-  
   useEffect(() => {
   
     props.socket.on("chatmessage", (data) => {
@@ -222,6 +197,8 @@ const SyntaxChat = (props) => {
                   style={{
                     display: "flex",
                     alignSelf: "center",
+                    marginLeft: "5px",
+                    marginTop: "10px",
                     cursor: "pointer",
                   }}
                   alignContent="center"

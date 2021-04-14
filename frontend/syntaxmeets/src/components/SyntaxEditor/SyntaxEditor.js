@@ -72,7 +72,7 @@ const SyntaxEditor = (props) => {
     }
     else if(sessionStorage.getItem('isconnected'))
     {
-      setValue(sessionStorage.getItem('code'));
+      props.setCode(sessionStorage.getItem('code'));
       //console.log("1");
     }
   }, [props.previousUser]);
@@ -80,22 +80,13 @@ const SyntaxEditor = (props) => {
   const classes = useStyles();
   useEffect(() => {
     props.socket.on("message", (newValue) => {
-
-      setValue(newValue);
-      
-
       props.setCode(newValue);
-
     });
   }, []);
 
   const handleChange = (newValue) => {
-
-    setValue(newValue);
-    sessionStorage.setItem('code',newValue);
-
     props.setCode(newValue);
-
+    sessionStorage.setItem('code',newValue);
     props.socket.emit("message", newValue);
   };
 
