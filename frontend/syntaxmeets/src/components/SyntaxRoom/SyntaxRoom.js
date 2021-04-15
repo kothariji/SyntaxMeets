@@ -1,6 +1,12 @@
-import React, { Fragment, useEffect } from "react";
+import React, { Fragment, useEffect, useState } from "react";
 import Navbar from "../Navbar/Navbar";
-import { Grid } from "@material-ui/core";
+import {
+  Button,
+  Dialog,
+  DialogActions,
+  DialogTitle,
+  Grid,
+} from "@material-ui/core";
 import SyntaxEditor from "../SyntaxEditor/SyntaxEditor";
 import SyntaxPad from "../SyntaxPad/SyntaxPad";
 import { Redirect } from "react-router-dom";
@@ -12,6 +18,9 @@ import * as actions from "../../store/actions/roomActions.js";
 import * as UIactions from "../../store/actions/uiActions.js";
 
 const SyntaxRoom = (props) => {
+  const [popup, setPopup] = useState(false);
+  const [popupMessage, setPopupMessage] = useState("");
+
   const roomId = props.roomId;
   useEffect(() => {
     // If disconnected then connect again to server
@@ -21,15 +30,13 @@ const SyntaxRoom = (props) => {
       socket.connect();
     });
     if (props.Username === undefined || props.Username === "") {
-      alert("Please Enter your name");
-      props.reset();
-      props.setGoToHome(true);
+      setPopup(true);
+      setPopupMessage("Name not found");
     }
 
     if (validateRoomID(roomId) === false || props.location.pathname === "") {
-      alert("Invalid Room Id");
-      props.reset();
-      props.setGoToHome(true);
+      setPopup(true);
+      setPopupMessage("Invalid Room Id");
     }
     // this will send server(backend) the roomId in which the props.socket needs to be joined
     //this code will run only once
@@ -74,6 +81,26 @@ const SyntaxRoom = (props) => {
         <Redirect to="/" />
       ) : (
         <Fragment>
+          <Dialog fullWidth={true} maxWidth={"xs"} open={popup}>
+            <DialogTitle style={{ textAlign: "center" }}>
+              {popupMessage}
+            </DialogTitle>
+            <DialogActions>
+              <Button
+                onClick={() => {
+                  setPopup(false);
+                  setPopupMessage("");
+                  props.reset();
+                  props.setGoToHome(true);
+                }}
+                variant="contained"
+                size="large"
+                style={{ backgroundColor: "#f57c00" }}
+              >
+                OK
+              </Button>
+            </DialogActions>
+          </Dialog>
           <Navbar name={props.Username} roomId={roomId} socket={socket} />
           <div
             style={{
