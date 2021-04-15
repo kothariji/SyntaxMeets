@@ -29,6 +29,7 @@ import {
   langMode,
   LangOptions,
   langId,
+  langExtensionDict,
   themes,
 } from "./LanguageData";
 import ShareIcon from "@material-ui/icons/Share";
@@ -41,6 +42,7 @@ import copy from "copy-to-clipboard";
 import { connect } from "react-redux";
 import * as actions from "../../store/actions/editorActions.js";
 import CloudDownloadRounded from "@material-ui/icons/CloudDownloadRounded";
+import FullscreenRounded from "@material-ui/icons/FullscreenRounded";
 import { getExtensionByLangCode } from "../../util/util";
 //extracting all the languages recquired
 languages.forEach((lang) => {
@@ -60,40 +62,6 @@ const useStyles = makeStyles((mutheme) => ({
     marginTop: mutheme.spacing(2),
   },
 }));
-
-const validExtensions = [
-  ".c",
-  ".cpp",
-  ".java",
-  ".js",
-  ".ts",
-  ".clj",
-  ".cljs",
-  ".cs",
-  ".cbl",
-  ".cob",
-  ".cpy",
-  ".erl",
-  ".hrl",
-  ".go",
-  ".py",
-  ".f90",
-  ".f95",
-  ".f03",
-  ".txt",
-  ".groovy",
-  ".gvy",
-  ".gy",
-  ".gsh",
-  ".kt",
-  ".kts",
-  ".ktm",
-  ".php",
-  ".r",
-  ".rb",
-  ".sql",
-  ".swift",
-];
 
 const SyntaxEditor = (props) => {
   const [theme, setTheme] = useState("monokai");
@@ -171,6 +139,7 @@ const SyntaxEditor = (props) => {
   };
 
   const checkValidFileExtension = (file) => {
+    const validExtensions = Object.keys(langExtensionDict);
     var name = file.name;
     var valid = false;
     if (name.length > 0) {
@@ -208,6 +177,9 @@ const SyntaxEditor = (props) => {
         }
 
         handleChange(e.target.result);
+        const fileNameArr = file.name.split(".");
+        const ext = `.${fileNameArr[fileNameArr.length - 1]}`;
+        props.setLanguage(langExtensionDict[ext]);
       };
 
       reader.onerror = function (e) {
@@ -474,6 +446,19 @@ const SyntaxEditor = (props) => {
             >
               <CloudDownloadRounded style={{ fontSize: 24 }} />
             </Button>
+            <Button
+              variant="contained"
+              color="primary"
+              style={{
+                fontFamily: "poppins",
+                marginLeft: "auto",
+                fontWeight: "600",
+                color: "white",
+              }}
+              onClick={() => props.toggleFocusMode()}
+            >
+              <FullscreenRounded style={{ fontSize: 24 }} />
+            </Button>
           </ButtonGroup>
           <Button
             variant="contained"
@@ -532,6 +517,7 @@ const mapDispatchToProps = (dispatch) => {
     setIsError: (isactive) => dispatch(actions.setIsError(isactive)),
     executeCode: (langId, code, input) =>
       dispatch(actions.executeCode(langId, code, input)),
+    toggleFocusMode: () => dispatch(actions.toggleFocusMode()),
   };
 };
 export default connect(mapStateToProps, mapDispatchToProps)(SyntaxEditor);

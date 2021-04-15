@@ -40,6 +40,40 @@ int main()
 	return 0;
 }`;
 
+export const langExtensionDict = {
+    ".c": "C", 
+    ".cpp": "C++", 
+    ".java": "JAVA", 
+    ".js": "JavaScript", 
+    ".ts": "TypeScript", 
+    ".clj": "Closure", 
+    ".cljs": "Closure", 
+    ".cs": "C#", 
+    ".cbl": "COBOL", 
+    ".cob": "COBOL", 
+    ".cpy": "COBOL", 
+    ".erl": "Erlang", 
+    ".hrl": "Erlang", 
+    ".go": "Go", 
+    ".py": "Python", 
+    ".f90": "FortRan", 
+    ".f95": "FortRan", 
+    ".f03": "FortRan", 
+    ".txt": "", 
+    ".groovy": "Groovy", 
+    ".gvy": "Groovy", 
+    ".gy": "Groovy", 
+    ".gshgsh": "Groovy", 
+    ".kt": "Kotlin", 
+    ".kts": "Kotlin", 
+    ".ktm": "Kotlin", 
+    ".php": "PHP", 
+    ".r": "R", 
+    ".rb": "Ruby", 
+    ".sql": "SQL", 
+    ".swift": "Swift" 
+};
+
 export const LangOptions = [
     "C" ,
     "C++" ,
