@@ -1,6 +1,12 @@
 import React, { Fragment, useEffect, useState } from "react";
 import Navbar from "../Navbar/Navbar";
-import { Button, Dialog, DialogActions, DialogTitle, Grid } from "@material-ui/core";
+import {
+  Button,
+  Dialog,
+  DialogActions,
+  DialogTitle,
+  Grid,
+} from "@material-ui/core";
 import SyntaxEditor from "../SyntaxEditor/SyntaxEditor";
 import SyntaxPad from "../SyntaxPad/SyntaxPad";
 import { Redirect } from "react-router-dom";
@@ -10,7 +16,6 @@ import { validateRoomID } from "../../util/util";
 import { connect } from "react-redux";
 import * as actions from "../../store/actions/roomActions.js";
 import * as UIactions from "../../store/actions/uiActions.js";
-
 
 const SyntaxRoom = (props) => {
   const [popup, setPopup] = useState(false);
@@ -47,8 +52,8 @@ const SyntaxRoom = (props) => {
       // so fetch all users from backend and store in the frontend
       // Also pass id of current user from backend
       props.setUsers(data.users);
-      let msg =  data.users[data.id] + " , Welcome to Syntax Meets!";
-      props.setSnackBar(msg,"success");
+      let msg = data.users[data.id] + " , Welcome to Syntax Meets!";
+      props.setSnackBar(msg, "success");
       props.setId(data.id);
     });
     socket.on("userjoined", (users) => {
@@ -58,15 +63,15 @@ const SyntaxRoom = (props) => {
       const { newUser, oldUser } = users;
       const id = Object.keys(newUser)[0];
       props.setUsers(newUser);
-      let msg =  newUser[id] + " , Welcome to Syntax Meets!";
-      props.setSnackBar(msg,"success");
+      let msg = newUser[id] + " , Welcome to Syntax Meets!";
+      props.setSnackBar(msg, "success");
       props.setPreviousUser({ id: Object.keys(oldUser)[0] });
     });
 
     socket.on("userleft", (userObject) => {
       props.removeUser(userObject);
       let msg = userObject.name + " Left the Room.";
-      props.setSnackBar(msg,"error");
+      props.setSnackBar(msg, "error");
     });
   }, []);
 
@@ -77,7 +82,9 @@ const SyntaxRoom = (props) => {
       ) : (
         <Fragment>
           <Dialog fullWidth={true} maxWidth={"xs"} open={popup}>
-            <DialogTitle style={{ textAlign: "center" }}>{popupMessage}</DialogTitle>
+            <DialogTitle style={{ textAlign: "center" }}>
+              {popupMessage}
+            </DialogTitle>
             <DialogActions>
               <Button
                 onClick={() => {
@@ -88,17 +95,13 @@ const SyntaxRoom = (props) => {
                 }}
                 variant="contained"
                 size="large"
-                style={{backgroundColor: "#f57c00"}}
+                style={{ backgroundColor: "#f57c00" }}
               >
                 OK
               </Button>
             </DialogActions>
           </Dialog>
-          <Navbar
-            name={props.Username}
-            roomId={roomId}
-            socket={socket}
-          />
+          <Navbar name={props.Username} roomId={roomId} socket={socket} />
           <div
             style={{
               backgroundColor: "#F3F7F7",
@@ -107,12 +110,10 @@ const SyntaxRoom = (props) => {
             }}
           >
             <Grid container spacing={5}>
-              <Grid item xs={12} sm={12} md={6}>
-                <SyntaxEditor
-                  socket={socket}
-                />
+              <Grid item xs={12} sm={12} md={props.isFocusMode ? 12 : 6}>
+                <SyntaxEditor socket={socket} />
               </Grid>
-              <Grid item xs={12} sm={12} md={6}>
+              <Grid item xs={12} sm={12} md={props.isFocusMode ? 12 : 6}>
                 <SyntaxPad socket={socket} roomId={roomId} />
               </Grid>
             </Grid>
@@ -131,6 +132,7 @@ const mapStateToProps = (state) => {
     Username: state.ROOM.name,
     previousUser: state.ROOM.previousUser, //Store the id of an already existing user , so this user will emit the code when a new user joins
     goToHome: state.ROOM.goToHome,
+    isFocusMode: state.UI.isFocusMode,
   };
 };
 
@@ -143,7 +145,7 @@ const mapDispatchToProps = (dispatch) => {
     setGoToHome: (isvalid) => dispatch(actions.setGoToHome(isvalid)),
     removeUser: (name) => dispatch(actions.removeUser(name)),
     reset: () => dispatch(actions.reset()),
-    setSnackBar: (msg,type) => dispatch(UIactions.setSnackBar(msg,type)),
+    setSnackBar: (msg, type) => dispatch(UIactions.setSnackBar(msg, type)),
   };
 };
 export default connect(mapStateToProps, mapDispatchToProps)(SyntaxRoom);

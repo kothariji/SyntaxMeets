@@ -42,6 +42,7 @@ import copy from "copy-to-clipboard";
 import { connect } from "react-redux";
 import * as actions from "../../store/actions/editorActions.js";
 import CloudDownloadRounded from "@material-ui/icons/CloudDownloadRounded";
+import FullscreenRounded from "@material-ui/icons/FullscreenRounded";
 import { getExtensionByLangCode } from "../../util/util";
 //extracting all the languages recquired
 languages.forEach((lang) => {
@@ -424,6 +425,19 @@ const SyntaxEditor = (props) => {
             >
               <CloudDownloadRounded style={{ fontSize: 24 }} />
             </Button>
+            <Button
+              variant="contained"
+              color="primary"
+              style={{
+                fontFamily: "poppins",
+                marginLeft: "auto",
+                fontWeight: "600",
+                color: "white",
+              }}
+              onClick={() => props.toggleFocusMode()}
+            >
+              <FullscreenRounded style={{ fontSize: 24 }} />
+            </Button>
           </ButtonGroup>
           <Button
             variant="contained"
@@ -482,6 +496,7 @@ const mapDispatchToProps = (dispatch) => {
     setIsError: (isactive) => dispatch(actions.setIsError(isactive)),
     executeCode: (langId, code, input) =>
       dispatch(actions.executeCode(langId, code, input)),
+    toggleFocusMode: () => dispatch(actions.toggleFocusMode()),
   };
 };
 export default connect(mapStateToProps, mapDispatchToProps)(SyntaxEditor);
