@@ -66,6 +66,8 @@ const useStyles = makeStyles((mutheme) => ({
 const SyntaxEditor = (props) => {
   const [theme, setTheme] = useState("monokai");
   const [popup, setPopup] = useState(false);
+  const [filePopup, setFilePopup] = useState(false);
+  const [fileHandleError, setFileHandleError] = useState("");
 
   // This will resend a message to update the code of the newly joined user
   useEffect(() => {
@@ -163,12 +165,14 @@ const SyntaxEditor = (props) => {
 
       reader.onload = function (e) {
         if (file.size > 10000) {
-          alert("Error: File size greater than 10KB!");
+          setFilePopup(true);
+          setFileHandleError("Error: File size greater than 10KB!");
           return;
         }
 
         if (!checkValidFileExtension(file)) {
-          alert("Error: Not a Valid File Extension!");
+          setFilePopup(true);
+          setFileHandleError("Error: Not a Valid File Extension!");
           return;
         }
 
@@ -228,6 +232,23 @@ const SyntaxEditor = (props) => {
           variant="filled"
         >
           Code Copied Sucessfully
+        </Alert>
+      </Snackbar>
+      <Snackbar
+        open={filePopup}
+        autoHideDuration={2000}
+        onClose={() => {
+          setFilePopup(false);
+        }}
+      >
+        <Alert
+          onClose={() => {
+            setFilePopup(false);
+          }}
+          severity="error"
+          variant="filled"
+        >
+          {fileHandleError}
         </Alert>
       </Snackbar>
       <AppBar position="static" style={{ backgroundColor: "#000A29" }}>
