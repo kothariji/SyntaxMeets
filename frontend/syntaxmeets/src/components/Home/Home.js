@@ -27,6 +27,8 @@ const Home = (props) => {
   const skyLightJoinModal = useRef(SkyLight);
   const [disabledName, setDisabledName] = useState(true);
   const [disabledRoomId, setDisabledRoomId] = useState(true);
+  const createRoomButton = useRef(null);
+  const joinRoomButton = useRef(null);
 
 
   useEffect(() => {
@@ -143,6 +145,15 @@ const Home = (props) => {
                         ? setDisabledName(false)
                         : setDisabledName(true);
                     }}
+                    onKeyPress={(ev) => {
+                      if(ev.key === 'Enter') {
+                        ev.preventDefault();
+                        if(!disabledName)
+                        {
+                          createRoomButton.current.click();
+                        }
+                      }
+                    }}
                   />
 
                   <br />
@@ -159,6 +170,7 @@ const Home = (props) => {
                       size="large"
                       disabled={disabledName}
                       component={Link}
+                      ref={createRoomButton}
                       to={{
                         pathname: props.joinRoomId,
                       }}
@@ -223,6 +235,15 @@ const Home = (props) => {
                         ? setDisabledRoomId(false)
                         : setDisabledRoomId(true);
                     }}
+                    onKeyPress={(ev) => {
+                      if(ev.key === 'Enter') {
+                        ev.preventDefault();
+                        if(!disabledName && !disabledRoomId)
+                        {
+                          joinRoomButton.current.click();
+                        }
+                      }
+                    }}
                     fullWidth
                     id="outlined-basic"
                     className={classes.root}
@@ -249,6 +270,7 @@ const Home = (props) => {
                       size="large"
                       disabled={disabledName || disabledRoomId}
                       component={Link}
+                      ref={joinRoomButton}
                       to={{
                         pathname: props.joinRoomId,
                       }}
