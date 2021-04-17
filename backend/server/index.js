@@ -8,7 +8,7 @@ const rateLimiter = require('./rateLimiter');
 // instantiate a new rooms object to store all clients in the room
 const rooms = new Rooms();
 
-// to store all the rooms
+// to store all the rooms created 
 const roomsCreated = [];
 
 app.use(helmet());
@@ -28,7 +28,7 @@ io.on("connection" , (socket) => {
     roomId = room;
     userName = name;
     userId = socket.id;
-    // pushes new rooms created
+    // pushes new rooms created in the roomsCreated list
     if(!roomsCreated.includes(room))
       roomsCreated.push(room);
  
@@ -78,6 +78,7 @@ app.get("/",rateLimiter ,  (req, res) => {
   res.send({ response: "Server is up and Running." }).status(200);
 });
 // api call to get rooms created 
+// this api keeps track of active rooms 
 app.get('/rooms', function(req, res) {
   console.log('got the response');
   res.json(roomsCreated);

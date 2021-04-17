@@ -75,10 +75,11 @@ const SyntaxEditor = (props) => {
     if (props.previousUser.id === props.id) {
       props.socket.emit("message", UpdatedCode);
     }
+    // if the user was connected then over reloading the page this block is called
     else if(sessionStorage.getItem('isconnected'))
     {
+      //it used to save the code in sessionStorage when only one user is using there in a room
       props.setCode(sessionStorage.getItem('code'));
-      //console.log("1");
     }
   }, [props.previousUser]);
 

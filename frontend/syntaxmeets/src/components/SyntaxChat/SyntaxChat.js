@@ -34,19 +34,23 @@ const SyntaxChat = (props) => {
   const [openDrawer, setopenDrawer] = useState(false);
 
   const handleMessageSubmit = () => {
+    // this if block is called when page is reloaded 
+    // it ensures that user is connected back to same room to incorporate smooth chating
     if(localStorage.getItem('flag') && sessionStorage.getItem('isconnected')){
       if (props.message === "") return;
       SetEmojiPicker(false);
+      // this data extract info from localStorage
       let data = {
         name: localStorage.getItem('name'),
         roomId: localStorage.getItem('roomId'),
         message: props.message,
       };
+      // this is used to connect back the user
       props.socket.emit("chatmessage", data);
-      
       props.setMessages(data);
       props.setMessage("");
     }
+    // this block is called when the user connects first time
     else{
     if (props.message === "") return;
     SetEmojiPicker(false);

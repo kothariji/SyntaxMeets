@@ -175,8 +175,10 @@ const Home = (props) => {
                         pathname: props.joinRoomId,
                       }}
                       onClick={()=>{
+                        // it stores the details in localstorage which is used later
                         localStorage.setItem('roomId',props.joinRoomId);
                         localStorage.setItem('name',props.name);
+                        // isconnected is used to reconnect 
                         sessionStorage.setItem('isconnected',true);
                       }}
                     >
@@ -275,6 +277,7 @@ const Home = (props) => {
                         pathname: props.joinRoomId,
                       }}
                       onClick={ ()=>{
+                        // it stores the details in localstorage which are later used
                         localStorage.setItem('roomId',props.joinRoomId)
                         localStorage.setItem('name',props.name)
                         sessionStorage.setItem('isconnected',true);  

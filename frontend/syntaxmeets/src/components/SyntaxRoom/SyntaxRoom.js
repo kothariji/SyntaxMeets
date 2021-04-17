@@ -40,7 +40,9 @@ const SyntaxRoom = (props) => {
     useEffect(() => {
       // fetch the list of active rooms from backend
       var roomsList = [];
+      // all active roomids are there in backend/rooms
       const url = `${process.env.REACT_APP_SYNTAXMEETS_BACKEND_API}/rooms`;
+      // this fetch function fetches the list of active list
       fetch(url)
         .then(res => {
           return res.json();
@@ -50,7 +52,7 @@ const SyntaxRoom = (props) => {
           for (let i = 0; i < rooms.length; i++)
             roomsList.push(rooms[i]);
         });
-
+        // roomid gets the roomId from local storage
         var roomid = localStorage.getItem('roomId');
 
     if (props.Username === undefined || props.Username === "") {
@@ -61,9 +63,12 @@ const SyntaxRoom = (props) => {
 
     if (props.location.name === undefined || props.location.name === "") {
       // If user disconnects and want to connect back to same room
+      // flag is used to check whether roomid is active or not
       var flag = false;
       flag = roomsList.includes(roomid);
       localStorage.setItem('flag', flag);
+      // this if statement is called when reload of page takes places
+      // it just joins the user back to same roomId using socket
       if (localStorage.getItem('flag') && sessionStorage.getItem('isconnected')) {
         props.location.name = localStorage.getItem('name');
         let data = {
