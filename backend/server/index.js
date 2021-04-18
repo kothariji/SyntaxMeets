@@ -7,6 +7,10 @@ const helmet = require('helmet');
 const rateLimiter = require('./rateLimiter');
 // instantiate a new rooms object to store all clients in the room
 const rooms = new Rooms();
+
+// to store all the rooms created 
+const roomsCreated = [];
+
 app.use(helmet());
 
 // io.origins(["http://localhost:3000"]);
@@ -24,12 +28,14 @@ io.on("connection" , (socket) => {
     roomId = room;
     userName = name;
     userId = socket.id;
-
+    // pushes new rooms created in the roomsCreated list
+    if(!roomsCreated.includes(room))
+      roomsCreated.push(room);
+ 
     socket.join(room);
     const oldUser = rooms.getUser(roomId);
     rooms.addUserToRoom(socket.id, name, room);
     const users = rooms.getAllUsers(room);
-
     // send all the users to only the new User who joined and id of the current user
     socket.emit("addusers", { id: socket.id, users });
     // inform everyone (excluding the new User) , that a user has been added
@@ -58,8 +64,9 @@ io.on("connection" , (socket) => {
 
   socket.on("disconnect", function () {
     if (!userName) return;
-
+    
     const returnId = rooms.deleteUser(roomId, socket.id);
+    
     if (returnId)
       socket.broadcast
         .to(roomId)
@@ -70,7 +77,14 @@ io.on("connection" , (socket) => {
 app.get("/",rateLimiter ,  (req, res) => {
   res.send({ response: "Server is up and Running." }).status(200);
 });
+// api call to get rooms created 
+// this api keeps track of active rooms 
+app.get('/rooms', function(req, res) {
+  console.log('got the response');
+  res.json(roomsCreated);
+});
 
 server.listen(process.env.PORT || 4000, function () {
   console.log("server is working");
 });
+

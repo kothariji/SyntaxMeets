@@ -174,6 +174,13 @@ const Home = (props) => {
                       to={{
                         pathname: props.joinRoomId,
                       }}
+                      onClick={()=>{
+                        // it stores the details in localstorage which is used later
+                        localStorage.setItem('roomId',props.joinRoomId);
+                        localStorage.setItem('name',props.name);
+                        // isconnected is used to reconnect 
+                        sessionStorage.setItem('isconnected',true);
+                      }}
                     >
                       Create Room
                     </MUIButton>
@@ -268,6 +275,12 @@ const Home = (props) => {
                       ref={joinRoomButton}
                       to={{
                         pathname: props.joinRoomId,
+                      }}
+                      onClick={ ()=>{
+                        // it stores the details in localstorage which are later used
+                        localStorage.setItem('roomId',props.joinRoomId)
+                        localStorage.setItem('name',props.name)
+                        sessionStorage.setItem('isconnected',true);  
                       }}
                     >
                       Join a Room

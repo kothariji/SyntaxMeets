@@ -17,6 +17,12 @@ import { connect } from "react-redux";
 import * as actions from "../../store/actions/roomActions.js";
 import * as UIactions from "../../store/actions/uiActions.js";
 
+
+// use following in case of localhost
+//import io from "socket.io-client";
+// to use for localhost
+//var socket = io.connect("http://localhost:4000");
+
 const SyntaxRoom = (props) => {
   const [popup, setPopup] = useState(false);
   const [popupMessage, setPopupMessage] = useState("");
@@ -29,11 +35,57 @@ const SyntaxRoom = (props) => {
       props.reset();
       socket.connect();
     });
+
+  });
+    useEffect(() => {
+      // fetch the list of active rooms from backend
+      var roomsList = [];
+      // all active roomids are there in backend/rooms
+      const url = `${process.env.REACT_APP_SYNTAXMEETS_BACKEND_API}/rooms`;
+      // this fetch function fetches the list of active list
+      fetch(url)
+        .then(res => {
+          return res.json();
+        })
+        .then(rooms => {
+          console.log(rooms);
+          for (let i = 0; i < rooms.length; i++)
+            roomsList.push(rooms[i]);
+        });
+        // roomid gets the roomId from local storage
+        var roomid = localStorage.getItem('roomId');
+
     if (props.Username === undefined || props.Username === "") {
       setPopup(true);
       setPopupMessage("Name not found");
     }
 
+
+    if (props.location.name === undefined || props.location.name === "") {
+      // If user disconnects and want to connect back to same room
+      // flag is used to check whether roomid is active or not
+      var flag = false;
+      flag = roomsList.includes(roomid);
+      localStorage.setItem('flag', flag);
+      // this if statement is called when reload of page takes places
+      // it just joins the user back to same roomId using socket
+      if (localStorage.getItem('flag') && sessionStorage.getItem('isconnected')) {
+        props.location.name = localStorage.getItem('name');
+        let data = {
+          room: localStorage.getItem('roomId'),
+          name: localStorage.getItem('name'),
+        }
+        // join back to same room
+        socket.emit("joinroom", data);
+      }
+      else {
+        // direct back to home
+        alert("Please Enter your name");
+        props.reset();
+        props.setGoToHome(true);
+      }
+    }
+    
     if (validateRoomID(roomId) === false || props.location.pathname === "") {
       setPopup(true);
       setPopupMessage("Invalid Room Id");
@@ -123,7 +175,7 @@ const SyntaxRoom = (props) => {
       <Footer />
     </Fragment>
   );
-};
+          };
 const mapStateToProps = (state) => {
   return {
     users: state.ROOM.users,
@@ -148,4 +200,6 @@ const mapDispatchToProps = (dispatch) => {
     setSnackBar: (msg, type) => dispatch(UIactions.setSnackBar(msg, type)),
   };
 };
+
+
 export default connect(mapStateToProps, mapDispatchToProps)(SyntaxRoom);
