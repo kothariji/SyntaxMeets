@@ -7,9 +7,9 @@ import {
   Divider,
   TextField,
   Grid,
-  Typography,
+  Typography
 } from "@material-ui/core";
-import { connect } from 'react-redux';
+import { connect } from "react-redux";
 import * as actions from "../../store/actions/chatActions.js";
 import SendIcon from "@material-ui/icons/Send";
 import ForumIcon from "@material-ui/icons/Forum";
@@ -20,11 +20,11 @@ import { Picker } from "emoji-mart";
 
 const useStyles = makeStyles({
   list: {
-    width: 400,
+    width: 400
   },
   fullList: {
-    width: "auto",
-  },
+    width: "auto"
+  }
 });
 
 const SyntaxChat = (props) => {
@@ -34,16 +34,16 @@ const SyntaxChat = (props) => {
   const [openDrawer, setopenDrawer] = useState(false);
 
   const handleMessageSubmit = () => {
-    // this if block is called when page is reloaded 
+    // this if block is called when page is reloaded
     // it ensures that user is connected back to same room to incorporate smooth chating
-    if(localStorage.getItem('flag') && sessionStorage.getItem('isconnected')){
-      if (props.message === "") return;
+    if (localStorage.getItem("flag") && sessionStorage.getItem("isconnected")) {
+      if (props.message.trim() === "") return;
       SetEmojiPicker(false);
       // this data extract info from localStorage
       let data = {
-        name: localStorage.getItem('name'),
-        roomId: localStorage.getItem('roomId'),
-        message: props.message,
+        name: localStorage.getItem("name"),
+        roomId: localStorage.getItem("roomId"),
+        message: props.message
       };
       // this is used to connect back the user
       props.socket.emit("chatmessage", data);
@@ -51,35 +51,34 @@ const SyntaxChat = (props) => {
       props.setMessage("");
     }
     // this block is called when the user connects first time
-    else{
-    if (props.message === "") return;
-    SetEmojiPicker(false);
-    let data = {
-      name: props.name,
-      roomId: props.roomId,
-      message: props.message,
-    };
-    props.socket.emit("chatmessage", data);
-    
-    props.setMessages(data);
-    props.setMessage("");
-  }
+    else {
+      if (props.message.trim() === "") return;
+      SetEmojiPicker(false);
+      let data = {
+        name: props.name,
+        roomId: props.roomId,
+        message: props.message
+      };
+      props.socket.emit("chatmessage", data);
+
+      props.setMessages(data);
+      props.setMessage("");
+    }
   };
 
   useEffect(() => {
-  
     props.socket.on("chatmessage", (data) => {
       props.setMessages(data);
     });
     let timeout;
-      // recieve the user who is currently typing's data from the backend
-      props.socket.on("typing", (data) => {
+    // recieve the user who is currently typing's data from the backend
+    props.socket.on("typing", (data) => {
       props.whoIsTyping(data.name);
       //Remove the timeout(to clear typing message) , if someone has again typed something
       clearTimeout(timeout);
       timeout = setTimeout(() => {
         //Remove the typing message if no one is typing after 500ms
-      props.whoIsTyping();
+        props.whoIsTyping();
       }, 500);
     });
   }, []);
@@ -108,7 +107,10 @@ const SyntaxChat = (props) => {
   }
 
   const toggleDrawer = (open) => (event) => {
-    if (event.type === "keydown" && (event.key === "Tab" || event.key === "Shift")){
+    if (
+      event.type === "keydown" &&
+      (event.key === "Tab" || event.key === "Shift")
+    ) {
       return;
     }
     setopenDrawer(open);
@@ -125,7 +127,7 @@ const SyntaxChat = (props) => {
           fontFamily: "poppins",
           marginLeft: "15px",
           fontWeight: "600",
-          color: "white",
+          color: "white"
         }}
       >
         Chat Box
@@ -144,7 +146,7 @@ const SyntaxChat = (props) => {
             style={{
               paddingBottom: "70px",
               marginBottom: "70px",
-              height: "90%",
+              height: "90%"
             }}
           >
             {<ChatMessage messages={props.messages} />}
@@ -156,7 +158,7 @@ const SyntaxChat = (props) => {
               position: "fixed",
               paddingBottom: "20px",
               paddingTop: "10px",
-              backgroundColor: "#fff",
+              backgroundColor: "#fff"
             }}
           >
             <Grid container justify="center" spacing={3}>
@@ -203,7 +205,7 @@ const SyntaxChat = (props) => {
                     alignSelf: "center",
                     marginLeft: "5px",
                     marginTop: "10px",
-                    cursor: "pointer",
+                    cursor: "pointer"
                   }}
                   alignContent="center"
                 ></InsertEmoticonIcon>
@@ -221,7 +223,7 @@ const SyntaxChat = (props) => {
                   onChange={(e) => {
                     props.socket.emit("typing", {
                       id: props.socket.id,
-                      name: props.name,
+                      name: props.name
                     });
                     props.setMessage(e.target.value);
                   }}
@@ -250,7 +252,7 @@ const SyntaxChat = (props) => {
                     fontFamily: "poppins",
                     marginLeft: "auto",
                     fontWeight: "600",
-                    color: "white",
+                    color: "white"
                   }}
                   endIcon={<SendIcon />}
                   onClick={handleMessageSubmit}
@@ -272,19 +274,19 @@ const SyntaxChat = (props) => {
   );
 };
 
-const mapStateToProps = state => {
-    return {
-      typingUser: state.CHAT.typingUser,
-      message:state.CHAT.message,
-      messages : state.CHAT.chat,
-    }
-}
+const mapStateToProps = (state) => {
+  return {
+    typingUser: state.CHAT.typingUser,
+    message: state.CHAT.message,
+    messages: state.CHAT.chat
+  };
+};
 
 const mapDispatchToProps = (dispatch) => {
   return {
-      setMessage: (msg) => dispatch(actions.setMessage(msg)),
-      setMessages: (msg) => dispatch(actions.makeMessage(msg)),
-      whoIsTyping: (user) => dispatch(actions.whoIsTyping(user))
-  }
-}
-export default connect(mapStateToProps,mapDispatchToProps)(SyntaxChat);
+    setMessage: (msg) => dispatch(actions.setMessage(msg)),
+    setMessages: (msg) => dispatch(actions.makeMessage(msg)),
+    whoIsTyping: (user) => dispatch(actions.whoIsTyping(user))
+  };
+};
+export default connect(mapStateToProps, mapDispatchToProps)(SyntaxChat);
