@@ -20,6 +20,8 @@ import {
   DialogActions,
   Snackbar,
   ButtonGroup,
+  Tooltip,
+  Zoom,
 } from "@material-ui/core";
 import Grid from "@material-ui/core/Grid";
 import Alert from "@material-ui/lab/Alert";
@@ -414,58 +416,66 @@ const SyntaxEditor = (props) => {
             variant="contained"
             color="primary"
           >
-            <Button
-              variant="contained"
-              color="primary"
-              onClick={() => uploadFile()}
-              style={{
-                fontFamily: "poppins",
-                marginLeft: "auto",
-                fontWeight: "600",
-                color: "white",
-              }}
-            >
-              <CloudUploadIcon />
-            </Button>
-            <Button
-              variant="contained"
-              color="primary"
-              onClick={() => copyCode(props.code)}
-              style={{
-                fontFamily: "poppins",
-                marginLeft: "auto",
-                fontWeight: "600",
-                color: "white",
-              }}
-            >
-              <FileCopyIcon />
-            </Button>
-            <Button
-              variant="contained"
-              color="primary"
-              style={{
-                fontFamily: "poppins",
-                marginLeft: "auto",
-                fontWeight: "600",
-                color: "white",
-              }}
-              onClick={handleCodeDownload}
-            >
-              <CloudDownloadRounded style={{ fontSize: 24 }} />
-            </Button>
-            <Button
-              variant="contained"
-              color="primary"
-              style={{
-                fontFamily: "poppins",
-                marginLeft: "auto",
-                fontWeight: "600",
-                color: "white",
-              }}
-              onClick={() => props.toggleFocusMode()}
-            >
-              <FullscreenRounded style={{ fontSize: 24 }} />
-            </Button>
+            <Tooltip title="Upload Code" arrow TransitionComponent={Zoom}>
+              <Button
+                variant="contained"
+                color="primary"
+                onClick={() => uploadFile()}
+                style={{
+                  fontFamily: "poppins",
+                  marginLeft: "auto",
+                  fontWeight: "600",
+                  color: "white",
+                }}
+                >
+                <CloudUploadIcon />
+              </Button>
+            </Tooltip>
+            <Tooltip title="Copy Code" arrow TransitionComponent={Zoom}>
+              <Button
+                variant="contained"
+                color="primary"
+                onClick={() => copyCode(props.code)}
+                style={{
+                  fontFamily: "poppins",
+                  marginLeft: "auto",
+                  fontWeight: "600",
+                  color: "white",
+                }}
+                >
+                <FileCopyIcon />
+              </Button>
+            </Tooltip>
+            <Tooltip title="Download Code" arrow TransitionComponent={Zoom}>  
+              <Button
+                variant="contained"
+                color="primary"
+                style={{
+                  fontFamily: "poppins",
+                  marginLeft: "auto",
+                  fontWeight: "600",
+                  color: "white",
+                }}
+                onClick={handleCodeDownload}
+                >
+                <CloudDownloadRounded style={{ fontSize: 24 }} />
+              </Button>
+            </Tooltip>
+            <Tooltip title="Full Screen" arrow TransitionComponent={Zoom}>
+              <Button
+                variant="contained"
+                color="primary"
+                style={{
+                  fontFamily: "poppins",
+                  marginLeft: "auto",
+                  fontWeight: "600",
+                  color: "white",
+                }}
+                onClick={() => props.toggleFocusMode()}
+              >
+                <FullscreenRounded style={{ fontSize: 24 }} />
+              </Button>
+            </Tooltip>
           </ButtonGroup>
           <Button
             variant="contained"
