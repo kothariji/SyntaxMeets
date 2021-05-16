@@ -66,16 +66,19 @@ const SyntaxChat = (props) => {
   }, []);
 
   const scrollToBottom = () => {
+    
     if (messagesEndRef.current) {
-      messagesEndRef.current.scrollIntoView({ behavior: "smooth" });
+      messagesEndRef.current.scrollIntoView({ behavior: "smooth",block: "end", inline: "nearest" });
     }
   };
+  
 
   function triggerPicker(event) {
     event.preventDefault();
     SetEmojiPicker(!emojiPickerState);
   }
   useEffect(scrollToBottom, [props.messages]);
+ 
   let emojiPicker;
   if (emojiPickerState) {
     emojiPicker = (
@@ -93,6 +96,7 @@ const SyntaxChat = (props) => {
       return;
     }
     setopenDrawer(open);
+   
   };
 
   return (
@@ -112,11 +116,11 @@ const SyntaxChat = (props) => {
         Chat Box
       </Button>
       <Drawer anchor={"right"} open={openDrawer} onClose={toggleDrawer(false)}>
-        <CloseSharpIcon
-          style={{ padding: "5px", fontSize: "3em", cursor: "pointer" }}
-          onClick={toggleDrawer(false)}
-        />
+      
+       <div
+        ref={messagesEndRef}>
         <div
+         
           className={classes.list}
           style={{ display: "flex", flexDirection: "column" }}
           role="presentation"
@@ -129,7 +133,19 @@ const SyntaxChat = (props) => {
             }}
           >
             {<ChatMessage messages={props.messages} />}
-            <div ref={messagesEndRef} />
+           
+          </div>
+          <div
+          style={{
+            top: "0",
+            position: "fixed",
+            backgroundColor: "#fff"
+          }}>
+          <CloseSharpIcon
+          style={{ padding: "5px", fontSize: "3em", cursor: "pointer" }}
+          onClick={toggleDrawer(false)}
+        />
+        <Divider/>
           </div>
           <div
             style={{
@@ -212,7 +228,7 @@ const SyntaxChat = (props) => {
                     }
                   }}
                 />
-                {/* <input
+                {/*<input
                   id="name"
                   class="input-reset ba b--black-20 pa2 mb2 db w-100"
                   type="text"
@@ -247,6 +263,7 @@ const SyntaxChat = (props) => {
               <Grid item xs={1}></Grid>
             </Grid>
           </div>
+        </div>
         </div>
       </Drawer>
     </div>

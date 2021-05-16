@@ -52,7 +52,10 @@ export const ChatMessage = (props) => {
               }`,
             }}
           >
-            <em>{data.name}</em>
+
+            <em>{
+              (localStorage.getItem("my_name") === data.name)? " ": 
+            data.name}</em>
           </span>
         }
         secondary={
