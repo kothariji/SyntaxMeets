@@ -45,6 +45,7 @@ import { connect } from "react-redux";
 import * as actions from "../../store/actions/editorActions.js";
 import CloudDownloadRounded from "@material-ui/icons/CloudDownloadRounded";
 import FullscreenRounded from "@material-ui/icons/FullscreenRounded";
+import FullscreenExitRounded from "@material-ui/icons/FullscreenExitRounded";
 import { getExtensionByLangCode } from "../../util/util";
 //extracting all the languages recquired
 languages.forEach((lang) => {
@@ -70,6 +71,7 @@ const SyntaxEditor = (props) => {
   const [popup, setPopup] = useState(false);
   const [filePopup, setFilePopup] = useState(false);
   const [fileHandleError, setFileHandleError] = useState("");
+  const [fullscreen,setFullscreen] = useState(false); // maintain state of screen in syntax Editor
 
   // This will resend a message to update the code of the newly joined user
   useEffect(() => {
@@ -198,6 +200,12 @@ const SyntaxEditor = (props) => {
       reader.readAsText(file, "UTF-8");
     }
   };
+
+  // handle fullscreen mode
+  const handleFullscreen = (props) =>{
+    fullscreen ? setFullscreen(false) : setFullscreen(true);
+    props.toggleFocusMode();
+  }
 
   return (
     <Fragment>
@@ -446,7 +454,7 @@ const SyntaxEditor = (props) => {
                 <FileCopyIcon />
               </Button>
             </Tooltip>
-            <Tooltip title="Download Code" arrow TransitionComponent={Zoom}>  
+            <Tooltip title="Download Code" arrow TransitionComponent={Zoom}>
               <Button
                 variant="contained"
                 color="primary"
@@ -461,7 +469,7 @@ const SyntaxEditor = (props) => {
                 <CloudDownloadRounded style={{ fontSize: 24 }} />
               </Button>
             </Tooltip>
-            <Tooltip title="Full Screen" arrow TransitionComponent={Zoom}>
+            <Tooltip title={fullscreen ? "Exit Full Screen" : "Full Screen"} arrow TransitionComponent={Zoom}>
               <Button
                 variant="contained"
                 color="primary"
@@ -471,9 +479,12 @@ const SyntaxEditor = (props) => {
                   fontWeight: "600",
                   color: "white",
                 }}
-                onClick={() => props.toggleFocusMode()}
+                onClick={() => handleFullscreen(props)}
               >
-                <FullscreenRounded style={{ fontSize: 24 }} />
+                {fullscreen
+                  ?<FullscreenExitRounded style={{ fontSize: 24 }}/>
+                  :<FullscreenRounded style={{ fontSize: 24 }}/>
+                }
               </Button>
             </Tooltip>
           </ButtonGroup>
