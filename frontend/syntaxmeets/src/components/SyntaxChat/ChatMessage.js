@@ -54,7 +54,7 @@ export const ChatMessage = (props) => {
           >
 
             <em>{
-              (localStorage.getItem("my_name") === data.name)? " ": 
+              (localStorage.getItem("my_name") === data.name)? "You": 
             data.name}</em>
           </span>
         }

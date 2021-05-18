@@ -116,7 +116,15 @@ const SyntaxChat = (props) => {
         Chat Box
       </Button>
       <Drawer anchor={"right"} open={openDrawer} onClose={toggleDrawer(false)}>
-      
+      <Grid container spacing={3}>
+            <Grid item xs={12}>
+              <CloseSharpIcon
+          style={{ padding: "5px", fontSize: "3em", cursor: "pointer" }}
+          onClick={toggleDrawer(false)}
+        />
+        </Grid>
+          </Grid>
+        <Divider/>
        <div
         ref={messagesEndRef}>
         <div
@@ -134,19 +142,7 @@ const SyntaxChat = (props) => {
           >
             {<ChatMessage messages={props.messages} />}
            
-          </div>
-          <div
-          style={{
-            top: "0",
-            position: "fixed",
-            backgroundColor: "#fff"
-          }}>
-          <CloseSharpIcon
-          style={{ padding: "5px", fontSize: "3em", cursor: "pointer" }}
-          onClick={toggleDrawer(false)}
-        />
-        <Divider/>
-          </div>
+          </div>        
           <div
             style={{
               bottom: "0",
