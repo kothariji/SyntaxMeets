@@ -105,6 +105,19 @@ const SyntaxEditor = (props) => {
     setPopup(true);
   };
 
+  const fetchSharedCodeLink=async (content) =>{
+    var response = await fetch("https://dpaste.com/api/v2/", {
+      method: "POST",
+      headers: { "Content-Type": "application/x-www-form-urlencoded" },
+      body: "content=" + encodeURIComponent(content)
+    });
+    return response.text();
+  }
+  
+  const shareCode = (value) => {
+    fetchSharedCodeLink(value).then(url => { setFilePopup(true);setFileHandleError(url) });
+  }
+
   const handleCodeRun = () => {
     props.executeCode(langId[props.currLang], props.code, props.codeInput);
   };
@@ -437,6 +450,21 @@ const SyntaxEditor = (props) => {
                 }}
                 >
                 <CloudUploadIcon />
+              </Button>
+            </Tooltip>
+            <Tooltip title="Share Code" arrow TransitionComponent={Zoom}>
+              <Button
+                variant="contained"
+                color="primary"
+                onClick={() => shareCode(props.code)}
+                style={{
+                  fontFamily: "poppins",
+                  marginLeft: "auto",
+                  fontWeight: "600",
+                  color: "white",
+                }}
+                >
+                <ShareIcon />
               </Button>
             </Tooltip>
             <Tooltip title="Copy Code" arrow TransitionComponent={Zoom}>
