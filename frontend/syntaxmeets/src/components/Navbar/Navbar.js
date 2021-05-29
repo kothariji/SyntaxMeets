@@ -48,7 +48,19 @@ const Navbar = (props) => {
         aria-labelledby="customized-dialog-title"
         open={open}
       >
-        <About handleClose={handleClose}/>
+        <Toolbar
+          style={{ flex: 1, flexDirection: "row", justifyContent: "flex-end" }}
+        >
+          <IconButton
+            edge="start"
+            color="inherit"
+            onClick={handleClose}
+            aria-label="close"
+          >
+            <CloseIcon />
+          </IconButton>
+        </Toolbar>
+        <About />
       </Dialog>
 
       <AppBar position="static" style={{ backgroundColor: "#000A29" }}>

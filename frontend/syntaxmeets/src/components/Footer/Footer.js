@@ -5,7 +5,6 @@ import Button from "@material-ui/core/Button";
 import GithubIcon from "@material-ui/icons/GitHub";
 import FavoriteIcon from "@material-ui/icons/Favorite";
 import GroupIcon from "@material-ui/icons/Group";
-import { Redirect } from "react-router-dom";
 import logo from "./navlogo.png";
 import About from "../About/About";
 import CloseIcon from "@material-ui/icons/Close";
@@ -34,7 +33,20 @@ export default function Footer() {
         aria-labelledby="customized-dialog-title"
         open={open}
       >
-        <About handleClose={handleClose}/>
+        <Toolbar
+          style={{ flex: 1, flexDirection: "row", justifyContent: "flex-end" }}
+        >
+          <IconButton
+            edge="start"
+            color="inherit"
+            onClick={handleClose}
+            aria-label="close"
+          >
+            <CloseIcon />
+          </IconButton>
+        </Toolbar>
+        <About />
+        <About/>
       </Dialog>
       <div className={localclasses.footer}>
         <Row className={localclasses.footer_content}>
