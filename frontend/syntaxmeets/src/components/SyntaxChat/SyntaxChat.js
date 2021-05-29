@@ -11,6 +11,7 @@ import {
 } from "@material-ui/core";
 import { connect } from "react-redux";
 import * as actions from "../../store/actions/chatActions.js";
+import * as UIactions from "../../store/actions/uiActions.js";
 import SendIcon from "@material-ui/icons/Send";
 import ForumIcon from "@material-ui/icons/Forum";
 import { ChatMessage } from "./ChatMessage";
@@ -82,6 +83,16 @@ const SyntaxChat = (props) => {
       }, 500);
     });
   }, []);
+
+  useEffect(()=> {
+      let lastMessage = props.messages[props.messages.length - 1];
+      if (props.name && lastMessage) {
+      if (props.name !== lastMessage.name) {
+        console.log("NEW MESSAGE");
+        props.setSnackBar(`${lastMessage.name}: ${lastMessage.message}`, "warning")
+      }
+    }
+    }, [props.messages]);
 
   const scrollToBottom = () => {
     if (messagesEndRef.current) {
@@ -284,6 +295,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
+    setSnackBar: (msg,type) => dispatch(UIactions.setSnackBar(msg,type)),
     setMessage: (msg) => dispatch(actions.setMessage(msg)),
     setMessages: (msg) => dispatch(actions.makeMessage(msg)),
     whoIsTyping: (user) => dispatch(actions.whoIsTyping(user))
