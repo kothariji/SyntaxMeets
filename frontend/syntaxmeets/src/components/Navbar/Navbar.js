@@ -43,24 +43,12 @@ const Navbar = (props) => {
     <Fragment>
       <Dialog
         fullScreen
-        onClose={handleClose}
         TransitionComponent={Transition}
+        onClose={handleClose}
         aria-labelledby="customized-dialog-title"
         open={open}
       >
-        <Toolbar
-          style={{ flex: 1, flexDirection: "row", justifyContent: "flex-end" }}
-        >
-          <IconButton
-            edge="start"
-            color="inherit"
-            onClick={handleClose}
-            aria-label="close"
-          >
-            <CloseIcon />
-          </IconButton>
-        </Toolbar>
-        <About />
+        <About handleClose={handleClose}/>
       </Dialog>
 
       <AppBar position="static" style={{ backgroundColor: "#000A29" }}>
