@@ -5,14 +5,49 @@ import Button from "@material-ui/core/Button";
 import GithubIcon from "@material-ui/icons/GitHub";
 import FavoriteIcon from "@material-ui/icons/Favorite";
 import GroupIcon from "@material-ui/icons/Group";
-import { Redirect } from "react-router-dom";
 import logo from "./navlogo.png";
+import About from "../About/About";
+import CloseIcon from "@material-ui/icons/Close";
+import { Dialog, Toolbar, IconButton, Slide } from "@material-ui/core";
+
+const Transition = React.forwardRef(function Transition(props, ref) {
+  return <Slide direction="up" ref={ref} {...props} />;
+});
+
 export default function Footer() {
-  const viewAboutUs = () => {
-    return <Redirect to="/about" />;
+  const [open, setOpen] = React.useState(false);
+
+  const handleClickOpen = () => {
+    setOpen(true);
   };
+  const handleClose = () => {
+    setOpen(false);
+  };
+  
   return (
     <div>
+      <Dialog
+        fullScreen
+        TransitionComponent={Transition}
+        onClose={handleClose}
+        aria-labelledby="customized-dialog-title"
+        open={open}
+      >
+        <Toolbar
+          style={{ flex: 1, flexDirection: "row", justifyContent: "flex-end" }}
+        >
+          <IconButton
+            edge="start"
+            color="inherit"
+            onClick={handleClose}
+            aria-label="close"
+          >
+            <CloseIcon />
+          </IconButton>
+        </Toolbar>
+        <About />
+        <About/>
+      </Dialog>
       <div className={localclasses.footer}>
         <Row className={localclasses.footer_content}>
           <Col md="8">
@@ -66,27 +101,20 @@ export default function Footer() {
             </div>
 
             <div className="text-center">
-              <a
-                href="/about"
-                target="_blank"
-                style={{ textDecoration: "none" }}
+              <Button
+                onClick={handleClickOpen}
+                type="button"
+                variant="contained"
+                color="secondary"
+                style={{
+                  width: "150px",
+                  fontWeight: "600",
+                  color: "#000A29",
+                }}
               >
-                <Button
-                  onClick={viewAboutUs}
-                  type="button"
-                  variant="contained"
-                  color="secondary"
-                  style={{
-                    width: "150px",
-                    fontWeight: "600",
-                    color: "#000A29",
-                  }}
-                >
-                  About Us &nbsp;
-                  <GroupIcon />
-                </Button>
-              </a>
-
+                About Us &nbsp;
+                <GroupIcon />
+              </Button>
               <a
                 className={localclasses.iconGit}
                 href="https://github.com/kothariji/SyntaxMeets"

@@ -1,7 +1,6 @@
 import React from "react";
 import MediaCard from "./Card/MediaCard";
 import { Typography } from "@material-ui/core";
-
 import localclasses from "./About.module.css";
 import DhruvIMG from "../../images/dhruv.jpg";
 import AkashIMG from "../../images/akash.jpg";

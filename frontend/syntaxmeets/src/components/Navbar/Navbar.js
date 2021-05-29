@@ -43,8 +43,8 @@ const Navbar = (props) => {
     <Fragment>
       <Dialog
         fullScreen
-        onClose={handleClose}
         TransitionComponent={Transition}
+        onClose={handleClose}
         aria-labelledby="customized-dialog-title"
         open={open}
       >
