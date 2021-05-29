@@ -15,10 +15,20 @@ import InstagramIcon from '@material-ui/icons/Instagram';
 const useStyles = makeStyles({
   root: {
     maxWidth: 345,
+    display: "flex",
+    flexDirection: "column",
+    justifyContent: "space-between"
   },
   media: {
     height: 280,
   },
+  icon_card: {
+    display: "block",
+  },
+  icons: {
+    display: "flex",
+    justifyContent: "space-around"
+  }
 });
 
 const MediaCard = (props) => {
@@ -42,12 +52,12 @@ const MediaCard = (props) => {
           </Typography>
         </CardContent>
       </CardActionArea>
-      <CardActions>
-        <div>&nbsp;&nbsp;&nbsp;&nbsp;
-          <GitHubIcon style={{ cursor: "pointer" }} onClick = {() => {window.open(props.github)}} /> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-          <TwitterIcon style={{ cursor: "pointer" }}onClick = {() => {window.open(props.twitter)}}/> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-          <LinkedInIcon style={{ cursor: "pointer" }} onClick = {() => {window.open(props.linkedin)}}/> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-          <EmailIcon style={{ cursor: "pointer" }} onClick = {() => {window.open(props.gmail)}}/> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+      <CardActions className={classes.icon_card}>
+        <div className={classes.icons}>
+          <GitHubIcon style={{ cursor: "pointer" }} onClick = {() => {window.open(props.github)}} /> 
+          <TwitterIcon style={{ cursor: "pointer" }}onClick = {() => {window.open(props.twitter)}}/> 
+          <LinkedInIcon style={{ cursor: "pointer" }} onClick = {() => {window.open(props.linkedin)}}/> 
+          <EmailIcon style={{ cursor: "pointer" }} onClick = {() => {window.open(props.gmail)}}/> 
           <InstagramIcon style={{ cursor: "pointer" }} onClick = {() => {window.open(props.insta)}}/>
         </div>
       </CardActions>
