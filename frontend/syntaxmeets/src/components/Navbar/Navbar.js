@@ -89,7 +89,15 @@ const Navbar = (props) => {
               color: "white",
             }}
           >
-            RoomId : {props.roomId}
+            <Typography 
+              style={{
+                  whiteSpace: 'nowrap',
+                  maxWidth: '200px',
+                  overflow: 'hidden',
+                  textOverflow: 'ellipsis'
+              }}>
+              RoomId : {props.roomId}
+            </Typography>
           </Button>
           <SyntaxChat
             name={props.name}
