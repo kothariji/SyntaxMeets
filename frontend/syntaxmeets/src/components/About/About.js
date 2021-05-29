@@ -14,7 +14,17 @@ const About = ({handleClose}) => {
       style={{ backgroundColor: "#000a29" }}
     >
       <div>
-        <ArrowBackIcon style={{fontSize: "2.5em", position: "absolute", color: "white", cursor: "pointer" }} onClick={handleClose}/>
+        <ArrowBackIcon 
+          style={{ fontSize: "3em", 
+            position: "absolute", 
+            left: "1%", 
+            top: "1.5%", 
+            color: "#000a29", 
+            background: "white", 
+            borderRadius: "50%", 
+            cursor: "pointer" 
+          }} 
+          onClick={handleClose}/>
         <Typography
           align="center"
           variant="h1"
