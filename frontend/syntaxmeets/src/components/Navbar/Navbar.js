@@ -5,14 +5,12 @@ import {
   Typography,
   Button,
   Dialog,
-  IconButton,
 } from "@material-ui/core";
 import logo from "../../images/navlogo.png";
 import PersonIcon from "@material-ui/icons/Person";
 import SyntaxChat from "../SyntaxChat/SyntaxChat";
 import copy from "copy-to-clipboard";
 import About from "../About/About.js";
-import CloseIcon from "@material-ui/icons/Close";
 import Slide from "@material-ui/core/Slide";
 import ParticpantsList from "../SyntaxChat/ParticipantsList";
 import { CallEnd } from "@material-ui/icons";
@@ -48,19 +46,7 @@ const Navbar = (props) => {
         aria-labelledby="customized-dialog-title"
         open={open}
       >
-        <Toolbar
-          style={{ flex: 1, flexDirection: "row", justifyContent: "flex-end" }}
-        >
-          <IconButton
-            edge="start"
-            color="inherit"
-            onClick={handleClose}
-            aria-label="close"
-          >
-            <CloseIcon />
-          </IconButton>
-        </Toolbar>
-        <About />
+        <About handleClose={handleClose}/>
       </Dialog>
 
       <AppBar position="static" style={{ backgroundColor: "#000A29" }}>

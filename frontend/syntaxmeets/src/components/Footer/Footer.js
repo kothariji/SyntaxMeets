@@ -7,8 +7,7 @@ import FavoriteIcon from "@material-ui/icons/Favorite";
 import GroupIcon from "@material-ui/icons/Group";
 import logo from "./navlogo.png";
 import About from "../About/About";
-import CloseIcon from "@material-ui/icons/Close";
-import { Dialog, Toolbar, IconButton, Slide } from "@material-ui/core";
+import { Dialog, Slide } from "@material-ui/core";
 
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
@@ -33,20 +32,7 @@ export default function Footer() {
         aria-labelledby="customized-dialog-title"
         open={open}
       >
-        <Toolbar
-          style={{ flex: 1, flexDirection: "row", justifyContent: "flex-end" }}
-        >
-          <IconButton
-            edge="start"
-            color="inherit"
-            onClick={handleClose}
-            aria-label="close"
-          >
-            <CloseIcon />
-          </IconButton>
-        </Toolbar>
-        <About />
-        <About/>
+        <About handleClose={handleClose}/>
       </Dialog>
       <div className={localclasses.footer}>
         <Row className={localclasses.footer_content}>
