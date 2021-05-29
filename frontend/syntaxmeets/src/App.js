@@ -7,7 +7,6 @@ import store from "./store/store";
 import { Provider } from "react-redux";
 import SnackBar from "./components/SnackBar/Snackbar.js"
 const Home = React.lazy(() => import("./components/Home/Home"));
-const About = React.lazy(() => import("./components/About/About"));
 const SyntaxRoom = React.lazy(() =>
   import("./components/SyntaxRoom/SyntaxRoom")
 );
@@ -20,7 +19,6 @@ const App = () => {
           <SnackBar  />
           <Switch>
             <Route exact path="/" component={Home} />
-            <Route exact path="/about" component={About} />
             <Route exact path="/:roomId" component={SyntaxRoom} />
           </Switch>
         </Suspense>
