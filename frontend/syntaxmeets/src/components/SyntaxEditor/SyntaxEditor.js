@@ -34,6 +34,7 @@ import {
   langExtensionDict,
   themes,
 } from "./LanguageData";
+import Modal from "react-modal";
 import ShareIcon from "@material-ui/icons/Share";
 import PlayArrowIcon from "@material-ui/icons/PlayArrow";
 import FileCopyIcon from "@material-ui/icons/FileCopy";
@@ -47,12 +48,22 @@ import CloudDownloadRounded from "@material-ui/icons/CloudDownloadRounded";
 import FullscreenRounded from "@material-ui/icons/FullscreenRounded";
 import FullscreenExitRounded from "@material-ui/icons/FullscreenExitRounded";
 import { getExtensionByLangCode } from "../../util/util";
+import { css } from "@emotion/react";
+import BeatLoader from "react-spinners/BeatLoader";
+
 //extracting all the languages recquired
 languages.forEach((lang) => {
   require(`ace-builds/src-noconflict/mode-${lang}`);
   require(`ace-builds/src-noconflict/snippets/${lang}`);
 });
 
+
+// Can be a string as well. Need to ensure each key-value pair ends with ;
+const override = css`
+  display: block;
+  margin: 0 auto;
+  border-color: red;
+`;
 //extracting themes
 themes.forEach((theme) => require(`ace-builds/src-noconflict/theme-${theme}`));
 
@@ -66,12 +77,17 @@ const useStyles = makeStyles((mutheme) => ({
   },
 }));
 
+Modal.setAppElement('#root')
+
 const SyntaxEditor = (props) => {
   const [theme, setTheme] = useState("monokai");
   const [popup, setPopup] = useState(false);
   const [filePopup, setFilePopup] = useState(false);
   const [fileHandleError, setFileHandleError] = useState("");
   const [fullscreen,setFullscreen] = useState(false); // maintain state of screen in syntax Editor
+  const [modalIsOpen,setModalIsOpen] = useState(false)
+  const [shareURL,setshareURL] = useState("")
+  const [isLoading,setIsLoading]=useState(false)
 
   // This will resend a message to update the code of the newly joined user
   useEffect(() => {
@@ -104,6 +120,21 @@ const SyntaxEditor = (props) => {
     copy(value);
     setPopup(true);
   };
+
+  const fetchSharedCodeLink=async (content) =>{
+    var response = await fetch("https://dpaste.com/api/v2/", {
+      method: "POST",
+      headers: { "Content-Type": "application/x-www-form-urlencoded" },
+      body: "content=" + encodeURIComponent(content)
+    });
+    return response.text();
+  }
+  
+  const shareCode = (value) => {
+    setModalIsOpen(true)
+    setIsLoading(true)
+    fetchSharedCodeLink(value).then(url => {setIsLoading(false);setshareURL(url) });
+  }
 
   const handleCodeRun = () => {
     props.executeCode(langId[props.currLang], props.code, props.codeInput);
@@ -373,6 +404,27 @@ const SyntaxEditor = (props) => {
           </Toolbar>
         </div>
       </AppBar>
+      <Modal
+      isOpen={modalIsOpen}
+      onRequestClose={()=>setModalIsOpen(false)}
+      style={
+        {
+        content: {
+          top: '35%',
+          left: '50%',
+          right: 'auto',
+          bottom: 'auto',
+          marginRight: '-50%',
+          transform: 'translate(-40%, -10%)',
+          width: '30%',
+          backgroundColor:'black',
+          color: 'orange'
+        }
+      }
+      }
+      >
+        {isLoading?<BeatLoader color='red' loading={true} css={override} size={50} />:<h2>{shareURL}</h2>}
+      </Modal>
       <AceEditor
         mode={langMode[props.currLang]}
         theme={theme}
@@ -437,6 +489,21 @@ const SyntaxEditor = (props) => {
                 }}
                 >
                 <CloudUploadIcon />
+              </Button>
+            </Tooltip>
+            <Tooltip title="Share Code" arrow TransitionComponent={Zoom}>
+              <Button
+                variant="contained"
+                color="primary"
+                onClick={() => shareCode(props.code)}
+                style={{
+                  fontFamily: "poppins",
+                  marginLeft: "auto",
+                  fontWeight: "600",
+                  color: "white",
+                }}
+                >
+                <ShareIcon />
               </Button>
             </Tooltip>
             <Tooltip title="Copy Code" arrow TransitionComponent={Zoom}>

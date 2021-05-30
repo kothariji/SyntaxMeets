@@ -31,6 +31,8 @@
     "react-router-dom": "^5.2.0",
     "react-scripts": "^3.4.4",
     "react-skylight": "^0.5.1",
+    "react-modal": "^3.13.1",
+    "react-spinners": "^0.11.0",
     "reactstrap": "^8.9.0",
     "redux": "^4.0.5",
     "redux-thunk": "^2.3.0",
