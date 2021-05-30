@@ -22,6 +22,7 @@ import {
   ButtonGroup,
   Tooltip,
   Zoom,
+  DialogContent,
 } from "@material-ui/core";
 import Grid from "@material-ui/core/Grid";
 import Alert from "@material-ui/lab/Alert";
@@ -47,6 +48,7 @@ import * as actions from "../../store/actions/editorActions.js";
 import CloudDownloadRounded from "@material-ui/icons/CloudDownloadRounded";
 import FullscreenRounded from "@material-ui/icons/FullscreenRounded";
 import FullscreenExitRounded from "@material-ui/icons/FullscreenExitRounded";
+import CloseIcon from '@material-ui/icons/Close';
 import { getExtensionByLangCode } from "../../util/util";
 import { css } from "@emotion/react";
 import BeatLoader from "react-spinners/BeatLoader";
@@ -81,7 +83,7 @@ Modal.setAppElement('#root')
 
 const SyntaxEditor = (props) => {
   const [theme, setTheme] = useState("monokai");
-  const [popup, setPopup] = useState(false);
+  const [popup, setPopup] = useState([false, ""]);
   const [filePopup, setFilePopup] = useState(false);
   const [fileHandleError, setFileHandleError] = useState("");
   const [fullscreen,setFullscreen] = useState(false); // maintain state of screen in syntax Editor
@@ -118,7 +120,7 @@ const SyntaxEditor = (props) => {
 
   const copyCode = (value) => {
     copy(value);
-    setPopup(true);
+    setPopup([true, "Code Copied Sucessfully"]);
   };
 
   const fetchSharedCodeLink=async (content) =>{
@@ -266,20 +268,20 @@ const SyntaxEditor = (props) => {
         </DialogActions>
       </Dialog>
       <Snackbar
-        open={popup}
+        open={popup[0]}
         autoHideDuration={2000}
         onClose={() => {
-          setPopup(false);
+          setPopup([false, ""]);
         }}
       >
         <Alert
           onClose={() => {
-            setPopup(false);
+            setPopup([false, ""]);
           }}
           severity="success"
           variant="filled"
         >
-          Code Copied Sucessfully
+          {popup[1]}
         </Alert>
       </Snackbar>
       <Snackbar
@@ -404,27 +406,43 @@ const SyntaxEditor = (props) => {
           </Toolbar>
         </div>
       </AppBar>
-      <Modal
-      isOpen={modalIsOpen}
-      onRequestClose={()=>setModalIsOpen(false)}
-      style={
-        {
-        content: {
-          top: '35%',
-          left: '50%',
-          right: 'auto',
-          bottom: 'auto',
-          marginRight: '-50%',
-          transform: 'translate(-40%, -10%)',
-          width: '30%',
-          backgroundColor:'black',
-          color: 'orange'
+      <Dialog fullWidth={true} maxWidth={"xs"} open={modalIsOpen}>
+        <CloseIcon style={{fontSize: "2em", position: "absolute", right: "5px", top: "5px"}} onClick={()=>{
+          setModalIsOpen(false)
+          setshareURL("")
+        }}/>
+        <DialogTitle style={{ textAlign: "center", marginTop: "10px" }}>
+          Share Your Code
+        </DialogTitle>
+        <DialogContent>
+        <div style={{display: "flex", alignItems: "center", margin: "20px"}}>
+        {isLoading ? 
+        <BeatLoader color='red' loading={true} css={override} size={50} /> :
+          <>
+            <Typography style={{ padding: "5px 10px", background: "#eee", borderRadius: "3px" }}>{shareURL}</Typography>
+            <Tooltip title="Copy Url" arrow TransitionComponent={Zoom}>
+              <Button
+                variant="contained"
+                color="primary"
+                onClick={() => {
+                  copy(shareURL)
+                  setPopup([true, "Url Copied !!!"])
+                }}
+                style={{
+                  fontFamily: "poppins",
+                  marginLeft: "auto",
+                  fontWeight: "600",
+                  color: "white",
+                }}
+                >
+                <FileCopyIcon />
+              </Button>
+            </Tooltip>
+          </>
         }
-      }
-      }
-      >
-        {isLoading?<BeatLoader color='red' loading={true} css={override} size={50} />:<h2>{shareURL}</h2>}
-      </Modal>
+        </div>
+        </DialogContent>
+      </Dialog>
       <AceEditor
         mode={langMode[props.currLang]}
         theme={theme}
