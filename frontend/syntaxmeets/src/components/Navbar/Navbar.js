@@ -78,6 +78,7 @@ const Navbar = (props) => {
             <Typography 
               style={{
                   whiteSpace: 'nowrap',
+                  fontFamily: "poppins",
                   maxWidth: '200px',
                   overflow: 'hidden',
                   textOverflow: 'ellipsis'
