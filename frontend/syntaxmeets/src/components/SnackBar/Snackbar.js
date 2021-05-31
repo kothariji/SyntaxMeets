@@ -13,12 +13,7 @@ class SnackBar extends Component {
             <div>
                 <Snackbar open={this.props.isSnackOpen} autoHideDuration={4000} onClose={() => this.handleClose}>
                     <Alert onClose={() => this.props.close()} severity={this.props.type}>
-                        <Typography 
-                            style={{whiteSpace: 'nowrap',
-                                maxWidth: '200px',
-                                overflow: 'hidden',
-                                textOverflow: 'ellipsis'
-                            }}>
+                        <Typography>
                             {this.props.snackbarMessage}
                         </Typography>
                     </Alert>

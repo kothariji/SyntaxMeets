@@ -81,9 +81,7 @@ const Navbar = (props) => {
                   fontFamily: "poppins",
                   fontWeight: "600",
                   color: "white",
-                  maxWidth: '200px',
-                  overflow: 'hidden',
-                  textOverflow: 'ellipsis'
+                  fontSize: "14px"
               }}>
               RoomId : {props.roomId}
             </Typography>
