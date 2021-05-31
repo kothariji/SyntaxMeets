@@ -79,6 +79,9 @@ const Navbar = (props) => {
               style={{
                   whiteSpace: 'nowrap',
                   fontFamily: "poppins",
+                  marginLeft: "15px",
+                  fontWeight: "600",
+                  color: "white",
                   maxWidth: '200px',
                   overflow: 'hidden',
                   textOverflow: 'ellipsis'
