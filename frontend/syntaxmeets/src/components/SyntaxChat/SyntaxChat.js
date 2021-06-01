@@ -89,7 +89,7 @@ const SyntaxChat = (props) => {
       if (props.name && lastMessage) {
       if (props.name !== lastMessage.name) {
         console.log("NEW MESSAGE");
-        props.setSnackBar(`${lastMessage.name}: ${lastMessage.message}`, "warning")
+        lastMessage.message.length > 20 ? props.setSnackBar(`${lastMessage.name}: ${lastMessage.message.substring(0,20)}...`, "warning") : props.setSnackBar(`${lastMessage.name}: ${lastMessage.message}`, "warning")
       }
     }
     }, [props.messages]);
