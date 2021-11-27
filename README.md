@@ -14,7 +14,7 @@
 
 
 ---
-# Website - <em>[SyntaxMeets](https://syntaxmeets.vercel.app/)</em>
+<!-- # Website - <em>[SyntaxMeets](https://syntaxmeets.vercel.app/)</em> -->
 
 # Features
 - [Create a Room](#Create-a-room-)
