@@ -25,7 +25,7 @@
 - [SyntaxChat](#Code-&-Compile-)
 
 
-### :rocket:Glimpse :dizzy::dizzy:<br><br>![createaroom](https://snipboard.io/eAUFOi.jpg)
+<!-- ### :rocket:Glimpse :dizzy::dizzy:<br><br>![createaroom](https://snipboard.io/eAUFOi.jpg) -->
 
 
 
