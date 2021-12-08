@@ -1,10 +1,10 @@
 
 
-<!-- # SyntaxMeets
+# SyntaxMeets
 ![SM](https://i.imgur.com/O11CKeq.gif)
 
 
-### Syntaxmeets. Create rooms 🏠 Call your friends 👬🏼 Sip Chai, ☕ Chat, Create, and Code👨‍💻. A coding platform to code simultaneously 🚀 with your friends and design your algorithms on SyntaxPad. And you know what's awesome? It's Free.💫✨ -->
+### Syntaxmeets. Create rooms 🏠 Call your friends 👬🏼 Sip Chai, ☕ Chat, Create, and Code👨‍💻. A coding platform to code simultaneously 🚀 with your friends and design your algorithms on SyntaxPad. And you know what's awesome? It's Free.💫✨
 
 ![Vercel](https://therealsujitk-vercel-badge.vercel.app/?app=syntaxmeets)
 [
@@ -14,7 +14,7 @@
 
 
 ---
-<!-- # Website - <em>[SyntaxMeets](https://syntaxmeets.vercel.app/)</em> -->
+# Website - <em>[SyntaxMeets](https://syntaxmeets.vercel.app/)</em>
 
 # Features
 - [Create a Room](#Create-a-room-)
@@ -25,7 +25,7 @@
 - [SyntaxChat](#Code-&-Compile-)
 
 
-<!-- ### :rocket:Glimpse :dizzy::dizzy:<br><br>![createaroom](https://snipboard.io/eAUFOi.jpg) -->
+### :rocket:Glimpse :dizzy::dizzy:<br><br>![createaroom](https://snipboard.io/eAUFOi.jpg)
 
 
 
