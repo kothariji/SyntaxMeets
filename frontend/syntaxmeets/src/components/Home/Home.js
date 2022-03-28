@@ -27,6 +27,8 @@ const Home = (props) => {
   const skyLightJoinModal = useRef(SkyLight);
   const [disabledName, setDisabledName] = useState(true);
   const [disabledRoomId, setDisabledRoomId] = useState(true);
+  const createRoomButton = useRef(null);
+  const joinRoomButton = useRef(null);
 
 
   useEffect(() => {
@@ -143,6 +145,15 @@ const Home = (props) => {
                         ? setDisabledName(false)
                         : setDisabledName(true);
                     }}
+                    onKeyPress={(ev) => {
+                      if(ev.key === 'Enter') {
+                        ev.preventDefault();
+                        if(!disabledName)
+                        {
+                          createRoomButton.current.click();
+                        }
+                      }
+                    }}
                   />
 
                   <br />
@@ -159,8 +170,16 @@ const Home = (props) => {
                       size="large"
                       disabled={disabledName}
                       component={Link}
+                      ref={createRoomButton}
                       to={{
                         pathname: props.joinRoomId,
+                      }}
+                      onClick={()=>{
+                        // it stores the details in localstorage which is used later
+                        localStorage.setItem('roomId',props.joinRoomId);
+                        localStorage.setItem('name',props.name);
+                        // isconnected is used to reconnect 
+                        sessionStorage.setItem('isconnected',true);
                       }}
                     >
                       Create Room
@@ -218,6 +237,15 @@ const Home = (props) => {
                         ? setDisabledRoomId(false)
                         : setDisabledRoomId(true);
                     }}
+                    onKeyPress={(ev) => {
+                      if(ev.key === 'Enter') {
+                        ev.preventDefault();
+                        if(!disabledName && !disabledRoomId)
+                        {
+                          joinRoomButton.current.click();
+                        }
+                      }
+                    }}
                     fullWidth
                     id="outlined-basic"
                     className={classes.root}
@@ -244,8 +272,15 @@ const Home = (props) => {
                       size="large"
                       disabled={disabledName || disabledRoomId}
                       component={Link}
+                      ref={joinRoomButton}
                       to={{
                         pathname: props.joinRoomId,
+                      }}
+                      onClick={ ()=>{
+                        // it stores the details in localstorage which are later used
+                        localStorage.setItem('roomId',props.joinRoomId)
+                        localStorage.setItem('name',props.name)
+                        sessionStorage.setItem('isconnected',true);  
                       }}
                     >
                       Join a Room

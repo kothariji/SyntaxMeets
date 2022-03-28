@@ -19,6 +19,10 @@ import {
   DialogTitle,
   DialogActions,
   Snackbar,
+  ButtonGroup,
+  Tooltip,
+  Zoom,
+  DialogContent,
 } from "@material-ui/core";
 import Grid from "@material-ui/core/Grid";
 import Alert from "@material-ui/lab/Alert";
@@ -28,23 +32,40 @@ import {
   langMode,
   LangOptions,
   langId,
+  langExtensionDict,
   themes,
 } from "./LanguageData";
+import Modal from "react-modal";
 import ShareIcon from "@material-ui/icons/Share";
 import PlayArrowIcon from "@material-ui/icons/PlayArrow";
 import FileCopyIcon from "@material-ui/icons/FileCopy";
-import CloudUploadIcon from '@material-ui/icons/CloudUpload';
+import CloudUploadIcon from "@material-ui/icons/CloudUpload";
 import INPUT from "./CodeInput";
 import OUTPUT from "./CodeOutput";
 import copy from "copy-to-clipboard";
 import { connect } from "react-redux";
 import * as actions from "../../store/actions/editorActions.js";
+import CloudDownloadRounded from "@material-ui/icons/CloudDownloadRounded";
+import FullscreenRounded from "@material-ui/icons/FullscreenRounded";
+import FullscreenExitRounded from "@material-ui/icons/FullscreenExitRounded";
+import CloseIcon from '@material-ui/icons/Close';
+import { getExtensionByLangCode } from "../../util/util";
+import { css } from "@emotion/react";
+import BeatLoader from "react-spinners/BeatLoader";
+
 //extracting all the languages recquired
 languages.forEach((lang) => {
   require(`ace-builds/src-noconflict/mode-${lang}`);
   require(`ace-builds/src-noconflict/snippets/${lang}`);
 });
 
+
+// Can be a string as well. Need to ensure each key-value pair ends with ;
+const override = css`
+  display: block;
+  margin: 0 auto;
+  border-color: red;
+`;
 //extracting themes
 themes.forEach((theme) => require(`ace-builds/src-noconflict/theme-${theme}`));
 
@@ -58,17 +79,29 @@ const useStyles = makeStyles((mutheme) => ({
   },
 }));
 
-const validExtensions = [".c", ".cpp", ".java", ".js", ".ts", ".clj", ".cljs", ".cs", ".cbl", ".cob", ".cpy", ".erl", ".hrl", ".go", ".py", ".f90", ".f95", ".f03", ".txt", ".groovy", ".gvy", ".gy", ".gsh", ".kt", ".kts", ".ktm", ".php", ".r", ".rb", ".sql", ".swift"];
+Modal.setAppElement('#root')
 
 const SyntaxEditor = (props) => {
   const [theme, setTheme] = useState("monokai");
-  const [popup, setPopup] = useState(false);
+  const [popup, setPopup] = useState([false, ""]);
+  const [filePopup, setFilePopup] = useState(false);
+  const [fileHandleError, setFileHandleError] = useState("");
+  const [fullscreen,setFullscreen] = useState(false); // maintain state of screen in syntax Editor
+  const [modalIsOpen,setModalIsOpen] = useState(false)
+  const [shareURL,setshareURL] = useState("")
+  const [isLoading,setIsLoading]=useState(false)
 
   // This will resend a message to update the code of the newly joined user
   useEffect(() => {
     let UpdatedCode = props.code;
     if (props.previousUser.id === props.id) {
       props.socket.emit("message", UpdatedCode);
+    }
+    // if the user was connected then over reloading the page this block is called
+    else if(sessionStorage.getItem('isconnected'))
+    {
+      //it used to save the code in sessionStorage when only one user is using there in a room
+      props.setCode(sessionStorage.getItem('code'));
     }
   }, [props.previousUser]);
 
@@ -81,16 +114,46 @@ const SyntaxEditor = (props) => {
 
   const handleChange = (newValue) => {
     props.setCode(newValue);
+    sessionStorage.setItem('code',newValue);
     props.socket.emit("message", newValue);
   };
 
   const copyCode = (value) => {
     copy(value);
-    setPopup(true);
+    setPopup([true, "Code Copied Sucessfully"]);
   };
+
+  const fetchSharedCodeLink=async (content) =>{
+    var response = await fetch("https://dpaste.com/api/v2/", {
+      method: "POST",
+      headers: { "Content-Type": "application/x-www-form-urlencoded" },
+      body: "content=" + encodeURIComponent(content)
+    });
+    return response.text();
+  }
+  
+  const shareCode = (value) => {
+    setModalIsOpen(true)
+    setIsLoading(true)
+    fetchSharedCodeLink(value).then(url => {setIsLoading(false);setshareURL(url) });
+  }
 
   const handleCodeRun = () => {
     props.executeCode(langId[props.currLang], props.code, props.codeInput);
+  };
+
+  const handleCodeDownload = () => {
+    // download code here...
+    const element = document.createElement("a");
+    const file = new Blob([props.code], {
+      type: "text/plain;charset=utf-8",
+    });
+    element.href = URL.createObjectURL(file);
+    element.download = `syntaxmeets-code.${getExtensionByLangCode(
+      props.currLang
+    )}`;
+    document.body.appendChild(element);
+    element.click();
   };
 
   const IONavbar = (props) => {
@@ -114,44 +177,53 @@ const SyntaxEditor = (props) => {
       </AppBar>
     );
   };
-  
+
   const uploadFile = () => {
     document.querySelector("#upload").click();
-  }
+  };
 
   const checkValidFileExtension = (file) => {
+    const validExtensions = Object.keys(langExtensionDict);
     var name = file.name;
     var valid = false;
     if (name.length > 0) {
       for (var i = 0; i < validExtensions.length; ++i) {
         var ext = validExtensions[i];
-        if (name.substr(name.length - ext.length, ext.length).toLowerCase() == ext.toLowerCase()) {
+        if (
+          name.substr(name.length - ext.length, ext.length).toLowerCase() ==
+          ext.toLowerCase()
+        ) {
           valid = true;
           break;
         }
       }
     }
     return valid;
-  }
+  };
 
   const handleFileChange = () => {
     var file = document.querySelector("#upload").files[0];
-    
+
     if (file) {
       var reader = new FileReader();
 
       reader.onload = function (e) {
         if (file.size > 10000) {
-          alert("Error: File size greater than 10KB!");
+          setFilePopup(true);
+          setFileHandleError("Error: File size greater than 10KB!");
           return;
         }
 
         if (!checkValidFileExtension(file)) {
-          alert("Error: Not a Valid File Extension!");
+          setFilePopup(true);
+          setFileHandleError("Error: Not a Valid File Extension!");
           return;
         }
 
         handleChange(e.target.result);
+        const fileNameArr = file.name.split(".");
+        const ext = `.${fileNameArr[fileNameArr.length - 1]}`;
+        props.setLanguage(langExtensionDict[ext]);
       };
 
       reader.onerror = function (e) {
@@ -160,6 +232,12 @@ const SyntaxEditor = (props) => {
 
       reader.readAsText(file, "UTF-8");
     }
+  };
+
+  // handle fullscreen mode
+  const handleFullscreen = (props) =>{
+    fullscreen ? setFullscreen(false) : setFullscreen(true);
+    props.toggleFocusMode();
   }
 
   return (
@@ -190,20 +268,37 @@ const SyntaxEditor = (props) => {
         </DialogActions>
       </Dialog>
       <Snackbar
-        open={popup}
+        open={popup[0]}
         autoHideDuration={2000}
         onClose={() => {
-          setPopup(false);
+          setPopup([false, ""]);
         }}
       >
         <Alert
           onClose={() => {
-            setPopup(false);
+            setPopup([false, ""]);
           }}
           severity="success"
           variant="filled"
         >
-          Code Copied Sucessfully
+          {popup[1]}
+        </Alert>
+      </Snackbar>
+      <Snackbar
+        open={filePopup}
+        autoHideDuration={2000}
+        onClose={() => {
+          setFilePopup(false);
+        }}
+      >
+        <Alert
+          onClose={() => {
+            setFilePopup(false);
+          }}
+          severity="error"
+          variant="filled"
+        >
+          {fileHandleError}
         </Alert>
       </Snackbar>
       <AppBar position="static" style={{ backgroundColor: "#000A29" }}>
@@ -311,6 +406,43 @@ const SyntaxEditor = (props) => {
           </Toolbar>
         </div>
       </AppBar>
+      <Dialog fullWidth={true} maxWidth={"xs"} open={modalIsOpen}>
+        <CloseIcon style={{fontSize: "2em", position: "absolute", right: "5px", top: "5px"}} onClick={()=>{
+          setModalIsOpen(false)
+          setshareURL("")
+        }}/>
+        <DialogTitle style={{ textAlign: "center", marginTop: "10px" }}>
+          Share Your Code
+        </DialogTitle>
+        <DialogContent>
+        <div style={{display: "flex", alignItems: "center", margin: "20px"}}>
+        {isLoading ? 
+        <BeatLoader color='red' loading={true} css={override} size={50} /> :
+          <>
+            <Typography style={{ padding: "5px 10px", background: "#eee", borderRadius: "3px" }}>{shareURL}</Typography>
+            <Tooltip title="Copy Url" arrow TransitionComponent={Zoom}>
+              <Button
+                variant="contained"
+                color="primary"
+                onClick={() => {
+                  copy(shareURL)
+                  setPopup([true, "Url Copied !!!"])
+                }}
+                style={{
+                  fontFamily: "poppins",
+                  marginLeft: "auto",
+                  fontWeight: "600",
+                  color: "white",
+                }}
+                >
+                <FileCopyIcon />
+              </Button>
+            </Tooltip>
+          </>
+        }
+        </div>
+        </DialogContent>
+      </Dialog>
       <AceEditor
         mode={langMode[props.currLang]}
         theme={theme}
@@ -346,39 +478,101 @@ const SyntaxEditor = (props) => {
             }
             label={
               <Typography>
-                <span style={{ color: "white" }}>Enable Auto-complete</span>
+                <span style={{ color: "white" }}>Auto-complete</span>
               </Typography>
             }
           />
-          <input type="file" id="upload" onChange={() => handleFileChange()} hidden accept=".c, .cpp, .java, .js, .ts, .clj, .cljs, .cs, .cbl, .cob, .cpy, .erl, .hrl, .go, .py, .f90, .f95, .f03, .txt, .groovy, .gvy, .gy, .gsh, 	.kt, .kts, .ktm, .php, .r, .rb, .sql, .swift"/>
-          <Button
+          <input
+            type="file"
+            id="upload"
+            onChange={() => handleFileChange()}
+            hidden
+            accept=".c, .cpp, .java, .js, .ts, .clj, .cljs, .cs, .cbl, .cob, .cpy, .erl, .hrl, .go, .py, .f90, .f95, .f03, .txt, .groovy, .gvy, .gy, .gsh, 	.kt, .kts, .ktm, .php, .r, .rb, .sql, .swift"
+          />
+          <ButtonGroup
+            style={{ marginLeft: "auto" }}
             variant="contained"
             color="primary"
-            onClick={() => uploadFile()}
-            startIcon={<CloudUploadIcon />}
-            style={{
-              fontFamily: "poppins",
-              marginLeft: "auto",
-              fontWeight: "600",
-              color: "white",
-            }}
           >
-            Upload File
-          </Button>
-          <Button
-            variant="contained"
-            color="primary"
-            onClick={() => copyCode(props.code)}
-            startIcon={<FileCopyIcon />}
-            style={{
-              fontFamily: "poppins",
-              marginLeft: "auto",
-              fontWeight: "600",
-              color: "white",
-            }}
-          >
-            Copy
-          </Button>
+            <Tooltip title="Upload Code" arrow TransitionComponent={Zoom}>
+              <Button
+                variant="contained"
+                color="primary"
+                onClick={() => uploadFile()}
+                style={{
+                  fontFamily: "poppins",
+                  marginLeft: "auto",
+                  fontWeight: "600",
+                  color: "white",
+                }}
+                >
+                <CloudUploadIcon />
+              </Button>
+            </Tooltip>
+            <Tooltip title="Share Code" arrow TransitionComponent={Zoom}>
+              <Button
+                variant="contained"
+                color="primary"
+                onClick={() => shareCode(props.code)}
+                style={{
+                  fontFamily: "poppins",
+                  marginLeft: "auto",
+                  fontWeight: "600",
+                  color: "white",
+                }}
+                >
+                <ShareIcon />
+              </Button>
+            </Tooltip>
+            <Tooltip title="Copy Code" arrow TransitionComponent={Zoom}>
+              <Button
+                variant="contained"
+                color="primary"
+                onClick={() => copyCode(props.code)}
+                style={{
+                  fontFamily: "poppins",
+                  marginLeft: "auto",
+                  fontWeight: "600",
+                  color: "white",
+                }}
+                >
+                <FileCopyIcon />
+              </Button>
+            </Tooltip>
+            <Tooltip title="Download Code" arrow TransitionComponent={Zoom}>
+              <Button
+                variant="contained"
+                color="primary"
+                style={{
+                  fontFamily: "poppins",
+                  marginLeft: "auto",
+                  fontWeight: "600",
+                  color: "white",
+                }}
+                onClick={handleCodeDownload}
+                >
+                <CloudDownloadRounded style={{ fontSize: 24 }} />
+              </Button>
+            </Tooltip>
+            <Tooltip title={fullscreen ? "Exit Full Screen" : "Full Screen"} arrow TransitionComponent={Zoom}>
+              <Button
+                variant="contained"
+                color="primary"
+                style={{
+                  fontFamily: "poppins",
+                  marginLeft: "auto",
+                  fontWeight: "600",
+                  color: "white",
+                }}
+                onClick={() => handleFullscreen(props)}
+              >
+                {fullscreen
+                  ?<FullscreenExitRounded style={{ fontSize: 24 }}/>
+                  :<FullscreenRounded style={{ fontSize: 24 }}/>
+                }
+              </Button>
+            </Tooltip>
+          </ButtonGroup>
           <Button
             variant="contained"
             color="primary"
@@ -422,8 +616,8 @@ const mapStateToProps = (state) => {
     isCompiling: state.EDITOR.isCompiling,
     isError: state.EDITOR.isError,
     codeError: state.EDITOR.codeError,
-    previousUser:state.ROOM.previousUser,
-    id:state.ROOM.id
+    previousUser: state.ROOM.previousUser,
+    id: state.ROOM.id,
   };
 };
 
@@ -436,6 +630,7 @@ const mapDispatchToProps = (dispatch) => {
     setIsError: (isactive) => dispatch(actions.setIsError(isactive)),
     executeCode: (langId, code, input) =>
       dispatch(actions.executeCode(langId, code, input)),
+    toggleFocusMode: () => dispatch(actions.toggleFocusMode()),
   };
 };
 export default connect(mapStateToProps, mapDispatchToProps)(SyntaxEditor);
